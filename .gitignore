@@ -1,0 +1,16 @@
+/target
+/lib/secure-signer
+/lib/rave
+/lib/eigenlayer-contracts
+/lib/PufferPool
+/.vscode
+*.log
+/tmp
+/test_output
+/etc
+/coral-lib/etc
+private-key.txt
+
+/cache
+/PufferPool
+/rave
