@@ -178,18 +178,25 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
                 )
             })?
     } else {
-        let password = input_data.password.as_ref().unwrap();
         // no enclave
-
-        generate_bls_keystore_handler(enclave_payload, password).map_err(|err| {
-            tracing::error!("Failed to attest_fresh_bls_key");
-            tracing::error!("{err}");
-            ServerErrorResponse::new(
-                StatusCode::INTERNAL_SERVER_ERROR,
-                1000,
-                "Failed to attest_fresh_bls_key",
-            )
-        })?
+        match input_data.password.as_ref() {
+            None => {
+                let err =
+                    AppError::new(AppErrorKind::ParseError, "No password provided".to_string());
+                return Err(err);
+            }
+            Some(password) => {
+                generate_bls_keystore_handler(enclave_payload, password).map_err(|err| {
+                    tracing::error!("Failed to attest_fresh_bls_key");
+                    tracing::error!("{err}");
+                    ServerErrorResponse::new(
+                        StatusCode::INTERNAL_SERVER_ERROR,
+                        1000,
+                        "Failed to attest_fresh_bls_key",
+                    )
+                })?
+            }
+        }
     };
 
     let registraton_payload = RegisterValidatorOutput {
