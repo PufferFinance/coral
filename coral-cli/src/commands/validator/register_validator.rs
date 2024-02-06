@@ -13,8 +13,8 @@ use puffersecuresigner::client::{generate_bls_keystore_handler, ClientBuilder};
 use puffersecuresigner::enclave::types::AttestFreshBlsKeyPayload;
 use serde::{Deserialize, Serialize};
 
-use coral_lib::error::AppResult;
 use coral_lib::error::ServerErrorResponse;
+use coral_lib::error::{AppError, AppErrorKind, AppResult};
 use coral_lib::strip_0x_prefix;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -151,7 +151,18 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
         let enclave_client = ClientBuilder::new()
             .validator_url(enclave_url.to_string())
             .build();
+
         let validator_enclave_client = enclave_client.validator;
+
+        let health_status = validator_enclave_client.health().await;
+        if !health_status {
+            let err = AppError::new(
+                AppErrorKind::EnclaveError,
+                "Enclave health check failed".to_string(),
+            );
+            return Err(err);
+        }
+
         // enclave
 
         validator_enclave_client
