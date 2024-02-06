@@ -25,8 +25,8 @@ pub enum ValidatorCommand {
         fork_version: String,
         #[arg(long = "enclave-url")]
         enclave_url: Option<String>,
-        #[arg(long = "password")]
-        password: Option<String>,
+        #[arg(long = "password-file")]
+        password_file: Option<String>,
         #[arg(long = "output-file")]
         output_file: String,
     },
@@ -49,7 +49,7 @@ impl ValidatorCommand {
                 withdrawal_credentials,
                 fork_version,
                 enclave_url,
-                password,
+                password_file,
                 output_file,
             } => {
                 register_validator::register_validator_from_cmd(
@@ -58,7 +58,7 @@ impl ValidatorCommand {
                     withdrawal_credentials,
                     fork_version,
                     enclave_url,
-                    password,
+                    password_file,
                     output_file,
                 )
                 .await?;

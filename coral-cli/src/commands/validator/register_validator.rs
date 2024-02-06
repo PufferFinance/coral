@@ -3,19 +3,21 @@ use std::path::Path;
 
 use axum::http::StatusCode;
 
-use coral_lib::structs::eth_types::WithdrawalCredentials;
+use colored::*;
+
 use ecies::PublicKey as EthPublicKey;
 
-use ethers::utils::hex::{self, ToHex};
+use hex::ToHex;
+use serde::{Deserialize, Serialize};
 
 use puffersecuresigner::client::traits::ValidatorClientTrait;
 use puffersecuresigner::client::{generate_bls_keystore_handler, ClientBuilder};
 use puffersecuresigner::enclave::types::AttestFreshBlsKeyPayload;
-use serde::{Deserialize, Serialize};
 
 use coral_lib::error::ServerErrorResponse;
 use coral_lib::error::{AppError, AppErrorKind, AppResult};
 use coral_lib::strip_0x_prefix;
+use coral_lib::structs::eth_types::WithdrawalCredentials;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ForkVersionInfo {
@@ -61,11 +63,23 @@ pub async fn register_validator_from_cmd(
     withdrawal_credentials: String,
     fork_version: String,
     enclave_url: Option<String>,
-    password: Option<String>,
+    password_file: Option<String>,
     output_file: String,
 ) -> AppResult<i32> {
     let guardian_pubkeys: Vec<String> =
         guardian_pubkeys.split(',').map(|s| s.to_string()).collect();
+
+    let password = match password_file {
+        None => None,
+        Some(path) => {
+            let password = std::fs::read_to_string(path).map_err(|err| {
+                let error_msg = "Failed to read password file";
+                eprintln!("{}", error_msg.red());
+                err
+            })?;
+            Some(password.trim().to_string())
+        }
+    };
 
     let input_data = RegisterValidatorInput {
         guardian_pubkeys,
