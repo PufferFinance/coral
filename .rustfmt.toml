@@ -1,4 +1,3 @@
-ignore = ["**/out/bindings/**"]
 # Format comments
 comment_width = 100
 wrap_comments = true
