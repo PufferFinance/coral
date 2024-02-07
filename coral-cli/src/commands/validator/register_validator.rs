@@ -41,7 +41,6 @@ pub struct RegisterValidatorInput {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct RegisterValidatorOutput {
-    pub guardian_pubkeys: Vec<String>,
     pub guardian_threshold: u64,
 
     pub bls_pub_key_set: String,
@@ -214,14 +213,6 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
     };
 
     let registraton_payload = RegisterValidatorOutput {
-        guardian_pubkeys: input_data
-            .guardian_pubkeys
-            .iter()
-            .map(|pubkey| {
-                let stripped = strip_0x_prefix(pubkey).to_string();
-                stripped
-            })
-            .collect(),
         guardian_threshold: input_data.guardian_threshold,
 
         bls_pub_key_set: bls_keygen_payload.bls_pub_key_set,
@@ -234,7 +225,7 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
         intel_x509: bls_keygen_payload.intel_x509,
         guardian_eth_pub_keys: bls_keygen_payload.guardian_eth_pub_keys,
         withdrawal_credentials: bls_keygen_payload.withdrawal_credentials,
-        fork_version: bls_keygen_payload.fork_version.encode_hex(),
+        fork_version: genesis_fork_version.encode_hex(),
     };
 
     let json_string_pretty = serde_json::to_string_pretty(&registraton_payload)?;
