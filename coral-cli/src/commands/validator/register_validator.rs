@@ -51,7 +51,7 @@ pub struct RegisterValidatorOutput {
     pub intel_sig: String,
     pub intel_report: String,
     pub intel_x509: String,
-    pub guardian_eth_pub_keys: Vec<String>,
+    pub guardian_pubkeys: Vec<String>,
     pub withdrawal_credentials: String,
     pub fork_version: String,
 }
@@ -223,7 +223,7 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
         intel_sig: bls_keygen_payload.intel_sig,
         intel_report: bls_keygen_payload.intel_report,
         intel_x509: bls_keygen_payload.intel_x509,
-        guardian_eth_pub_keys: bls_keygen_payload.guardian_eth_pub_keys,
+        guardian_pubkeys: bls_keygen_payload.guardian_eth_pub_keys,
         withdrawal_credentials: bls_keygen_payload.withdrawal_credentials,
         fork_version: genesis_fork_version.encode_hex(),
     };
