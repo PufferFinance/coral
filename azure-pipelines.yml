@@ -1,0 +1,71 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+    - main
+pr:
+  branches:
+    include:
+    - '*'
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: self
+  persistCredentials: true
+
+- script: |
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    source $HOME/.cargo/env
+    rustup update
+    cargo build --release
+  displayName: 'Build Coral'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'target/release'
+    ArtifactName: 'release_artifacts'
+    publishLocation: 'container'
+
+- script: cargo clippy
+  displayName: 'Check Clippy'
+
+- script: |
+    rustup toolchain install nightly
+    rustup component add rustfmt --toolchain nightly-x86_64-unknown-linux-gnu
+  displayName: 'Install Nightly, add rustfmt and LLVM Tools'
+
+- script: cargo +nightly fmt --verbose --all -- --check
+  displayName: 'Check format'
+
+- script: |
+    cargo install cargo-llvm-cov
+    cargo install cargo-nextest
+    pip3 install --user lcov_cobertura
+    export PATH=$PATH:/home/system-test-sgx/.local/bin/
+  displayName: 'Install Dependencies for Coverage'
+
+- script: |
+    cargo llvm-cov nextest
+  displayName: 'Test with coverage'
+
+- script: |
+    cargo llvm-cov report --doctests --lcov --output-path lcov.info
+  displayName: 'Create lcov.info'
+
+- script: |
+    export PATH=$PATH:/home/system-test-sgx/.local/bin
+    lcov_cobertura -o ./cobertura.xml ./lcov.info
+  displayName: 'Generate Cobertura report from lcov'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)/CoverletOutput'
+
