@@ -1,3 +1,4 @@
+pub mod list_keys;
 pub mod register_validator;
 
 use std::path::PathBuf;
@@ -12,6 +13,10 @@ pub enum ValidatorCommand {
     ListKeys {
         #[arg(long = "disable-enclave")]
         disable_enclave: bool,
+        #[arg(long = "keystore-path")]
+        keystore_path: Option<String>,
+        #[arg(long = "enclave-url")]
+        enclave_url: Option<String>,
     },
     #[command(about = "Register a validator into Puffer's Pool")]
     Register {
@@ -40,8 +45,12 @@ pub enum ValidatorCommand {
 impl ValidatorCommand {
     pub async fn execute(self) -> AppResult<i32> {
         match self {
-            Self::ListKeys { .. } => {
-                println!("TODO");
+            Self::ListKeys {
+                disable_enclave,
+                keystore_path,
+                enclave_url,
+            } => {
+                list_keys::list_keys(disable_enclave, keystore_path, enclave_url).await?;
             }
             Self::Register {
                 guardian_pubkeys,
