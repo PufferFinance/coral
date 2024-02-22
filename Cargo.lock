@@ -811,10 +811,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "coral"
-version = "0.1.0"
-
-[[package]]
 name = "coral-cli"
 version = "0.1.0"
 dependencies = [
