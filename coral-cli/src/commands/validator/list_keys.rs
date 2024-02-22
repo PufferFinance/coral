@@ -5,7 +5,7 @@ use puffersecuresigner::client::ClientBuilder;
 
 use coral_lib::error::ServerErrorResponse;
 use coral_lib::error::{AppError, AppErrorKind, AppResult};
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct Keystore {
