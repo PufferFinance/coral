@@ -6,6 +6,19 @@
 ## `validator list-keys`
 List keys associated with this node
 
+For validators running the secure-signer enclave:
+```
+coral-cli validator list-keys \
+  --enclave-url http://localhost:9001 
+```
+
+For validators not running the secure-signer enclave:
+```
+coral-cli validator list-keys \
+  --disable-enclave \
+  --keystore_path ~/.puffer/coral/keystore
+```
+
 ## `validator register`
 Registers validator into the Puffer Pool
 
