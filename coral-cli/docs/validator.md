@@ -2,6 +2,7 @@
 
  - [list-keys](#validator-list-keys)
  - [register](#validator-register)
+ - [sign-voluntary-exit](#validator-sign-voluntary-exit)
 
 ## `validator list-keys`
 List keys associated with this node
