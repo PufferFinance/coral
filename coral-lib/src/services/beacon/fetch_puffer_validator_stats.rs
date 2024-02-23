@@ -1,12 +1,11 @@
 use std::collections::HashMap;
 
 use ethers::prelude::*;
-// use puffer_pool_contracts::withdrawal_pool::Validator;
 
 use crate::error::AppServerResult;
 use crate::services::beacon::types::ValidatorData;
 use crate::services::beacon::SLOTS_PER_EPOCH;
-use crate::strip_0x_prefix;
+
 
 use super::client::BeaconClientTrait;
 use super::types::{BlockId, ValidatorStatus};
@@ -194,53 +193,6 @@ pub fn calculate_puffer_validator_beacon_balances(
             validator_balance += gwei_32;
         } else if is_active {
             validator_balance += validator.balance;
-        }
-    }
-    validator_balance.saturating_mul(U256::exp10(9))
-}
-
-/// Calculates Puffer Validator balances with their
-/// pufETH bond accounted for. If their pufETH bond can cover
-/// their losses, then their effective balance should be 32 ETH.
-pub fn calculate_puffer_validator_beacon_balances_with_puf_eth_bond(
-    puffer_validators: &HashMap<String, Validator>,
-    validators_by_index: &HashMap<u64, ValidatorData>,
-    end_epoch: U256,
-    puf_eth_to_eth: U256,
-) -> U256 {
-    let gwei_32 = U256::from(32).saturating_mul(U256::exp10(9));
-
-    let mut validator_balance = U256::zero();
-    for (_, validator) in validators_by_index.iter() {
-        let is_active = is_active_validator(validator, end_epoch.as_u64());
-        // Edge case where validator just registered and is waiting to
-        // start validating
-        #[allow(clippy::if_same_then_else)]
-        if validator.status == ValidatorStatus::PendingQueued {
-            validator_balance += gwei_32;
-        } else if is_active {
-            if validator.balance == U256::zero() {
-                validator_balance += gwei_32;
-            } else if validator.balance >= gwei_32 {
-                validator_balance += validator.balance;
-            } else {
-                let validator_address: &str = strip_0x_prefix!(validator.validator.pubkey);
-                if let Some(validator_sc) = puffer_validators.get(validator_address) {
-                    let bond_eth_value =
-                        U256::from(validator_sc.bond).saturating_mul(puf_eth_to_eth);
-
-                    let double_validator_balance = validator.balance.saturating_mul(U256::from(2));
-                    let gwei_64 = gwei_32.saturating_mul(U256::from(2));
-
-                    // The idea is we want to have the bond account for
-                    // double the discrepancy to be conservative, hence the U256::from(2)
-                    if double_validator_balance + bond_eth_value >= gwei_64 {
-                        validator_balance += gwei_32;
-                    } else {
-                        validator_balance += validator.balance;
-                    }
-                }
-            }
         }
     }
     validator_balance.saturating_mul(U256::exp10(9))

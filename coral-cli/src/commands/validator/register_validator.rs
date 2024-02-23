@@ -42,7 +42,6 @@ pub struct RegisterValidatorInput {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct RegisterValidatorOutput {
     pub guardian_threshold: u64,
-
     pub bls_pub_key_set: String,
     pub bls_pub_key: String,
     pub signature: String,
@@ -177,7 +176,6 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
         }
 
         // enclave
-
         validator_enclave_client
             .attest_fresh_bls_key(&enclave_payload)
             .await

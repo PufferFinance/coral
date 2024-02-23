@@ -4,9 +4,9 @@ use serde::Deserialize;
 
 use crate::{
     error::{AppError, AppErrorKind, AppResult},
-    strip_0x_prefix,
     structs::eth_types::ForkVersion,
 };
+use puffersecuresigner::strip_0x_prefix;
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct BeaconGenesis {

@@ -2,10 +2,8 @@ use axum::http::StatusCode;
 
 use ethers::utils::hex::{self};
 
-use crate::{
-    error::{AppServerResult, ServerErrorResponse},
-    strip_0x_prefix,
-};
+use crate::error::{AppServerResult, ServerErrorResponse};
+use puffersecuresigner::strip_0x_prefix;
 
 pub fn parse_module_name(module_name: &str) -> AppServerResult<[u8; 32]> {
     let mut module_name: String = strip_0x_prefix!(&module_name);

@@ -1,5 +1,6 @@
 pub mod list_keys;
 pub mod register_validator;
+pub mod sign_vem;
 
 use std::path::PathBuf;
 
@@ -40,6 +41,24 @@ pub enum ValidatorCommand {
         #[arg(long = "input-file")]
         input_file: PathBuf,
     },
+    SignVEM {
+        #[arg(long = "validator-public-key")]
+        bls_pukey: String,
+        #[arg(long = "enclave-url")]
+        enclave_url: String,
+        #[arg(long = "beacon-url")]
+        beacon_url: String,
+        #[arg(long = "fork-previous-version")]
+        fork_previous_version: String,
+        #[arg(long = "fork-current-version")]
+        fork_current_version: String,
+        #[arg(long = "epoch")]
+        epoch: u64,
+        #[arg(long = "genesis-validators-root")]
+        genesis_validators_root: String,
+        #[arg(long = "output-file")]
+        output_file: String,
+    },
 }
 
 impl ValidatorCommand {
@@ -74,6 +93,28 @@ impl ValidatorCommand {
             }
             Self::RegisterWithFile { input_file } => {
                 register_validator::register_validator_from_file(input_file.as_path()).await?;
+            }
+            Self::SignVEM {
+                enclave_url,
+                bls_pukey,
+                beacon_url,
+                fork_current_version,
+                fork_previous_version,
+                epoch,
+                genesis_validators_root,
+                output_file,
+            } => {
+                sign_vem::sign_vem_from_cmd(
+                    enclave_url,
+                    bls_pukey,
+                    beacon_url,
+                    fork_current_version,
+                    fork_previous_version,
+                    epoch,
+                    genesis_validators_root,
+                    output_file,
+                )
+                .await?;
             }
         }
         Ok(0)

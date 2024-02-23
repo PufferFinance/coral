@@ -1,6 +1,5 @@
 pub mod intel_report;
 pub mod rave_evidence;
-pub mod validator_key_data;
 
 #[cfg(test)]
 mod abi_test;
