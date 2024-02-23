@@ -5,12 +5,10 @@ use std::path;
 use axum::http::StatusCode;
 use ethers::prelude::k256::ecdsa::SigningKey;
 use ethers::prelude::*;
-use rand_core::OsRng;
 use puffersecuresigner::strip_0x_prefix;
+use rand_core::OsRng;
 
-use crate::
-    error::{AppError, AppErrorKind, AppResult, AppServerResult, ServerErrorResponse}
-;
+use crate::error::{AppError, AppErrorKind, AppResult, AppServerResult, ServerErrorResponse};
 
 pub fn generate_keystore(password: &str) -> AppServerResult<(Wallet<SigningKey>, String)> {
     let (new_wallet, keystore_uuid) = Wallet::new_keystore(".", &mut OsRng, password, None)

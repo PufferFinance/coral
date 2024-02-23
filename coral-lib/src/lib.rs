@@ -1,6 +1,6 @@
 pub mod error;
-pub mod structs;
 pub mod services;
+pub mod structs;
 pub mod utils;
 
 #[inline]

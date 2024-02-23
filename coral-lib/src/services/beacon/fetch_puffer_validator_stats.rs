@@ -6,7 +6,6 @@ use crate::error::AppServerResult;
 use crate::services::beacon::types::ValidatorData;
 use crate::services::beacon::SLOTS_PER_EPOCH;
 
-
 use super::client::BeaconClientTrait;
 use super::types::{BlockId, ValidatorStatus};
 use super::{is_active_validator, is_full_withdrawal};

@@ -6,12 +6,12 @@ use coral_lib::services::beacon::{
     types::StateId,
     types::ValidatorId,
 };
+use coral_lib::structs::eth_types::ForkVersion;
 use puffersecuresigner::client::{traits::ValidatorClientTrait, ClientBuilder};
 use puffersecuresigner::eth2::eth_types::{Fork, ForkInfo, Root};
 use puffersecuresigner::strip_0x_prefix;
+use serde::{Deserialize, Serialize};
 use std::io::Write;
-use serde::{Serialize, Deserialize};
-use coral_lib::structs::eth_types::ForkVersion;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ExitResponseOutput {
