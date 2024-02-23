@@ -41,7 +41,7 @@ pub enum ValidatorCommand {
         #[arg(long = "input-file")]
         input_file: PathBuf,
     },
-    SignVEM {
+    SignVoluntaryExit {
         #[arg(long = "validator-public-key")]
         bls_pukey: String,
         #[arg(long = "enclave-url")]
@@ -94,7 +94,7 @@ impl ValidatorCommand {
             Self::RegisterWithFile { input_file } => {
                 register_validator::register_validator_from_file(input_file.as_path()).await?;
             }
-            Self::SignVEM {
+            Self::SignVoluntaryExit {
                 enclave_url,
                 bls_pukey,
                 beacon_url,
