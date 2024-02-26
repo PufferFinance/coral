@@ -42,8 +42,10 @@ pub enum ValidatorCommand {
         input_file: PathBuf,
     },
     SignVoluntaryExit {
-        #[arg(long = "validator-public-key")]
-        bls_pukey: String,
+        #[arg(long = "bls-public-key")]
+        bls_pubkey: String,
+        #[arg(long = "beacon-index")]
+        beacon_index: u64,
         #[arg(long = "enclave-url")]
         enclave_url: String,
         #[arg(long = "beacon-url")]
@@ -96,7 +98,8 @@ impl ValidatorCommand {
             }
             Self::SignVoluntaryExit {
                 enclave_url,
-                bls_pukey,
+                bls_pubkey,
+                beacon_index,
                 beacon_url,
                 fork_current_version,
                 fork_previous_version,
@@ -106,7 +109,8 @@ impl ValidatorCommand {
             } => {
                 sign_vem::sign_vem_from_cmd(
                     enclave_url,
-                    bls_pukey,
+                    bls_pubkey,
+                    beacon_index,
                     beacon_url,
                     fork_current_version,
                     fork_previous_version,
