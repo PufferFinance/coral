@@ -3285,7 +3285,7 @@ dependencies = [
 [[package]]
 name = "puffersecuresigner"
 version = "0.1.0"
-source = "git+https://github.com/PufferFinance/secure-signer.git#36a8c31ef566efaa7d302ce930fec0ef197b93ab"
+source = "git+https://github.com/PufferFinance/secure-signer.git?branch=feature/error#e5fc8307eda4371d0022b1b00803c2a259a06cc0"
 dependencies = [
  "anyhow",
  "async-trait",

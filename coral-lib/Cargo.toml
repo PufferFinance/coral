@@ -19,4 +19,4 @@ tower-http = { version = "0.5.0", features = [ "cors", "trace" ] }
 tracing = "0.1.40"
 tracing-subscriber = { version = "0.3.18", features = [ "std", "env-filter" ] }
 
-puffersecuresigner = { git ="https://github.com/PufferFinance/secure-signer.git" }
+puffersecuresigner = { git ="https://github.com/PufferFinance/secure-signer.git", branch = "feature/error" }

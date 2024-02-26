@@ -25,4 +25,4 @@ tracing-subscriber = { version = "0.3.18", features = [ "std", "env-filter" ] }
 # Puffer dependencies
 
 coral-lib = { path = "../coral-lib" }
-puffersecuresigner = { git ="https://github.com/PufferFinance/secure-signer.git" }
+puffersecuresigner = { git ="https://github.com/PufferFinance/secure-signer.git", branch = "feature/error" }

@@ -38,8 +38,8 @@ Sign voluntary exit message and stop validating
 
 ```
 coral-cli validator sign-voluntary-exit \
-  --bls-public-key 0x0439afaa6c9c26c342c7463d8fd116d72f18ed1980a10bd6a2707a2a498315bb17ff4352b91c18b2d34391503fe15fe48b42f95fafc96d4a758172de61dd9a91e7 \
-  --beacon-index 10 \
+  --bls-public-key 0x94505f60bb8e48ddafb8835ec08537c48ed1bb9bc6a95fe941f37869b5eb0950c9023b7a997fe12d8aa79076561e009f \
+  --beacon-index 1605300 \
   --enclave-url http://localhost:9001 \
   --fork-previous-version 0x04017000 \
   --fork-current-version 0x05017000 \
