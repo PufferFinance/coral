@@ -1,11 +1,6 @@
 use axum::http::StatusCode;
 use coral_lib::add_0x_prefix;
 use coral_lib::error::{AppError, AppErrorKind, AppResult, ServerErrorResponse};
-use coral_lib::services::beacon::{
-    client::{BeaconClient, BeaconClientTrait},
-    types::StateId,
-    types::ValidatorId,
-};
 use coral_lib::structs::eth_types::ForkVersion;
 use puffersecuresigner::client::{traits::ValidatorClientTrait, ClientBuilder};
 use puffersecuresigner::eth2::eth_types::{Fork, ForkInfo, Root};
@@ -24,6 +19,7 @@ pub struct ExitResponseOutput {
 #[derive(Clone, Debug)]
 pub struct SignVoluntaryExitMessageInput {
     pub bls_pubkey: String,
+    pub beacon_index: u64,
     pub enclave_url: String,
     pub beacon_url: String,
     pub fork: Fork,
@@ -35,6 +31,7 @@ pub struct SignVoluntaryExitMessageInput {
 pub async fn sign_vem_from_cmd(
     enclave_url: String,
     bls_pubkey: String,
+    beacon_index: u64,
     beacon_url: String,
     fork_current_version: String,
     fork_previous_version: String,
@@ -52,6 +49,7 @@ pub async fn sign_vem_from_cmd(
 
     let input_data = SignVoluntaryExitMessageInput {
         bls_pubkey,
+        beacon_index,
         enclave_url,
         beacon_url,
         fork: converted_fork_info.fork,
@@ -69,7 +67,7 @@ pub async fn sign_voluntary_exit_message(
     let enclave_client = ClientBuilder::new()
         .validator_url(enclave_url.to_string())
         .build();
-    let beacon_client = BeaconClient::new(input_data.beacon_url.to_string());
+
     let validator_enclave_client = enclave_client.validator;
 
     let health_status = validator_enclave_client.health().await;
@@ -83,14 +81,6 @@ pub async fn sign_voluntary_exit_message(
 
     let bls_public_key = add_0x_prefix(&input_data.bls_pubkey);
 
-    let validator_resp = beacon_client
-        .fetch_validator(
-            StateId::Finalized,
-            ValidatorId::Pubkey(bls_public_key.clone()),
-        )
-        .await?;
-
-    let beacon_index = validator_resp.data.index;
     let fork_info = ForkInfo {
         fork: Fork {
             previous_version: input_data.fork.previous_version,
@@ -104,7 +94,7 @@ pub async fn sign_voluntary_exit_message(
         .sign_voluntary_exit_message(
             bls_public_key,
             fork_info.fork.epoch,
-            beacon_index,
+            input_data.beacon_index,
             fork_info.clone(),
         )
         .await
@@ -118,7 +108,7 @@ pub async fn sign_voluntary_exit_message(
     let epoch = fork_info.clone().fork.epoch;
     let exit_payload = ExitResponseOutput {
         signature: sign_exit_resp.signature,
-        beacon_index,
+        beacon_index: input_data.beacon_index,
         epoch,
         bls_pubkey: input_data.bls_pubkey,
     };
