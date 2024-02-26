@@ -41,10 +41,9 @@ coral-cli validator sign-voluntary-exit \
   --bls-public-key 0x0439afaa6c9c26c342c7463d8fd116d72f18ed1980a10bd6a2707a2a498315bb17ff4352b91c18b2d34391503fe15fe48b42f95fafc96d4a758172de61dd9a91e7 \
   --beacon-index 10 \
   --enclave-url http://localhost:9001 \
-  --beacon-url http://localhost:5052 \
-  --fork-previous-version 0x01017000 \
-  --fork-current-version 0x01017000 \
-  --epoch 5 \
-  --genesis-validators-root 0x270d43e74ce340de4bca2b1936beca0f4f5408d9e78aec4850920baf659d5b69 \
+  --fork-previous-version 0x04017000 \
+  --fork-current-version 0x05017000 \
+  --epoch 29696 \
+  --genesis-validators-root 0x9143aa7c615a7f7115e2b6aac319c03529df8242ae705fba9df39b79c59fa8b1 \
   --output-file sign_vem_001.json
 ```

@@ -48,8 +48,6 @@ pub enum ValidatorCommand {
         beacon_index: u64,
         #[arg(long = "enclave-url")]
         enclave_url: String,
-        #[arg(long = "beacon-url")]
-        beacon_url: String,
         #[arg(long = "fork-previous-version")]
         fork_previous_version: String,
         #[arg(long = "fork-current-version")]
@@ -100,7 +98,6 @@ impl ValidatorCommand {
                 enclave_url,
                 bls_pubkey,
                 beacon_index,
-                beacon_url,
                 fork_current_version,
                 fork_previous_version,
                 epoch,
@@ -111,7 +108,6 @@ impl ValidatorCommand {
                     enclave_url,
                     bls_pubkey,
                     beacon_index,
-                    beacon_url,
                     fork_current_version,
                     fork_previous_version,
                     epoch,
