@@ -83,18 +83,18 @@ pub async fn register_validator_key(
 
     let bls_pub_key_set =
         hex::decode(strip_0x_prefix(&keygen_data.bls_pub_key_set)).map_err(|err| {
-            let error_msg = "Failed to decode RAVE evidence";
-            AppError::new(AppErrorKind::DecodeError, error_msg.to_string())
+            let error_msg = format!("Failed to decode RAVE evidence: {err}");
+            AppError::new(AppErrorKind::DecodeError, error_msg)
         })?;
 
     let bls_pub_key = hex::decode(strip_0x_prefix(&keygen_data.bls_pub_key)).map_err(|err| {
-        let error_msg = "Failed to decode BLS Pub Key";
-        AppError::new(AppErrorKind::DecodeError, error_msg.to_string())
+        let error_msg = format!("Failed to decode BLS Pub Key: {err}");
+        AppError::new(AppErrorKind::DecodeError, error_msg)
     })?;
 
     let signature = hex::decode(strip_0x_prefix(&keygen_data.signature)).map_err(|err| {
-        let error_msg = "Failed to decode signature";
-        AppError::new(AppErrorKind::DecodeError, error_msg.to_string())
+        let error_msg = format!("Failed to decode signature: {err}");
+        AppError::new(AppErrorKind::DecodeError, error_msg)
     })?;
 
     let bls_encrypted_priv_key_shares: Vec<Bytes> = keygen_data

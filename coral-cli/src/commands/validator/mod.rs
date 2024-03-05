@@ -1,5 +1,7 @@
 pub mod keygen;
+pub mod list_keys;
 pub mod register_key;
+pub mod sign_vem;
 pub mod withdrawal_credentials;
 
 use std::path::PathBuf;
@@ -14,6 +16,10 @@ pub enum ValidatorCommand {
     ListKeys {
         #[arg(long = "disable-enclave")]
         disable_enclave: bool,
+        #[arg(long = "keystore-path")]
+        keystore_path: Option<String>,
+        #[arg(long = "enclave-url")]
+        enclave_url: Option<String>,
     },
     #[command(about = "Generates BLS keyshares to be used for registering a new validator")]
     Keygen {
@@ -51,6 +57,24 @@ pub enum ValidatorCommand {
         #[arg(long = "input-file")]
         input_file: PathBuf,
     },
+    SignVoluntaryExit {
+        #[arg(long = "bls-public-key")]
+        bls_pubkey: String,
+        #[arg(long = "beacon-index")]
+        beacon_index: u64,
+        #[arg(long = "enclave-url")]
+        enclave_url: String,
+        #[arg(long = "fork-previous-version")]
+        fork_previous_version: String,
+        #[arg(long = "fork-current-version")]
+        fork_current_version: String,
+        #[arg(long = "epoch")]
+        epoch: u64,
+        #[arg(long = "genesis-validators-root")]
+        genesis_validators_root: String,
+        #[arg(long = "output-file")]
+        output_file: String,
+    },
     #[command(about = "Register a validator into PufferProtocol")]
     WithdrawalCredentials {
         #[arg(long = "rpc-url")]
@@ -65,8 +89,12 @@ pub enum ValidatorCommand {
 impl ValidatorCommand {
     pub async fn execute(self) -> AppResult<i32> {
         match self {
-            Self::ListKeys { .. } => {
-                println!("TODO");
+            Self::ListKeys {
+                disable_enclave,
+                keystore_path,
+                enclave_url,
+            } => {
+                list_keys::list_keys(disable_enclave, keystore_path, enclave_url).await?;
             }
             Self::Keygen {
                 guardian_pubkeys,
@@ -119,6 +147,28 @@ impl ValidatorCommand {
                     &rpc_url,
                     &puffer_protocol_address,
                     &module_address,
+                )
+                .await?;
+            }
+            Self::SignVoluntaryExit {
+                enclave_url,
+                bls_pubkey,
+                beacon_index,
+                fork_current_version,
+                fork_previous_version,
+                epoch,
+                genesis_validators_root,
+                output_file,
+            } => {
+                sign_vem::sign_vem_from_cmd(
+                    enclave_url,
+                    bls_pubkey,
+                    beacon_index,
+                    fork_current_version,
+                    fork_previous_version,
+                    epoch,
+                    genesis_validators_root,
+                    output_file,
                 )
                 .await?;
             }
