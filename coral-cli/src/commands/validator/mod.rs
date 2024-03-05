@@ -1,4 +1,6 @@
-pub mod register_validator;
+pub mod keygen;
+pub mod register_key;
+pub mod withdrawal_credentials;
 
 use std::path::PathBuf;
 
@@ -13,8 +15,8 @@ pub enum ValidatorCommand {
         #[arg(long = "disable-enclave")]
         disable_enclave: bool,
     },
-    #[command(about = "Register a validator into Puffer's Pool")]
-    Register {
+    #[command(about = "Generates BLS keyshares to be used for registering a new validator")]
+    Keygen {
         #[arg(long = "guardian-pubkeys")]
         guardian_pubkeys: String,
         #[arg(long = "guardian-threshold")]
@@ -30,10 +32,33 @@ pub enum ValidatorCommand {
         #[arg(long = "output-file")]
         output_file: String,
     },
-    #[command(about = "Register a validator into Puffer's Pool")]
-    RegisterWithFile {
+    #[command(about = "Register a validator into PufferProtocol")]
+    RegisterKey {
+        #[arg(long = "private-key")]
+        private_key: String,
+        #[arg(long = "rpc-url")]
+        rpc_url: String,
+        #[arg(long = "puffer-oracle-address")]
+        puffer_oracle_address: String,
+        #[arg(long = "puffer-protocol-address")]
+        puffer_protocol_address: String,
+        #[arg(long = "validator-ticket-address")]
+        validator_ticket_address: String,
+        #[arg(long = "module-name")]
+        module_name: String,
+        #[arg(long = "number-of-days")]
+        number_of_days: u64,
         #[arg(long = "input-file")]
         input_file: PathBuf,
+    },
+    #[command(about = "Register a validator into PufferProtocol")]
+    WithdrawalCredentials {
+        #[arg(long = "rpc-url")]
+        rpc_url: String,
+        #[arg(long = "puffer-protocol-address")]
+        puffer_protocol_address: String,
+        #[arg(long = "module-address")]
+        module_address: String,
     },
 }
 
@@ -43,7 +68,7 @@ impl ValidatorCommand {
             Self::ListKeys { .. } => {
                 println!("TODO");
             }
-            Self::Register {
+            Self::Keygen {
                 guardian_pubkeys,
                 guardian_threshold,
                 withdrawal_credentials,
@@ -52,7 +77,7 @@ impl ValidatorCommand {
                 password_file,
                 output_file,
             } => {
-                register_validator::register_validator_from_cmd(
+                keygen::keygen_from_cmd(
                     guardian_pubkeys,
                     guardian_threshold,
                     withdrawal_credentials,
@@ -63,8 +88,39 @@ impl ValidatorCommand {
                 )
                 .await?;
             }
-            Self::RegisterWithFile { input_file } => {
-                register_validator::register_validator_from_file(input_file.as_path()).await?;
+            Self::RegisterKey {
+                private_key,
+                rpc_url,
+                puffer_oracle_address,
+                puffer_protocol_address,
+                validator_ticket_address,
+                module_name,
+                number_of_days,
+                input_file,
+            } => {
+                register_key::register_validator_key(
+                    &private_key,
+                    &rpc_url,
+                    &puffer_oracle_address,
+                    &puffer_protocol_address,
+                    &validator_ticket_address,
+                    &module_name,
+                    number_of_days,
+                    input_file.as_path(),
+                )
+                .await?;
+            }
+            Self::WithdrawalCredentials {
+                rpc_url,
+                puffer_protocol_address,
+                module_address,
+            } => {
+                withdrawal_credentials::get_withdrawal_credentials(
+                    &rpc_url,
+                    &puffer_protocol_address,
+                    &module_address,
+                )
+                .await?;
             }
         }
         Ok(0)

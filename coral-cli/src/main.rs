@@ -1,15 +1,20 @@
 mod commands;
-
 use std::process;
 
 use clap::Parser;
 use colored::*;
+
+use ethers::contract::abigen;
 
 use coral_lib::error::AppResult;
 
 use crate::commands::CommandArgs;
 
 pub const PROGRAM_NAME: &str = "coral-cli";
+
+abigen!(PufferOracle, "./abi/PufferOracle.json");
+abigen!(PufferProtocol, "./abi/PufferProtocol.json");
+abigen!(ValidatorTicket, "./abi/ValidatorTicket.json");
 
 pub fn print_version() {
     let version = env!("CARGO_PKG_VERSION");
