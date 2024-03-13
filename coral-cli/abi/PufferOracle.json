@@ -3,12 +3,30 @@
     "type": "constructor",
     "inputs": [
       {
+        "name": "guardianModule",
+        "type": "address",
+        "internalType": "contract IGuardianModule"
+      },
+      {
         "name": "accessManager",
         "type": "address",
         "internalType": "address"
       }
     ],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "GUARDIAN_MODULE",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IGuardianModule"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -34,7 +52,7 @@
         "internalType": "uint256"
       }
     ],
-    "stateMutability": "pure"
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -42,7 +60,7 @@
     "inputs": [],
     "outputs": [
       {
-        "name": "pricePerVT",
+        "name": "",
         "type": "uint256",
         "internalType": "uint256"
       }
@@ -73,7 +91,73 @@
         "internalType": "bool"
       }
     ],
-    "stateMutability": "pure"
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "lastUpdate",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "lockedETH",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "proofOfReserve",
+    "inputs": [
+      {
+        "name": "newLockedETH",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "blockNumber",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "numberOfActivePufferValidators",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "totalNumberOfValidators",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "guardianSignatures",
+        "type": "bytes[]",
+        "internalType": "bytes[]"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "provisionNode",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
     "type": "function",
@@ -94,8 +178,8 @@
     "inputs": [
       {
         "name": "newPrice",
-        "type": "uint256",
-        "internalType": "uint256"
+        "type": "uint56",
+        "internalType": "uint56"
       }
     ],
     "outputs": [],
@@ -110,6 +194,25 @@
         "type": "address",
         "indexed": false,
         "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "BackingUpdated",
+    "inputs": [
+      {
+        "name": "blockNumber",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "lockedETH",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
@@ -173,7 +276,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidValidatorTicketPrice",
+    "name": "OutsideUpdateWindow",
     "inputs": []
   }
 ]

@@ -8,11 +8,6 @@
         "internalType": "address payable"
       },
       {
-        "name": "treasury",
-        "type": "address",
-        "internalType": "address payable"
-      },
-      {
         "name": "pufferVault",
         "type": "address",
         "internalType": "address payable"
@@ -67,19 +62,6 @@
   {
     "type": "function",
     "name": "PUFFER_VAULT",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address payable"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "TREASURY",
     "inputs": [],
     "outputs": [
       {
@@ -591,7 +573,13 @@
   },
   {
     "type": "event",
-    "name": "DispersedETH",
+    "name": "EIP712DomainChanged",
+    "inputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ETHDispersed",
     "inputs": [
       {
         "name": "treasury",
@@ -612,12 +600,6 @@
         "internalType": "uint256"
       }
     ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "EIP712DomainChanged",
-    "inputs": [],
     "anonymous": false
   },
   {

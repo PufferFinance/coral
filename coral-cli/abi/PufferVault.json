@@ -453,19 +453,6 @@
   },
   {
     "type": "function",
-    "name": "getExitFeeBasisPoints",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "getPendingLidoETHAmount",
     "inputs": [],
     "outputs": [
@@ -484,8 +471,8 @@
     "outputs": [
       {
         "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
+        "type": "uint96",
+        "internalType": "uint96"
       }
     ],
     "stateMutability": "view"
@@ -910,19 +897,6 @@
   },
   {
     "type": "function",
-    "name": "setExitFeeBasisPoints",
-    "inputs": [
-      {
-        "name": "newExitFeeBasisPoints",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
     "name": "symbol",
     "inputs": [],
     "outputs": [
@@ -1187,25 +1161,6 @@
   },
   {
     "type": "event",
-    "name": "ExitFeeBasisPointsSet",
-    "inputs": [
-      {
-        "name": "previousFee",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "newFee",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
     "name": "Initialized",
     "inputs": [
       {
@@ -1213,25 +1168,6 @@
         "type": "uint64",
         "indexed": false,
         "internalType": "uint64"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "LidoWithdrawal",
-    "inputs": [
-      {
-        "name": "expectedWithdrawal",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "actualWithdrawal",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
       }
     ],
     "anonymous": false
@@ -1267,25 +1203,6 @@
       },
       {
         "name": "value",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "TransferredETH",
-    "inputs": [
-      {
-        "name": "to",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "amount",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
@@ -1650,17 +1567,6 @@
   },
   {
     "type": "error",
-    "name": "EnumerableMapNonexistentKey",
-    "inputs": [
-      {
-        "name": "key",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
-    ]
-  },
-  {
-    "type": "error",
     "name": "FailedInnerCall",
     "inputs": []
   },
@@ -1679,11 +1585,6 @@
         "internalType": "uint256"
       }
     ]
-  },
-  {
-    "type": "error",
-    "name": "InvalidExitFeeBasisPoints",
-    "inputs": []
   },
   {
     "type": "error",

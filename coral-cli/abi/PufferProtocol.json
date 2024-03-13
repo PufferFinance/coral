@@ -5,7 +5,7 @@
       {
         "name": "pufferVault",
         "type": "address",
-        "internalType": "contract PufferVaultV2"
+        "internalType": "contract PufferVaultMainnet"
       },
       {
         "name": "guardianModule",
@@ -25,7 +25,7 @@
       {
         "name": "oracle",
         "type": "address",
-        "internalType": "contract IPufferOracleV2"
+        "internalType": "contract IPufferOracle"
       }
     ],
     "stateMutability": "nonpayable"
@@ -64,7 +64,7 @@
       {
         "name": "",
         "type": "address",
-        "internalType": "contract IPufferOracleV2"
+        "internalType": "contract IPufferOracle"
       }
     ],
     "stateMutability": "view"
@@ -77,7 +77,7 @@
       {
         "name": "",
         "type": "address",
-        "internalType": "contract PufferVaultV2"
+        "internalType": "contract PufferVaultMainnet"
       }
     ],
     "stateMutability": "view"
@@ -450,19 +450,6 @@
         "internalType": "bytes32"
       }
     ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "getVTPenalty",
-    "inputs": [],
     "outputs": [
       {
         "name": "",
@@ -904,19 +891,6 @@
   },
   {
     "type": "function",
-    "name": "setVTPenalty",
-    "inputs": [
-      {
-        "name": "newPenaltyAmount",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
     "name": "setValidatorLimitPerModule",
     "inputs": [
       {
@@ -1195,25 +1169,6 @@
       },
       {
         "name": "newVirtualVTBalance",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "VTPenaltyChanged",
-    "inputs": [
-      {
-        "name": "oldPenalty",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "newPenalty",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
