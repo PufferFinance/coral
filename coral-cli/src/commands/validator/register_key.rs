@@ -18,6 +18,7 @@ use crate::{
 
 use crate::PufferProtocol;
 
+#[allow(clippy::too_many_arguments)]
 pub async fn register_validator_key(
     private_key: &str,
     rpc_url: &str,
@@ -114,7 +115,7 @@ pub async fn register_validator_key(
     let validator_data = ValidatorKeyData {
         bls_pub_key: bls_pub_key.into(),
         signature: signature.into(),
-        deposit_data_root: deposit_data_root,
+        deposit_data_root,
         bls_encrypted_priv_key_shares,
         bls_pub_key_set: bls_pub_key_set.into(),
         rave_evidence: rave_evidence.into(),

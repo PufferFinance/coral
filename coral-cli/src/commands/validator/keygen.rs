@@ -126,7 +126,7 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
         })?
         .try_into()
         .map_err(|_| {
-            let error_msg = format!("Failed to parse withdrawal_credentials");
+            let error_msg = "Failed to parse withdrawal_credentials".to_owned();
             ServerErrorResponse::new(
                 StatusCode::INTERNAL_SERVER_ERROR,
                 ServerErrorCode::ParseError,
@@ -146,7 +146,7 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
         })?
         .try_into()
         .map_err(|_| {
-            let error_msg = format!("Failed to parse genesis_fork_version");
+            let error_msg = "Failed to parse genesis_fork_version".to_owned();
             ServerErrorResponse::new(
                 StatusCode::INTERNAL_SERVER_ERROR,
                 ServerErrorCode::ParseError,
