@@ -11,8 +11,7 @@ use ethers::utils::hex;
 use coral_lib::utils;
 
 use crate::{
-    commands::validator::keygen::RegisterValidatorOutput, Permit, ValidatorKeyData,
-    ValidatorTicket,
+    commands::validator::keygen::RegisterValidatorOutput, Permit, ValidatorKeyData, ValidatorTicket,
 };
 
 use crate::PufferProtocol;
@@ -133,14 +132,12 @@ pub async fn generate_register_calldata(
             module_name,
             puf_eth_deposit_permit,
             vt_deposit_permit,
-        ).calldata()
+        )
+        .calldata()
         .ok_or_else(|| {
             let error_msg = "Failed to generate calldata";
             tracing::error!("{error_msg}");
-            AppError::new(
-                AppErrorKind::ContractCallError,
-                error_msg.to_string(),
-            )
+            AppError::new(AppErrorKind::ContractCallError, error_msg.to_string())
         })?;
     println!("{calldata}");
 

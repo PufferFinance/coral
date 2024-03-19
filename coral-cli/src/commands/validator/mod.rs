@@ -186,7 +186,13 @@ impl ValidatorCommand {
                 )
                 .await?;
             }
-            Self::GenerateRegisterCalldata { rpc_url, puffer_protocol_address, validator_ticket_address, module_name, input_file } => {
+            Self::GenerateRegisterCalldata {
+                rpc_url,
+                puffer_protocol_address,
+                validator_ticket_address,
+                module_name,
+                input_file,
+            } => {
                 register_calldata::generate_register_calldata(
                     &rpc_url,
                     &puffer_protocol_address,
