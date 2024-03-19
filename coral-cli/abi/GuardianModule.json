@@ -70,16 +70,16 @@
   },
   {
     "type": "function",
-    "name": "changeThreshold",
-    "inputs": [
+    "name": "getEjectionThreshold",
+    "inputs": [],
+    "outputs": [
       {
-        "name": "newThreshold",
+        "name": "",
         "type": "uint256",
         "internalType": "uint256"
       }
     ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -278,17 +278,43 @@
   },
   {
     "type": "function",
+    "name": "setEjectionThreshold",
+    "inputs": [
+      {
+        "name": "newThreshold",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "setGuardianEnclaveMeasurements",
     "inputs": [
       {
-        "name": "newMrenclave",
+        "name": "newMrEnclave",
         "type": "bytes32",
         "internalType": "bytes32"
       },
       {
-        "name": "newMrsigner",
+        "name": "newMrSigner",
         "type": "bytes32",
         "internalType": "bytes32"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setThreshold",
+    "inputs": [
+      {
+        "name": "newThreshold",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "outputs": [],
@@ -300,6 +326,61 @@
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "validateBatchWithdrawals",
+    "inputs": [
+      {
+        "name": "validatorInfos",
+        "type": "tuple[]",
+        "internalType": "struct StoppedValidatorInfo[]",
+        "components": [
+          {
+            "name": "module",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "startEpoch",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "endEpoch",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "wasSlashed",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "moduleName",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "pufferModuleIndex",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "withdrawalAmount",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "eoaSignatures",
+        "type": "bytes[]",
+        "internalType": "bytes[]"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -351,81 +432,10 @@
   },
   {
     "type": "function",
-    "name": "validatePostFullWithdrawalsRoot",
-    "inputs": [
-      {
-        "name": "root",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      },
-      {
-        "name": "blockNumber",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "modules",
-        "type": "address[]",
-        "internalType": "address[]"
-      },
-      {
-        "name": "amounts",
-        "type": "uint256[]",
-        "internalType": "uint256[]"
-      },
-      {
-        "name": "guardianSignatures",
-        "type": "bytes[]",
-        "internalType": "bytes[]"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "validateProofOfReserve",
-    "inputs": [
-      {
-        "name": "lockedETH",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "blockNumber",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "numberOfActivePufferValidators",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "totalNumberOfValidators",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "guardianSignatures",
-        "type": "bytes[]",
-        "internalType": "bytes[]"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "validateProvisionNode",
     "inputs": [
       {
-        "name": "validatorIndex",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "vtBurnOffset",
+        "name": "pufferModuleIndex",
         "type": "uint256",
         "internalType": "uint256"
       },
@@ -450,7 +460,7 @@
         "internalType": "bytes32"
       },
       {
-        "name": "guardianEnclaveSignatures",
+        "name": "enclaveSignatures",
         "type": "bytes[]",
         "internalType": "bytes[]"
       }
@@ -473,7 +483,30 @@
         "internalType": "uint256"
       },
       {
-        "name": "guardianEOASignatures",
+        "name": "eoaSignatures",
+        "type": "bytes[]",
+        "internalType": "bytes[]"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "validateTotalNumberOfValidators",
+    "inputs": [
+      {
+        "name": "newNumberOfValidators",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "epochNumber",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "eoaSignatures",
         "type": "bytes[]",
         "internalType": "bytes[]"
       }
@@ -490,6 +523,25 @@
         "type": "address",
         "indexed": false,
         "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "EjectionThresholdChanged",
+    "inputs": [
+      {
+        "name": "oldThreshold",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "newThreshold",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false

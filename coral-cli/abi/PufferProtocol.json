@@ -123,12 +123,54 @@
   },
   {
     "type": "function",
-    "name": "changeMinimumVTAmount",
+    "name": "batchHandleWithdrawals",
     "inputs": [
       {
-        "name": "newMinimumVTAmount",
-        "type": "uint256",
-        "internalType": "uint256"
+        "name": "validatorInfos",
+        "type": "tuple[]",
+        "internalType": "struct StoppedValidatorInfo[]",
+        "components": [
+          {
+            "name": "module",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "startEpoch",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "endEpoch",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "wasSlashed",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "moduleName",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "pufferModuleIndex",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "withdrawalAmount",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "guardianEOASignatures",
+        "type": "bytes[]",
+        "internalType": "bytes[]"
       }
     ],
     "outputs": [],
@@ -136,17 +178,12 @@
   },
   {
     "type": "function",
-    "name": "changeModule",
+    "name": "changeMinimumVTAmount",
     "inputs": [
       {
-        "name": "moduleName",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      },
-      {
-        "name": "newModule",
-        "type": "address",
-        "internalType": "contract IPufferModule"
+        "name": "newMinimumVTAmount",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "outputs": [],
@@ -368,28 +405,18 @@
         "components": [
           {
             "name": "activeValidatorCount",
-            "type": "uint16",
-            "internalType": "uint16"
+            "type": "uint64",
+            "internalType": "uint64"
           },
           {
             "name": "pendingValidatorCount",
-            "type": "uint8",
-            "internalType": "uint8"
-          },
-          {
-            "name": "lastUpdate",
-            "type": "uint48",
-            "internalType": "uint48"
+            "type": "uint64",
+            "internalType": "uint64"
           },
           {
             "name": "vtBalance",
             "type": "uint96",
             "internalType": "uint96"
-          },
-          {
-            "name": "virtualVTBalance",
-            "type": "uint88",
-            "internalType": "uint88"
           }
         ]
       }
@@ -409,11 +436,6 @@
         "name": "usingEnclave",
         "type": "bool",
         "internalType": "bool"
-      },
-      {
-        "name": "numberOfDays",
-        "type": "uint256",
-        "internalType": "uint256"
       }
     ],
     "outputs": [
@@ -482,7 +504,7 @@
         "internalType": "bytes32"
       },
       {
-        "name": "validatorIndex",
+        "name": "pufferModuleIndex",
         "type": "uint256",
         "internalType": "uint256"
       }
@@ -640,39 +662,6 @@
   },
   {
     "type": "function",
-    "name": "postFullWithdrawalsRoot",
-    "inputs": [
-      {
-        "name": "root",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      },
-      {
-        "name": "blockNumber",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "modules",
-        "type": "address[]",
-        "internalType": "address[]"
-      },
-      {
-        "name": "amounts",
-        "type": "uint256[]",
-        "internalType": "uint256[]"
-      },
-      {
-        "name": "guardianSignatures",
-        "type": "bytes[]",
-        "internalType": "bytes[]"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
     "name": "provisionNode",
     "inputs": [
       {
@@ -684,11 +673,6 @@
         "name": "validatorSignature",
         "type": "bytes",
         "internalType": "bytes"
-      },
-      {
-        "name": "vtBurnOffset",
-        "type": "uint88",
-        "internalType": "uint88"
       }
     ],
     "outputs": [],
@@ -752,11 +736,6 @@
         "name": "moduleName",
         "type": "bytes32",
         "internalType": "bytes32"
-      },
-      {
-        "name": "numberOfDays",
-        "type": "uint256",
-        "internalType": "uint256"
       },
       {
         "name": "pufETHPermit",
@@ -825,56 +804,6 @@
     ],
     "outputs": [],
     "stateMutability": "payable"
-  },
-  {
-    "type": "function",
-    "name": "retrieveBond",
-    "inputs": [
-      {
-        "name": "validatorInfo",
-        "type": "tuple",
-        "internalType": "struct StoppedValidatorInfo",
-        "components": [
-          {
-            "name": "moduleName",
-            "type": "bytes32",
-            "internalType": "bytes32"
-          },
-          {
-            "name": "validatorIndex",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "blockNumber",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "withdrawalAmount",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "wasSlashed",
-            "type": "bool",
-            "internalType": "bool"
-          },
-          {
-            "name": "validatorStopTimestamp",
-            "type": "uint256",
-            "internalType": "uint256"
-          }
-        ]
-      },
-      {
-        "name": "merkleProof",
-        "type": "bytes32[]",
-        "internalType": "bytes32[]"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
   },
   {
     "type": "function",
@@ -1002,25 +931,6 @@
   },
   {
     "type": "event",
-    "name": "FullWithdrawalsRootPosted",
-    "inputs": [
-      {
-        "name": "blockNumber",
-        "type": "uint256",
-        "indexed": true,
-        "internalType": "uint256"
-      },
-      {
-        "name": "root",
-        "type": "bytes32",
-        "indexed": false,
-        "internalType": "bytes32"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
     "name": "Initialized",
     "inputs": [
       {
@@ -1053,31 +963,6 @@
   },
   {
     "type": "event",
-    "name": "ModuleChanged",
-    "inputs": [
-      {
-        "name": "moduleName",
-        "type": "bytes32",
-        "indexed": true,
-        "internalType": "bytes32"
-      },
-      {
-        "name": "oldModule",
-        "type": "address",
-        "indexed": false,
-        "internalType": "address"
-      },
-      {
-        "name": "newModule",
-        "type": "address",
-        "indexed": false,
-        "internalType": "address"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
     "name": "ModuleWeightsChanged",
     "inputs": [
       {
@@ -1104,6 +989,37 @@
         "type": "address",
         "indexed": false,
         "internalType": "address"
+      },
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "withdrawalCredentials",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "NumberOfActiveValidatorsChanged",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "newNumberOfActiveValidators",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
@@ -1119,7 +1035,7 @@
         "internalType": "bytes"
       },
       {
-        "name": "validatorIndex",
+        "name": "pufferModuleIndex",
         "type": "uint256",
         "indexed": true,
         "internalType": "uint256"
@@ -1135,25 +1051,6 @@
   },
   {
     "type": "event",
-    "name": "TransferredETH",
-    "inputs": [
-      {
-        "name": "to",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "amount",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
     "name": "Upgraded",
     "inputs": [
       {
@@ -1161,43 +1058,6 @@
         "type": "address",
         "indexed": true,
         "internalType": "address"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "VTBalanceChanged",
-    "inputs": [
-      {
-        "name": "node",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "oldVTBalance",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "newVTBalance",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "oldVirtualVTBalance",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "newVirtualVTBalance",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
       }
     ],
     "anonymous": false
@@ -1223,25 +1083,6 @@
   },
   {
     "type": "event",
-    "name": "ValidatorDequeued",
-    "inputs": [
-      {
-        "name": "pubKey",
-        "type": "bytes",
-        "indexed": true,
-        "internalType": "bytes"
-      },
-      {
-        "name": "validatorIndex",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
     "name": "ValidatorExited",
     "inputs": [
       {
@@ -1251,7 +1092,7 @@
         "internalType": "bytes"
       },
       {
-        "name": "validatorIndex",
+        "name": "pufferModuleIndex",
         "type": "uint256",
         "indexed": true,
         "internalType": "uint256"
@@ -1261,6 +1102,18 @@
         "type": "bytes32",
         "indexed": true,
         "internalType": "bytes32"
+      },
+      {
+        "name": "pufETHBurnAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "vtBurnAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
@@ -1276,7 +1129,7 @@
         "internalType": "bytes"
       },
       {
-        "name": "validatorIndex",
+        "name": "pufferModuleIndex",
         "type": "uint256",
         "indexed": true,
         "internalType": "uint256"
@@ -1326,7 +1179,7 @@
         "internalType": "bytes"
       },
       {
-        "name": "validatorIndex",
+        "name": "pufferModuleIndex",
         "type": "uint256",
         "indexed": true,
         "internalType": "uint256"
@@ -1430,6 +1283,11 @@
   },
   {
     "type": "error",
+    "name": "ActiveOrPendingValidatorsExist",
+    "inputs": []
+  },
+  {
+    "type": "error",
     "name": "AddressEmptyCode",
     "inputs": [
       {
@@ -1477,11 +1335,6 @@
   },
   {
     "type": "error",
-    "name": "InvalidData",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidETHAmount",
     "inputs": []
   },
@@ -1492,12 +1345,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidMerkleProof",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidPufferModule",
+    "name": "InvalidVTAmount",
     "inputs": []
   },
   {
@@ -1508,22 +1356,6 @@
         "name": "status",
         "type": "uint8",
         "internalType": "enum Status"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "InvalidValidatorTicketAmount",
-    "inputs": [
-      {
-        "name": "amount",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "minimumVTAmount",
-        "type": "uint256",
-        "internalType": "uint256"
       }
     ]
   },
