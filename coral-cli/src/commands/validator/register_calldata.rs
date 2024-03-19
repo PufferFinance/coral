@@ -4,29 +4,24 @@ use coral_lib::{
     error::{AppError, AppErrorKind, AppResult},
     strip_0x_prefix,
 };
-use ethers::{signers::LocalWallet, types::Address};
-
 use ethers::prelude::*;
-use ethers::utils::hex::{self, ToHex};
+use ethers::types::Address;
+use ethers::utils::hex;
 
 use coral_lib::utils;
 
 use crate::{
-    commands::validator::keygen::RegisterValidatorOutput, Permit, PufferOracle, ValidatorKeyData,
+    commands::validator::keygen::RegisterValidatorOutput, Permit, ValidatorKeyData,
     ValidatorTicket,
 };
 
 use crate::PufferProtocol;
 
-#[allow(clippy::too_many_arguments)]
-pub async fn register_validator_key(
-    private_key: &str,
+pub async fn generate_register_calldata(
     rpc_url: &str,
-    puffer_oracle_address: &str,
     puffer_protocol_address: &str,
     validator_ticket_address: &str,
     module_name: &str,
-    number_of_days: u64,
     input_file: &path::Path,
 ) -> AppResult<i32> {
     let puffer_protocol_address_h160: Address = puffer_protocol_address.parse().map_err(|_| {
@@ -36,13 +31,6 @@ pub async fn register_validator_key(
                 "Invalid Puffer Protocol address: '{}'",
                 puffer_protocol_address
             ),
-        )
-    })?;
-
-    let puffer_oracle_address_h160: Address = puffer_oracle_address.parse().map_err(|_| {
-        AppError::new(
-            AppErrorKind::DecodeError,
-            format!("Invalid Puffer Oracle address: '{}'", puffer_oracle_address),
         )
     })?;
 
@@ -61,9 +49,7 @@ pub async fn register_validator_key(
 
     let provider = utils::ethereum::get_provider(rpc_url)?;
 
-    println!("Parsing private key...");
-    let priv_key_bytes = hex::decode(strip_0x_prefix(private_key)).unwrap();
-    let wallet = LocalWallet::from_bytes(&priv_key_bytes).unwrap();
+    let wallet = utils::wallet::generate_random_wallet();
 
     let chain_id = utils::ethereum::get_chain_id(&provider).await?;
     let client = utils::ethereum::get_client(provider.clone(), wallet.clone(), chain_id.as_u64());
@@ -72,8 +58,6 @@ pub async fn register_validator_key(
     let keygen_data: RegisterValidatorOutput = serde_json::from_str(&content).unwrap();
 
     println!("Generating calldata...");
-
-    let enclave_enabled = !keygen_data.intel_report.is_empty();
 
     let intel_report = keygen_data.intel_report.as_bytes();
     let intel_sig = keygen_data.intel_sig.as_bytes();
@@ -140,66 +124,25 @@ pub async fn register_validator_key(
         s: [0; 32],
     };
 
-    let puffer_oracle_contract: PufferOracle<_> =
-        PufferOracle::new(puffer_oracle_address_h160, client.clone());
-
-    let vt_price: U256 = puffer_oracle_contract
-        .get_validator_ticket_price()
-        .await
-        .map_err(|err| {
-            let error_msg = format!("Failed to fetch vt price: {err}");
-            AppError::new(AppErrorKind::DecodeError, error_msg)
-        })?;
-
     let puffer_protocol_contract: PufferProtocol<_> =
         PufferProtocol::new(puffer_protocol_address_h160, client.clone());
 
-    let eth_1 = U256::from(1).saturating_mul(U256::exp10(18));
-    let eth_2 = U256::from(2).saturating_mul(U256::exp10(18));
-
-    let total_vt_price = vt_price.saturating_mul(U256::from(number_of_days));
-
-    println!("Registering validator to smart contract...");
-    let function_call = puffer_protocol_contract
+    let calldata = puffer_protocol_contract
         .register_validator_key(
             validator_data,
             module_name,
             puf_eth_deposit_permit,
             vt_deposit_permit,
-        )
-        .value(if enclave_enabled {
-            eth_1.saturating_add(total_vt_price)
-        } else {
-            eth_2.saturating_add(total_vt_price)
-        });
+        ).calldata()
+        .ok_or_else(|| {
+            let error_msg = "Failed to generate calldata";
+            tracing::error!("{error_msg}");
+            AppError::new(
+                AppErrorKind::ContractCallError,
+                error_msg.to_string(),
+            )
+        })?;
+    println!("{calldata}");
 
-    let res = function_call.send().await;
-
-    match res {
-        Ok(pending_tx) => {
-            let tx = pending_tx
-                .await
-                .map_err(|err| {
-                    tracing::error!("Failed to wait for pending transaction");
-                    tracing::error!("{err}");
-                    AppError::new(
-                        AppErrorKind::ContractCallError,
-                        "Failed to wait for pending transaction".to_string(),
-                    )
-                })?
-                .ok_or_else(|| {
-                    AppError::new(
-                        AppErrorKind::ContractCallError,
-                        "No transaction receipt".to_string(),
-                    )
-                })?;
-            let tx_hash: String = tx.transaction_hash.encode_hex();
-            println!("Tx Hash: '{tx_hash}'");
-            Ok(0)
-        }
-        Err(err) => {
-            let err = AppError::new(AppErrorKind::ContractCallError, err.to_string());
-            Err(err)
-        }
-    }
+    Ok(0)
 }
