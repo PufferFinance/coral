@@ -150,7 +150,7 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
             ServerErrorResponse::new(
                 StatusCode::INTERNAL_SERVER_ERROR,
                 ServerErrorCode::ParseError,
-                error_msg,
+                error_msg.to_string(),
             )
         })?;
 

@@ -1,5 +1,6 @@
 pub mod keygen;
 pub mod list_keys;
+pub mod register_calldata;
 pub mod register_key;
 pub mod sign_vem;
 pub mod withdrawal_credentials;
@@ -38,7 +39,7 @@ pub enum ValidatorCommand {
         #[arg(long = "output-file")]
         output_file: String,
     },
-    #[command(about = "Register a validator into PufferProtocol")]
+    #[command(about = "Register a validator into PufferProtocol (for testing only)")]
     RegisterKey {
         #[arg(long = "private-key")]
         private_key: String,
@@ -54,6 +55,19 @@ pub enum ValidatorCommand {
         module_name: String,
         #[arg(long = "number-of-days")]
         number_of_days: u64,
+        #[arg(long = "input-file")]
+        input_file: PathBuf,
+    },
+    #[command(about = "Generate calldata for registering a validator (for testing only)")]
+    GenerateRegisterCalldata {
+        #[arg(long = "rpc-url")]
+        rpc_url: String,
+        #[arg(long = "puffer-protocol-address")]
+        puffer_protocol_address: String,
+        #[arg(long = "validator-ticket-address")]
+        validator_ticket_address: String,
+        #[arg(long = "module-name")]
+        module_name: String,
         #[arg(long = "input-file")]
         input_file: PathBuf,
     },
@@ -75,7 +89,7 @@ pub enum ValidatorCommand {
         #[arg(long = "output-file")]
         output_file: String,
     },
-    #[command(about = "Register a validator into PufferProtocol")]
+    #[command(about = "Fetch withdrawal credentials for a given module")]
     WithdrawalCredentials {
         #[arg(long = "rpc-url")]
         rpc_url: String,
@@ -116,28 +130,6 @@ impl ValidatorCommand {
                 )
                 .await?;
             }
-            Self::RegisterKey {
-                private_key,
-                rpc_url,
-                puffer_oracle_address,
-                puffer_protocol_address,
-                validator_ticket_address,
-                module_name,
-                number_of_days,
-                input_file,
-            } => {
-                register_key::register_validator_key(
-                    &private_key,
-                    &rpc_url,
-                    &puffer_oracle_address,
-                    &puffer_protocol_address,
-                    &validator_ticket_address,
-                    &module_name,
-                    number_of_days,
-                    input_file.as_path(),
-                )
-                .await?;
-            }
             Self::WithdrawalCredentials {
                 rpc_url,
                 puffer_protocol_address,
@@ -169,6 +161,44 @@ impl ValidatorCommand {
                     epoch,
                     genesis_validators_root,
                     output_file,
+                )
+                .await?;
+            }
+            Self::RegisterKey {
+                private_key,
+                rpc_url,
+                puffer_oracle_address,
+                puffer_protocol_address,
+                validator_ticket_address,
+                module_name,
+                number_of_days,
+                input_file,
+            } => {
+                register_key::register_validator_key(
+                    &private_key,
+                    &rpc_url,
+                    &puffer_oracle_address,
+                    &puffer_protocol_address,
+                    &validator_ticket_address,
+                    &module_name,
+                    number_of_days,
+                    input_file.as_path(),
+                )
+                .await?;
+            }
+            Self::GenerateRegisterCalldata {
+                rpc_url,
+                puffer_protocol_address,
+                validator_ticket_address,
+                module_name,
+                input_file,
+            } => {
+                register_calldata::generate_register_calldata(
+                    &rpc_url,
+                    &puffer_protocol_address,
+                    &validator_ticket_address,
+                    &module_name,
+                    input_file.as_path(),
                 )
                 .await?;
             }
