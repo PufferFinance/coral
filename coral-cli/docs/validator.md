@@ -71,7 +71,7 @@ coral-cli validator register \
 Generate register-key calldata to be used for testing.
 
 ```
-coral-cli validator generate-regsiter-calldata \
+coral-cli validator generate-register-calldata \
   --rpc-url http://localhost:8545 \
   --puffer-protocol-address 0x797e7b4B55a2ae28796e4631180EdaB4Aa0CF5C3 \
   --validator-ticket-address 0xCf944F6f6Fc77faFF9600388Beaa5dF2C9a91Fed \
