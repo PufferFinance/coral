@@ -54,7 +54,7 @@ coral-cli validator sign-voluntary-exit \
 Registers validator into the Puffer Pool
 
 ```
-coral-cli validator register \
+coral-cli validator register-key \
   --private-key 0x829348903124902... \
   --rpc-url http://localhost:8545 \
   --puffer-oracle-address 0x123... \
