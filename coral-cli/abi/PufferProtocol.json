@@ -13,7 +13,7 @@
         "internalType": "contract IGuardianModule"
       },
       {
-        "name": "moduleFactory",
+        "name": "moduleManager",
         "type": "address",
         "internalType": "address"
       },
@@ -45,13 +45,13 @@
   },
   {
     "type": "function",
-    "name": "PUFFER_MODULE_FACTORY",
+    "name": "PUFFER_MODULE_MANAGER",
     "inputs": [],
     "outputs": [
       {
         "name": "",
         "type": "address",
-        "internalType": "contract IPufferModuleFactory"
+        "internalType": "contract IPufferModuleManager"
       }
     ],
     "stateMutability": "view"
@@ -197,16 +197,6 @@
         "name": "moduleName",
         "type": "bytes32",
         "internalType": "bytes32"
-      },
-      {
-        "name": "metadataURI",
-        "type": "string",
-        "internalType": "string"
-      },
-      {
-        "name": "delegationApprover",
-        "type": "address",
-        "internalType": "address"
       }
     ],
     "outputs": [
@@ -637,11 +627,6 @@
         "name": "accessManager",
         "type": "address",
         "internalType": "address"
-      },
-      {
-        "name": "noRestakingModule",
-        "type": "address",
-        "internalType": "address"
       }
     ],
     "outputs": [],
@@ -804,6 +789,13 @@
     ],
     "outputs": [],
     "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "revertIfPaused",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
     "type": "function",

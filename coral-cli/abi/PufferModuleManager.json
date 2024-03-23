@@ -1,0 +1,1067 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "pufferModuleBeacon",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "restakingOperatorBeacon",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "pufferProtocol",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "PUFFER_MODULE_BEACON",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "PUFFER_PROTOCOL",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "RESTAKING_OPERATOR_BEACON",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "UPGRADE_INTERFACE_VERSION",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "authority",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "callCompleteQueuedWithdrawals",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "withdrawals",
+        "type": "tuple[]",
+        "internalType": "struct IDelegationManager.Withdrawal[]",
+        "components": [
+          {
+            "name": "staker",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "delegatedTo",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "withdrawer",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "nonce",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "startBlock",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "strategies",
+            "type": "address[]",
+            "internalType": "contract IStrategy[]"
+          },
+          {
+            "name": "shares",
+            "type": "uint256[]",
+            "internalType": "uint256[]"
+          }
+        ]
+      },
+      {
+        "name": "tokens",
+        "type": "address[][]",
+        "internalType": "contract IERC20[][]"
+      },
+      {
+        "name": "middlewareTimesIndexes",
+        "type": "uint256[]",
+        "internalType": "uint256[]"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callDelegateTo",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "operator",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "approverSignatureAndExpiry",
+        "type": "tuple",
+        "internalType": "struct ISignatureUtils.SignatureWithExpiry",
+        "components": [
+          {
+            "name": "signature",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "expiry",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "approverSalt",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callModifyOperatorDetails",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "newOperatorDetails",
+        "type": "tuple",
+        "internalType": "struct IDelegationManager.OperatorDetails",
+        "components": [
+          {
+            "name": "earningsReceiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "delegationApprover",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stakerOptOutWindowBlocks",
+            "type": "uint32",
+            "internalType": "uint32"
+          }
+        ]
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callOptIntoSlashing",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "slasher",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callQueueWithdrawals",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "sharesAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callUndelegate",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "withdrawalRoot",
+        "type": "bytes32[]",
+        "internalType": "bytes32[]"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callUpdateMetadataURI",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "metadataURI",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callVerifyAndProcessWithdrawals",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "oracleTimestamp",
+        "type": "uint64",
+        "internalType": "uint64"
+      },
+      {
+        "name": "stateRootProof",
+        "type": "tuple",
+        "internalType": "struct BeaconChainProofs.StateRootProof",
+        "components": [
+          {
+            "name": "beaconStateRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "proof",
+            "type": "bytes",
+            "internalType": "bytes"
+          }
+        ]
+      },
+      {
+        "name": "withdrawalProofs",
+        "type": "tuple[]",
+        "internalType": "struct BeaconChainProofs.WithdrawalProof[]",
+        "components": [
+          {
+            "name": "withdrawalProof",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "slotProof",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "executionPayloadProof",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "timestampProof",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "historicalSummaryBlockRootProof",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "blockRootIndex",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "historicalSummaryIndex",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "withdrawalIndex",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "blockRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "slotRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "timestampRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "executionPayloadRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ]
+      },
+      {
+        "name": "validatorFieldsProofs",
+        "type": "bytes[]",
+        "internalType": "bytes[]"
+      },
+      {
+        "name": "validatorFields",
+        "type": "bytes32[][]",
+        "internalType": "bytes32[][]"
+      },
+      {
+        "name": "withdrawalFields",
+        "type": "bytes32[][]",
+        "internalType": "bytes32[][]"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callVerifyWithdrawalCredentials",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "oracleTimestamp",
+        "type": "uint64",
+        "internalType": "uint64"
+      },
+      {
+        "name": "stateRootProof",
+        "type": "tuple",
+        "internalType": "struct BeaconChainProofs.StateRootProof",
+        "components": [
+          {
+            "name": "beaconStateRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "proof",
+            "type": "bytes",
+            "internalType": "bytes"
+          }
+        ]
+      },
+      {
+        "name": "validatorIndices",
+        "type": "uint40[]",
+        "internalType": "uint40[]"
+      },
+      {
+        "name": "validatorFieldsProofs",
+        "type": "bytes[]",
+        "internalType": "bytes[]"
+      },
+      {
+        "name": "validatorFields",
+        "type": "bytes32[][]",
+        "internalType": "bytes32[][]"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callWithdrawNonBeaconChainETHBalanceWei",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amountToWithdraw",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "createNewPufferModule",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IPufferModule"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "createNewRestakingOperator",
+    "inputs": [
+      {
+        "name": "metadataURI",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "delegationApprover",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "stakerOptOutWindowBlocks",
+        "type": "uint32",
+        "internalType": "uint32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IRestakingOperator"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "initialize",
+    "inputs": [
+      {
+        "name": "accessManager",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "isConsumingScheduledOp",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes4",
+        "internalType": "bytes4"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "proxiableUUID",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setAuthority",
+    "inputs": [
+      {
+        "name": "newAuthority",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "updateAVSRegistrationSignatureProof",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "digestHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "signer",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "upgradeToAndCall",
+    "inputs": [
+      {
+        "name": "newImplementation",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "data",
+        "type": "bytes",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "event",
+    "name": "AVSRegistrationSignatureProofUpdated",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "digestHash",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "signer",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "AuthorityUpdated",
+    "inputs": [
+      {
+        "name": "authority",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CompletedQueuedWithdrawals",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "sharesWithdrawn",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Initialized",
+    "inputs": [
+      {
+        "name": "version",
+        "type": "uint64",
+        "indexed": false,
+        "internalType": "uint64"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "NonBeaconChainETHBalanceWithdrawn",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amountToWithdraw",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PufferModuleDelegated",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "operator",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PufferModuleUndelegated",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RestakingOperatorCreated",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "operatorDetails",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct IDelegationManager.OperatorDetails",
+        "components": [
+          {
+            "name": "earningsReceiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "delegationApprover",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stakerOptOutWindowBlocks",
+            "type": "uint32",
+            "internalType": "uint32"
+          }
+        ]
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RestakingOperatorMetadataURIUpdated",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "metadataURI",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RestakingOperatorModified",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newOperatorDetails",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct IDelegationManager.OperatorDetails",
+        "components": [
+          {
+            "name": "earningsReceiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "delegationApprover",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stakerOptOutWindowBlocks",
+            "type": "uint32",
+            "internalType": "uint32"
+          }
+        ]
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RestakingOperatorOptedInSlasher",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "slasher",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Upgraded",
+    "inputs": [
+      {
+        "name": "implementation",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ValidatorCredentialsVerified",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "validatorIndices",
+        "type": "uint40[]",
+        "indexed": false,
+        "internalType": "uint40[]"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "VerifiedAndProcessedWithdrawals",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "validatorFields",
+        "type": "bytes32[][]",
+        "indexed": false,
+        "internalType": "bytes32[][]"
+      },
+      {
+        "name": "withdrawalFields",
+        "type": "bytes32[][]",
+        "indexed": false,
+        "internalType": "bytes32[][]"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "WithdrawalsQueued",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "shareAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "withdrawalRoot",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "AccessManagedInvalidAuthority",
+    "inputs": [
+      {
+        "name": "authority",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "AccessManagedRequiredDelay",
+    "inputs": [
+      {
+        "name": "caller",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "delay",
+        "type": "uint32",
+        "internalType": "uint32"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "AccessManagedUnauthorized",
+    "inputs": [
+      {
+        "name": "caller",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "AddressEmptyCode",
+    "inputs": [
+      {
+        "name": "target",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "Create2EmptyBytecode",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "Create2FailedDeployment",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "Create2InsufficientBalance",
+    "inputs": [
+      {
+        "name": "balance",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "needed",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "ERC1967InvalidImplementation",
+    "inputs": [
+      {
+        "name": "implementation",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "ERC1967NonPayable",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "FailedInnerCall",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidInitialization",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotInitializing",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "UUPSUnauthorizedCallContext",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "UUPSUnsupportedProxiableUUID",
+    "inputs": [
+      {
+        "name": "slot",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "Unauthorized",
+    "inputs": []
+  }
+]
