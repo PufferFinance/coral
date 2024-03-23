@@ -41,6 +41,7 @@ pub struct RegisterValidatorInput {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct RegisterValidatorOutput {
     pub guardian_threshold: u64,
+    pub withdrawal_credentials: String,
     pub bls_pub_key_set: String,
     pub bls_pub_key: String,
     pub signature: String,
@@ -216,6 +217,7 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
 
     let registraton_payload = RegisterValidatorOutput {
         guardian_threshold: input_data.guardian_threshold,
+        withdrawal_credentials: hex::encode(withdrawal_credentials),
 
         bls_pub_key_set: bls_keygen_payload.bls_pub_key_set,
         bls_pub_key: bls_keygen_payload.bls_pub_key,
