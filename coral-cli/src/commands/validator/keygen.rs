@@ -4,6 +4,7 @@ use axum::http::StatusCode;
 
 use colored::*;
 
+use coral_lib::utils::parse::parse_module_name;
 use ecies::PublicKey as EthPublicKey;
 
 use hex::ToHex;
@@ -113,6 +114,8 @@ pub async fn keygen_from_cmd(data: KeygenCmdInput) -> AppResult<i32> {
 }
 
 pub async fn register_validator(input_data: &BlsKeygenInput) -> AppResult<i32> {
+    let module_name = parse_module_name(&input_data.module_name)?;
+
     let mut guardian_pubkeys = Vec::with_capacity(input_data.guardian_pubkeys.len());
     for key in input_data.guardian_pubkeys.iter() {
         let key = strip_0x_prefix(key);
@@ -240,7 +243,7 @@ pub async fn register_validator(input_data: &BlsKeygenInput) -> AppResult<i32> {
         version: APP_VERSION.to_string(),
         guardian_threshold: input_data.guardian_threshold,
         guardian_pubkeys: bls_keygen_payload.guardian_eth_pub_keys,
-        module_name: input_data.module_name.clone(),
+        module_name: module_name.encode_hex(),
         withdrawal_credentials: hex::encode(withdrawal_credentials),
         fork_version: genesis_fork_version.encode_hex(),
 
