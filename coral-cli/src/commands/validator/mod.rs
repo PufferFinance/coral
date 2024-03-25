@@ -28,6 +28,8 @@ pub enum ValidatorCommand {
         guardian_pubkeys: String,
         #[arg(long = "guardian-threshold")]
         guardian_threshold: u64,
+        #[arg(long = "module-name")]
+        module_name: String,
         #[arg(long = "withdrawal-credentials")]
         withdrawal_credentials: String,
         #[arg(long = "fork-version")]
@@ -113,22 +115,24 @@ impl ValidatorCommand {
             Self::Keygen {
                 guardian_pubkeys,
                 guardian_threshold,
+                module_name,
                 withdrawal_credentials,
                 fork_version,
                 enclave_url,
                 password_file,
                 output_file,
             } => {
-                keygen::keygen_from_cmd(
+                let data = keygen::KeygenCmdInput {
                     guardian_pubkeys,
                     guardian_threshold,
+                    module_name,
                     withdrawal_credentials,
                     fork_version,
                     enclave_url,
                     password_file,
                     output_file,
-                )
-                .await?;
+                };
+                keygen::keygen_from_cmd(data).await?;
             }
             Self::WithdrawalCredentials {
                 rpc_url,

@@ -4,6 +4,7 @@ use axum::http::StatusCode;
 
 use colored::*;
 
+use coral_lib::utils::parse::parse_module_name;
 use ecies::PublicKey as EthPublicKey;
 
 use hex::ToHex;
@@ -18,6 +19,8 @@ use coral_lib::error::{ServerErrorCode, ServerErrorResponse};
 use coral_lib::strip_0x_prefix;
 use coral_lib::structs::eth_types::WithdrawalCredentials;
 
+use crate::APP_VERSION;
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ForkVersionInfo {
     pub current_version: String,
@@ -28,9 +31,10 @@ pub struct ForkVersionInfo {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct RegisterValidatorInput {
+pub struct BlsKeygenInput {
     pub guardian_pubkeys: Vec<String>,
     pub guardian_threshold: u64,
+    pub module_name: String,
     pub withdrawal_credentials: String,
     pub fork_version: String,
     pub output_file: String,
@@ -39,30 +43,47 @@ pub struct RegisterValidatorInput {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct RegisterValidatorOutput {
+pub struct BlsKeygenOutput {
+    pub version: String,
     pub guardian_threshold: u64,
+    pub guardian_pubkeys: Vec<String>,
+    pub module_name: String,
     pub withdrawal_credentials: String,
-    pub bls_pub_key_set: String,
-    pub bls_pub_key: String,
+    pub fork_version: String,
     pub signature: String,
     pub deposit_data_root: String,
+    pub bls_pub_key_set: String,
+    pub bls_pub_key: String,
     pub bls_enc_priv_key_shares: Vec<String>,
     pub intel_sig: String,
     pub intel_report: String,
     pub intel_x509: String,
-    pub guardian_pubkeys: Vec<String>,
-    pub fork_version: String,
 }
 
-pub async fn keygen_from_cmd(
-    guardian_pubkeys: String,
-    guardian_threshold: u64,
-    withdrawal_credentials: String,
-    fork_version: String,
-    enclave_url: Option<String>,
-    password_file: Option<String>,
-    output_file: String,
-) -> AppResult<i32> {
+#[derive(Clone, Debug)]
+pub struct KeygenCmdInput {
+    pub guardian_pubkeys: String,
+    pub guardian_threshold: u64,
+    pub module_name: String,
+    pub withdrawal_credentials: String,
+    pub fork_version: String,
+    pub enclave_url: Option<String>,
+    pub password_file: Option<String>,
+    pub output_file: String,
+}
+
+pub async fn keygen_from_cmd(data: KeygenCmdInput) -> AppResult<i32> {
+    let KeygenCmdInput {
+        guardian_pubkeys,
+        guardian_threshold,
+        module_name,
+        withdrawal_credentials,
+        fork_version,
+        enclave_url,
+        password_file,
+        output_file,
+    } = data;
+
     let guardian_pubkeys: Vec<String> =
         guardian_pubkeys.split(',').map(|s| s.to_string()).collect();
 
@@ -78,9 +99,10 @@ pub async fn keygen_from_cmd(
         }
     };
 
-    let input_data = RegisterValidatorInput {
+    let input_data = BlsKeygenInput {
         guardian_pubkeys,
         guardian_threshold,
+        module_name,
         withdrawal_credentials,
         fork_version,
         enclave_url,
@@ -91,7 +113,9 @@ pub async fn keygen_from_cmd(
     register_validator(&input_data).await
 }
 
-pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResult<i32> {
+pub async fn register_validator(input_data: &BlsKeygenInput) -> AppResult<i32> {
+    let module_name = parse_module_name(&input_data.module_name)?;
+
     let mut guardian_pubkeys = Vec::with_capacity(input_data.guardian_pubkeys.len());
     for key in input_data.guardian_pubkeys.iter() {
         let key = strip_0x_prefix(key);
@@ -215,20 +239,22 @@ pub async fn register_validator(input_data: &RegisterValidatorInput) -> AppResul
         }
     };
 
-    let registraton_payload = RegisterValidatorOutput {
+    let registraton_payload = BlsKeygenOutput {
+        version: APP_VERSION.to_string(),
         guardian_threshold: input_data.guardian_threshold,
+        guardian_pubkeys: bls_keygen_payload.guardian_eth_pub_keys,
+        module_name: module_name.encode_hex(),
         withdrawal_credentials: hex::encode(withdrawal_credentials),
+        fork_version: genesis_fork_version.encode_hex(),
 
-        bls_pub_key_set: bls_keygen_payload.bls_pub_key_set,
-        bls_pub_key: bls_keygen_payload.bls_pub_key,
         signature: bls_keygen_payload.signature,
         deposit_data_root: bls_keygen_payload.deposit_data_root,
+        bls_pub_key_set: bls_keygen_payload.bls_pub_key_set,
+        bls_pub_key: bls_keygen_payload.bls_pub_key,
         bls_enc_priv_key_shares: bls_keygen_payload.bls_enc_priv_key_shares,
         intel_sig: bls_keygen_payload.intel_sig,
         intel_report: bls_keygen_payload.intel_report,
         intel_x509: bls_keygen_payload.intel_x509,
-        guardian_pubkeys: bls_keygen_payload.guardian_eth_pub_keys,
-        fork_version: genesis_fork_version.encode_hex(),
     };
 
     let json_string_pretty = serde_json::to_string_pretty(&registraton_payload)?;

@@ -11,7 +11,7 @@ use ethers::utils::hex;
 use coral_lib::utils;
 
 use crate::{
-    commands::validator::keygen::RegisterValidatorOutput, Permit, ValidatorKeyData, ValidatorTicket,
+    commands::validator::keygen::BlsKeygenOutput, Permit, ValidatorKeyData, ValidatorTicket,
 };
 
 use crate::PufferProtocol;
@@ -54,7 +54,7 @@ pub async fn generate_register_calldata(
     let client = utils::ethereum::get_client(provider.clone(), wallet.clone(), chain_id.as_u64());
 
     let content = std::fs::read_to_string(input_file)?;
-    let keygen_data: RegisterValidatorOutput = serde_json::from_str(&content).unwrap();
+    let keygen_data: BlsKeygenOutput = serde_json::from_str(&content).unwrap();
 
     println!("Generating calldata...");
 

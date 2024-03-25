@@ -16,9 +16,10 @@ abigen!(PufferOracle, "./abi/PufferOracle.json");
 abigen!(PufferProtocol, "./abi/PufferProtocol.json");
 abigen!(ValidatorTicket, "./abi/ValidatorTicket.json");
 
+pub const APP_VERSION: &str = env!("CARGO_PKG_VERSION");
+
 pub fn print_version() {
-    let version = env!("CARGO_PKG_VERSION");
-    println!("{PROGRAM_NAME}-{version}");
+    println!("{PROGRAM_NAME}-{APP_VERSION}");
 }
 
 async fn run_main(args: CommandArgs) -> AppResult<i32> {
