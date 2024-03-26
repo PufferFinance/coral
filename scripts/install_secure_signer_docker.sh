@@ -33,6 +33,7 @@ if docker volume inspect "$volume_name" >/dev/null 2>&1; then
     if ! docker volume create "$new_volume_name" >/dev/null 2>&1; then
       log_error "Failed to create Docker volume $new_volume_name."
     fi
+    volume_name=$new_volume_name
   else
     log_info "User chose not to create another volume."
   fi
@@ -45,6 +46,8 @@ else
     log_error "Failed to create Docker volume $volume_name."
   fi
 fi
+
+volume_name=${volume_name:-$new_volume_name}
 
 # Verify and inspect the volume
 log_info "Verifying the existence of $volume_name volume..."
