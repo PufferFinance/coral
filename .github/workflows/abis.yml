@@ -1,0 +1,65 @@
+name: Update ABI from PufferPool
+
+on:
+  schedule:
+      # Runs at 04:00am, 1pm, 11pm UTC every day
+      - cron:  '0 4,13,23 * * *'
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  update-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout coral repo
+        uses: actions/checkout@v4
+        with:
+          path: 'coral'
+          fetch-depth: 0
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: |
+            ${{ secrets.SSH_KEY_POOL }}
+      - name: Clone PufferPool repo
+        run: | 
+           git clone git@github.com:PufferFinance/PufferPool.git
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+      - name: Compiling PufferPool contracts 
+        run: |
+            cd PufferPool && \
+            forge install
+      - name: Generate PufferPool ABIs
+        run: |
+            cd PufferPool && \
+            mkdir -p PufferPool/generated-abi && \
+            forge inspect PufferProtocol abi > PufferPool/generated-abi/PufferProtocol.json && \
+            forge inspect GuardianModule abi > PufferPool/generated-abi/GuardianModule.json && \
+            forge inspect PufferVaultV2 abi > PufferPool/generated-abi/PufferVaultV2.json && \
+            forge inspect ValidatorTicket abi > PufferPool/generated-abi/ValidatorTicket.json && \
+            forge inspect PufferOracle abi > PufferPool/generated-abi/PufferOracle.json && \
+            forge inspect PufferOracleV2 abi > PufferPool/generated-abi/PufferOracleV2.json && \
+            forge inspect PufferModule abi > PufferPool/generated-abi/PufferModule.json && \
+            forge inspect PufferModuleManager abi > PufferPool/generated-abi/PufferModuleManager.json && \
+            forge inspect RestakingOperator abi > PufferPool/generated-abi/RestakingOperator.json && \
+            cp PufferPool/generated-abi/* ${{ github.workspace }}/coral/coral-cli/abi/
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+            path: coral
+            add-paths: |
+                coral-cli/abi/*.json
+            token: ${{ secrets.GITHUB_TOKEN }}
+            branch: update-abi
+            base: main
+            commit-message: update ABIs from PufferPool
+            title: 'Update ABIs from PufferPool'
+            body: 'Automatically updated ABIs from the PufferPool repository.'
+            labels: automated-update
+            reviewers: |
+               kamiyaa
+               JasonVranek
+               SebFor90
+               lean-apple
