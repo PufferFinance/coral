@@ -31,8 +31,3 @@ cargo run --bin coral-cli
 ```
 cargo install -f --path=coral-cli
 ```
-
-## Build binaries via Docker
-```
-docker buildx build -f docker/Dockerfile.builder --output type=local,dest=output .
-```

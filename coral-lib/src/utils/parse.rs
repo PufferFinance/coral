@@ -1,7 +1,5 @@
 use axum::http::StatusCode;
 
-use ethers::utils::hex::{self};
-
 use crate::{
     error::{AppServerResult, ServerErrorCode, ServerErrorResponse},
     strip_0x_prefix,

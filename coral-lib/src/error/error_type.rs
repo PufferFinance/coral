@@ -1,6 +1,7 @@
 use std::convert::From;
 use std::io;
 
+#[cfg(feature = "dev")]
 use ethers::signers::WalletError;
 
 use super::{AppErrorKind, ServerErrorResponse};
@@ -78,16 +79,7 @@ impl From<reqwest::Error> for AppError {
     }
 }
 
-impl From<toml::de::Error> for AppError {
-    fn from(err: toml::de::Error) -> Self {
-        let cause = err.to_string();
-        Self {
-            _kind: AppErrorKind::from(err),
-            _cause: cause,
-        }
-    }
-}
-
+#[cfg(feature = "dev")]
 impl From<WalletError> for AppError {
     fn from(err: WalletError) -> Self {
         let cause = err.to_string();

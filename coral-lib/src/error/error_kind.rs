@@ -1,6 +1,7 @@
 use std::convert::From;
 use std::io;
 
+#[cfg(feature = "dev")]
 use ethers::signers::WalletError;
 
 use super::ServerErrorResponse;
@@ -18,7 +19,6 @@ pub enum AppErrorKind {
     EnclaveError,
 
     JsonDeError,
-    TomlError,
 
     ContractCallError,
 
@@ -62,12 +62,7 @@ impl From<reqwest::Error> for AppErrorKind {
     }
 }
 
-impl From<toml::de::Error> for AppErrorKind {
-    fn from(_: toml::de::Error) -> Self {
-        Self::TomlError
-    }
-}
-
+#[cfg(feature = "dev")]
 impl From<WalletError> for AppErrorKind {
     fn from(_: WalletError) -> Self {
         Self::EthersWalletError
