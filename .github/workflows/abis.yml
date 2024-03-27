@@ -1,9 +1,6 @@
 name: Update ABI from PufferPool
 
 on:
-  pull_request:
-  push:
-    branches: ["main"]
   schedule:
       # Runs at 04:00am, 1pm, 11pm UTC every day
       - cron:  '0 4,13,23 * * *'
