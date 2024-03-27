@@ -28,14 +28,14 @@ jobs:
         command: test
     - name: Package Binaries
       run: |
-        tar -czvf target/release/my_project_${{ github.event.inputs.version }}.tar.gz -C target/release my_project_binary
+        tar -czvf target/release/coral_${{ github.event.inputs.version }}.tar.gz -C target/release coral_binary
       env:
         PROJECT_NAME: coral
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: my_project_${{ github.event.inputs.version }}.tar.gz
-        path: target/release/my_project_${{ github.event.inputs.version }}.tar.gz
+        name: coral_${{ github.event.inputs.version }}.tar.gz
+        path: target/release/coral_${{ github.event.inputs.version }}.tar.gz
 
   create-release:
     needs: build
