@@ -4,6 +4,7 @@ use std::process;
 use clap::Parser;
 use colored::*;
 
+#[cfg(feature = "dev")]
 use ethers::contract::abigen;
 
 use coral_lib::error::AppResult;
@@ -12,8 +13,11 @@ use crate::commands::CommandArgs;
 
 pub const PROGRAM_NAME: &str = "coral-cli";
 
+#[cfg(feature = "dev")]
 abigen!(PufferOracle, "./abi/PufferOracle.json");
+#[cfg(feature = "dev")]
 abigen!(PufferProtocol, "./abi/PufferProtocol.json");
+#[cfg(feature = "dev")]
 abigen!(ValidatorTicket, "./abi/ValidatorTicket.json");
 
 pub const APP_VERSION: &str = env!("CARGO_PKG_VERSION");

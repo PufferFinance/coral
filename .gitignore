@@ -10,8 +10,7 @@
 /etc
 /coral-lib/etc
 private-key.txt
-
+/output
 /cache
 /PufferPool
 /rave
-.wakatime*

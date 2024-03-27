@@ -1,10 +1,16 @@
 pub mod keygen;
 pub mod list_keys;
-pub mod register_calldata;
-pub mod register_key;
 pub mod sign_vem;
+
+#[cfg(feature = "dev")]
+pub mod register_calldata;
+#[cfg(feature = "dev")]
+pub mod register_key;
+
+#[cfg(feature = "dev")]
 pub mod withdrawal_credentials;
 
+#[cfg(feature = "dev")]
 use std::path::PathBuf;
 
 use clap::Subcommand;
@@ -41,6 +47,7 @@ pub enum ValidatorCommand {
         #[arg(long = "output-file")]
         output_file: String,
     },
+    #[cfg(feature = "dev")]
     #[command(about = "Register a validator into PufferProtocol (for testing only)")]
     RegisterKey {
         #[arg(long = "private-key")]
@@ -60,6 +67,7 @@ pub enum ValidatorCommand {
         #[arg(long = "input-file")]
         input_file: PathBuf,
     },
+    #[cfg(feature = "dev")]
     #[command(about = "Generate calldata for registering a validator (for testing only)")]
     GenerateRegisterCalldata {
         #[arg(long = "rpc-url")]
@@ -91,6 +99,7 @@ pub enum ValidatorCommand {
         #[arg(long = "output-file")]
         output_file: String,
     },
+    #[cfg(feature = "dev")]
     #[command(about = "Fetch withdrawal credentials for a given module")]
     WithdrawalCredentials {
         #[arg(long = "rpc-url")]
@@ -134,6 +143,7 @@ impl ValidatorCommand {
                 };
                 keygen::keygen_from_cmd(data).await?;
             }
+            #[cfg(feature = "dev")]
             Self::WithdrawalCredentials {
                 rpc_url,
                 puffer_protocol_address,
@@ -168,6 +178,7 @@ impl ValidatorCommand {
                 )
                 .await?;
             }
+            #[cfg(feature = "dev")]
             Self::RegisterKey {
                 private_key,
                 rpc_url,
@@ -190,6 +201,7 @@ impl ValidatorCommand {
                 )
                 .await?;
             }
+            #[cfg(feature = "dev")]
             Self::GenerateRegisterCalldata {
                 rpc_url,
                 puffer_protocol_address,
