@@ -26,12 +26,26 @@ jobs:
       uses: actions-rs/cargo@v1
       with:
         command: test
+    - name: Package Binaries
+      run: |
+        tar -czvf target/release/my_project_${{ github.event.inputs.version }}.tar.gz -C target/release my_project_binary
+      env:
+        PROJECT_NAME: coral
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: my_project_${{ github.event.inputs.version }}.tar.gz
+        path: target/release/my_project_${{ github.event.inputs.version }}.tar.gz
 
   create-release:
     needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: coral_${{ github.event.inputs.version }}.tar.gz
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -42,3 +56,12 @@ jobs:
         release_name: Release ${{ github.event.inputs.version }}
         draft: false
         prerelease: false
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./coral_${{ github.event.inputs.version }}.tar.gz
+        asset_name: coral_${{ github.event.inputs.version }}.tar.gz
+        asset_content_type: application/gzip
