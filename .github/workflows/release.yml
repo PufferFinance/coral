@@ -37,6 +37,11 @@ jobs:
         with:
           toolchain: stable
           override: true
+      - name: Download target directory
+        uses: actions/download-artifact@v2
+        with:
+          name: target-directory
+          path: target
       - name: List built binaries
         run: ls target/release
       - name: Package Binaries
