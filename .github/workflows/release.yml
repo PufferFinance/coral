@@ -27,6 +27,11 @@ jobs:
       #   with:
       #     command: test
       #     args: --all
+      - name: Upload target directory
+        uses: actions/upload-artifact@v2
+        with:
+          name: target-directory
+          path: target
 
   package-and-release:
     needs: build-and-test
