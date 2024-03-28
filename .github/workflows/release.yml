@@ -30,8 +30,8 @@ jobs:
       - name: Upload target directory
         uses: actions/upload-artifact@v2
         with:
-          name: target-directory
-          path: target
+          name: coral-cli-binary
+          path: target/release/coral-cli
 
   package-and-release:
     needs: build-and-test
@@ -42,11 +42,11 @@ jobs:
         with:
           toolchain: stable
           override: true
-      - name: Download target directory
+      - name: Download coral-cli binary
         uses: actions/download-artifact@v2
         with:
-          name: target-directory
-          path: target
+          name: coral-cli-binary
+          path: target/release/
       - name: Package Binaries
         run: |
           mkdir -p release_artifacts  && \
