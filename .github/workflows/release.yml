@@ -42,8 +42,7 @@ jobs:
       - name: Package Binaries
         run: |
           mkdir -p release_artifacts  && \
-          tar -czvf release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz -C target/release coral-cli  && \
-          tar -czvf release_artifacts/coral-lib_${{ github.event.inputs.version }}.tar.gz -C target/release coral-lib
+          tar -czvf release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz -C target/release coral-cli
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -67,13 +66,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz
           asset_name: coral-cli_${{ github.event.inputs.version }}.tar.gz
-          asset_content_type: application/gzip
-      - name: Upload Release Asset for coral-lib
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./release_artifacts/coral-lib_${{ github.event.inputs.version }}.tar.gz
-          asset_name: coral-lib_${{ github.event.inputs.version }}.tar.gz
           asset_content_type: application/gzip
