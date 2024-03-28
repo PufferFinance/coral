@@ -1,4 +1,4 @@
-name: Manual Release for Rust Project
+name: Manual Release for Rust Project Workspace
 
 on:
   workflow_dispatch:
@@ -8,37 +8,70 @@ on:
         required: true
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
-    - name: Build Project
-      uses: actions-rs/cargo@v1
-      with:
-        command: build
-        args: --release
-    - name: Run Tests
-      uses: actions-rs/cargo@v1
-      with:
-        command: test
+      - uses: actions/checkout@v4
+      - name: Install latest stable
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Build in release mode
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --all-features
+      - name: Run Tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --all
+      - name: Upload target directory
+        uses: actions/upload-artifact@v2
+        with:
+          name: coral-cli-binary
+          path: target/release/coral-cli
 
-  create-release:
-    needs: build
+  package-and-release:
+    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.event.inputs.version }}
-        release_name: Release ${{ github.event.inputs.version }}
-        draft: false
-        prerelease: false
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Download coral-cli binary
+        uses: actions/download-artifact@v2
+        with:
+          name: coral-cli-binary
+          path: target/release/
+      - name: Package Binaries
+        run: |
+          mkdir -p release_artifacts  && \
+          tar -czvf release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz -C target/release coral-cli
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: release_artifacts
+          path: release_artifacts/
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: Release ${{ github.event.inputs.version }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset for coral-cli
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz
+          asset_name: coral-cli_ubuntu_${{ github.event.inputs.version }}.tar.gz
+          asset_content_type: application/gzip
