@@ -73,5 +73,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz
-          asset_name: coral-cli_${{ github.event.inputs.version }}.tar.gz
+          asset_name: coral-cli_ubuntu_${{ github.event.inputs.version }}.tar.gz
           asset_content_type: application/gzip
