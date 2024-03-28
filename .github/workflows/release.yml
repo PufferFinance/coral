@@ -11,17 +11,17 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Rust
+      - uses: actions/checkout@v4
+      - name: Install latest stable
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
-      - name: Build Project
+      - name: Build in release mode
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --release --all
+          args: --release --all-features
       - name: Run Tests
         uses: actions-rs/cargo@v1
         with:
@@ -33,15 +33,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
+      - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
+      - name: List built binaries
+        run: ls target/release
       - name: Package Binaries
         run: |
-          mkdir -p release_artifacts
-          tar -czvf release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz -C target/release coral-cli
+          mkdir -p release_artifacts  && \
+          tar -czvf release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz -C target/release coral-cli  && \
           tar -czvf release_artifacts/coral-lib_${{ github.event.inputs.version }}.tar.gz -C target/release coral-lib
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
@@ -58,11 +59,11 @@ jobs:
           release_name: Release ${{ github.event.inputs.version }}
           draft: false
           prerelease: false
-      - name: Upload Release Asset
+      - name: Upload Release Asset for coral-cli
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
+         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz
           asset_name: coral-cli_${{ github.event.inputs.version }}.tar.gz
