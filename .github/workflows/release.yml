@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         with:
+        with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz
           asset_name: coral-cli_${{ github.event.inputs.version }}.tar.gz
