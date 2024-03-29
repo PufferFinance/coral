@@ -73,7 +73,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz
-          asset_name: coral-cli_ubuntu_${{ github.event.inputs.version }}.tar.gz
+          asset_name: coral_cli_ubuntu_${{ github.event.inputs.version }}.tar.gz
           asset_content_type: application/gzip
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
