@@ -86,5 +86,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
             context: .
+            file: ./docker/Dockerfile
             push: true
             tags: pufferfi/coral:${{ github.event.inputs.version }}
