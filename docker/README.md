@@ -2,7 +2,7 @@
 
 ## Build image
 ```
-~$ docker buildx build -f docker/Dockerfile -t coral-cli:latest
+~$ docker buildx build -f docker/Dockerfile -t coral-cli:latest .
 ```
 
 ## Running Image
@@ -10,7 +10,7 @@
 ~$ docker run -it --network host --rm coral-cli:latest /app/coral-cli version
 ```
 
-## Running image with volume to get output
+## Running image with volume to get output - *only for Linux* 
 
 ### Keygen (with enclave)
 ```
