@@ -2,8 +2,9 @@ use std::sync::Arc;
 
 use axum::http::StatusCode;
 use ethers::prelude::{
-    types::{Address, Block, BlockId, BlockNumber, H256, TransactionReceipt, U256},
-    Provider, ProviderError, SignerMiddleware,
+    types::{Address, Block, BlockId, BlockNumber, TransactionReceipt, H256, U256},
+    Http, JsonRpcClient, LocalWallet, Middleware, Provider, ProviderError, Signer,
+    SignerMiddleware,
 };
 use url::Url;
 
