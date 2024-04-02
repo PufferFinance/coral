@@ -2,7 +2,7 @@ use std::io::Write;
 
 use axum::http::StatusCode;
 
-use colored::*;
+use colored::Colorize;
 
 use coral_lib::utils::parse::parse_module_name;
 use ecies::PublicKey as EthPublicKey;
