@@ -14,11 +14,9 @@ clap_complete = "4.5.1"
 colored = "2.1.0"
 ecies = { version = "0.2.6", default-features = false, features = ["pure"] }
 hex = "0.4.3"
-reqwest = { version = "0.11.26", default-features = false, features = ["json", "rustls-tls"] }
 serde = { version = "1.0.197", features = ["derive"] }
 serde_json = "1.0.114"
 tokio = { version = "1.36.0" }
-tracing = "0.1.40"
 
 ethers = { version = "2.0.14", optional = true }
 

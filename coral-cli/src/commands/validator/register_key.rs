@@ -180,12 +180,8 @@ pub async fn register_validator_key(
             let tx = pending_tx
                 .await
                 .map_err(|err| {
-                    tracing::error!("Failed to wait for pending transaction");
-                    tracing::error!("{err}");
-                    AppError::new(
-                        AppErrorKind::ContractCallError,
-                        "Failed to wait for pending transaction".to_string(),
-                    )
+                    let error_msg = format!("Failed to wait for pending transaction: {err}");
+                    AppError::new(AppErrorKind::ContractCallError, error_msg)
                 })?
                 .ok_or_else(|| {
                     AppError::new(

@@ -791,11 +791,9 @@ dependencies = [
  "ethers",
  "hex",
  "puffersecuresigner",
- "reqwest",
  "serde",
  "serde_json",
  "tokio",
- "tracing",
 ]
 
 [[package]]
