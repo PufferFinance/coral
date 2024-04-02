@@ -1,7 +1,10 @@
 use std::sync::Arc;
 
 use axum::http::StatusCode;
-use ethers::prelude::*;
+use ethers::prelude::{
+    types::{Address, Block, BlockId, BlockNumber, H256, TransactionReceipt, U256},
+    Provider, ProviderError, SignerMiddleware,
+};
 use url::Url;
 
 use crate::error::{AppServerResult, ServerErrorCode, ServerErrorResponse};
