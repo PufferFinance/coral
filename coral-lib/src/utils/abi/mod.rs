@@ -1,4 +1,3 @@
-pub mod intel_report;
 pub mod rave_evidence;
 
 // Intel SGX constants

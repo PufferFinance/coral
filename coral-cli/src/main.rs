@@ -2,7 +2,8 @@ mod commands;
 use std::process;
 
 use clap::Parser;
-use colored::*;
+
+use colored::Colorize;
 
 #[cfg(feature = "dev")]
 use ethers::contract::abigen;

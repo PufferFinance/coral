@@ -4,7 +4,7 @@ use coral_lib::{
     error::{AppError, AppErrorKind, AppResult},
     strip_0x_prefix,
 };
-use ethers::prelude::*;
+use ethers::prelude::{types::Bytes, U256};
 use ethers::types::Address;
 use ethers::utils::hex;
 

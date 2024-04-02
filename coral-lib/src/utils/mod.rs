@@ -1,4 +1,3 @@
-pub mod encoding;
 pub mod parse;
 
 #[cfg(feature = "dev")]

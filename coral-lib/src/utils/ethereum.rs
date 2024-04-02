@@ -1,7 +1,11 @@
 use std::sync::Arc;
 
 use axum::http::StatusCode;
-use ethers::prelude::*;
+use ethers::prelude::{
+    types::{Address, Block, BlockId, BlockNumber, TransactionReceipt, H256, U256},
+    Http, JsonRpcClient, LocalWallet, Middleware, Provider, ProviderError, Signer,
+    SignerMiddleware,
+};
 use url::Url;
 
 use crate::error::{AppServerResult, ServerErrorCode, ServerErrorResponse};
@@ -17,15 +21,6 @@ pub fn get_provider(rpc_url: &str) -> AppServerResult<Provider<Http>> {
         )
     })?;
     let transport = Http::new(url);
-
-    /*
-       let transport = Http::new_with_auth(url, Authorization::Basic("token".to_string()))
-           .map_err(|err| {
-               tracing::error!("Invalid RPC URL");
-               tracing::error!("{err}");
-               ServerErrorResponse::new(StatusCode::BAD_REQUEST, 1000, "Invalid RPC URL")
-           })?;
-    */
     let provider = Provider::new(transport);
     Ok(provider)
 }
