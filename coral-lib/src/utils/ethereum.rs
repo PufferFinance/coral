@@ -20,15 +20,6 @@ pub fn get_provider(rpc_url: &str) -> AppServerResult<Provider<Http>> {
         )
     })?;
     let transport = Http::new(url);
-
-    /*
-       let transport = Http::new_with_auth(url, Authorization::Basic("token".to_string()))
-           .map_err(|err| {
-               tracing::error!("Invalid RPC URL");
-               tracing::error!("{err}");
-               ServerErrorResponse::new(StatusCode::BAD_REQUEST, 1000, "Invalid RPC URL")
-           })?;
-    */
     let provider = Provider::new(transport);
     Ok(provider)
 }
