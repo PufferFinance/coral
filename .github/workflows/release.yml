@@ -88,4 +88,4 @@ jobs:
             context: .
             file: ./docker/Dockerfile
             push: true
-            tags: pufferfi/coral:${{ github.event.inputs.version }}
+            tags: pufferfi/coral-cli:${{ github.event.inputs.version }}
