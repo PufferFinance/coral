@@ -136,7 +136,6 @@ pub async fn generate_register_calldata(
         .calldata()
         .ok_or_else(|| {
             let error_msg = "Failed to generate calldata";
-            tracing::error!("{error_msg}");
             AppError::new(AppErrorKind::ContractCallError, error_msg.to_string())
         })?;
     println!("{calldata}");
