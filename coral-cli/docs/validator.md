@@ -1,7 +1,7 @@
 # Validator commands
 
  - [list-keys](#validator-list-keys)
- - [register](#validator-register)
+ - [keygen](#validator-keygen)
  - [sign-voluntary-exit](#validator-sign-voluntary-exit)
 
 ## `validator list-keys`
