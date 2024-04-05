@@ -15,7 +15,7 @@ use crate::commands::CommandArgs;
 pub const PROGRAM_NAME: &str = "coral-cli";
 
 #[cfg(feature = "dev")]
-abigen!(PufferOracle, "./abi/PufferOracle.json");
+abigen!(PufferOracle, "./abi/PufferOracleV2.json");
 #[cfg(feature = "dev")]
 abigen!(PufferProtocol, "./abi/PufferProtocol.json");
 #[cfg(feature = "dev")]

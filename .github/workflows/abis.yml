@@ -39,7 +39,6 @@ jobs:
             forge inspect GuardianModule abi > PufferPool/generated-abi/GuardianModule.json && \
             forge inspect PufferVaultV2 abi > PufferPool/generated-abi/PufferVaultV2.json && \
             forge inspect ValidatorTicket abi > PufferPool/generated-abi/ValidatorTicket.json && \
-            forge inspect PufferOracle abi > PufferPool/generated-abi/PufferOracle.json && \
             forge inspect PufferOracleV2 abi > PufferPool/generated-abi/PufferOracleV2.json && \
             forge inspect PufferModule abi > PufferPool/generated-abi/PufferModule.json && \
             forge inspect PufferModuleManager abi > PufferPool/generated-abi/PufferModuleManager.json && \
