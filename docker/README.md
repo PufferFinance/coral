@@ -2,19 +2,19 @@
 
 ## Build image
 ```
-~$ docker buildx build -f docker/Dockerfile -t coral-cli:latest .
+docker buildx build -f docker/Dockerfile -t coral-cli:latest .
 ```
 
 ## Running Image
 ```
-~$ docker run -it --network host --rm coral-cli:latest /app/coral-cli version
+docker run -it --network host --rm coral-cli:latest /app/coral-cli version
 ```
 
 ## Running image with volume to get output - *only for Linux* 
 
 ### Keygen (with enclave)
 ```
-~$ docker run -it --network host \
+docker run -it --network host \
     -v ./output:/app/output --rm \
     coral-cli:latest /app/coral-cli validator keygen \
     --guardian-threshold 1 \
@@ -28,7 +28,7 @@
 
 ### Keygen (no enclave)
 ```
-~$ docker run -it --network host \
+docker run -it --network host \
     -v ./output:/app/output --rm \
     coral-cli:latest /app/coral-cli validator keygen \
     --guardian-threshold 1 \
@@ -42,5 +42,5 @@
 
 ## Build binaries via Docker and output onto host system
 ```
-~$ docker buildx build -f docker/Dockerfile --output type=local,dest=output .
+docker buildx build -f docker/Dockerfile --output type=local,dest=output .
 ```
