@@ -8,7 +8,10 @@ Middleware used to talk between Enclave and Puffer smart contracts.
 
 ## Building
 
-### Building Coral
+- Build with docker: [docker/README.md](docker/README.md)
+
+
+### Building Coral from source
 
 Debug mode
 ```
