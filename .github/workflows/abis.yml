@@ -2,8 +2,8 @@ name: Update ABI from PufferPool
 
 on:
   schedule:
-      # Runs at 04:00am, 1pm, 11pm UTC every day
-      - cron:  '0 4,13,23 * * *'
+      # Runs at 04:00am, 04::pm every day
+      - cron:  '0 4,16 * * *'
   workflow_dispatch:
 
 env:
