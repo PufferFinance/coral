@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LATEST_VALIDATOR_VERSION=1.1.3
+LATEST_VALIDATOR_VERSION=1.0.0
 
 # Source the logging functions
 source ./utilities/logging_functions.sh
@@ -71,8 +71,8 @@ read -p "Enter the version of the Puffer validator image you want to use (defaul
 version=${version:-${LATEST_VALIDATOR_VERSION}}
 
 # Attempt to pull the specified Docker image
-if docker pull pufferfinance/puffer_validator:"$version"; then
-  log_success "Docker image puffer_validator:$version pulled successfully!"
+if docker pull pufferfi/validator:"$version"; then
+  log_success "Docker image pufferfi/validator:$version pulled successfully!"
 else
   log_error "Failed to pull the Docker image version $version!"
   exit 1
@@ -85,7 +85,7 @@ if docker run -itd --network host \
     --device /dev/sgx/enclave \
     --device /dev/sgx/provision \
     --name puffer_secure_signer_container \
-    pufferfinance/puffer_validator:$version; then
+    pufferfi/validator:$version; then
   log_success "Container deployed successfully!"
   sleep 5 # Wait for a few seconds to ensure the container has time to start its process
 else
