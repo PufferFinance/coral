@@ -15,8 +15,8 @@ colored = "2.1.0"
 ecies = { version = "0.2.6", default-features = false, features = ["pure"] }
 hex = "0.4.3"
 serde = { version = "1.0.197", features = ["derive"] }
-serde_json = "1.0.114"
-tokio = { version = "1.36.0" }
+serde_json = "1.0.116"
+tokio = { version = "1.37.0" }
 
 ethers = { version = "2.0.14", optional = true }
 
