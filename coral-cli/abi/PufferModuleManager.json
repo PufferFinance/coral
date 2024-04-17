@@ -192,6 +192,29 @@
   },
   {
     "type": "function",
+    "name": "callDeregisterOperatorFromAVS",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "quorumNumbers",
+        "type": "bytes",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "callModifyOperatorDetails",
     "inputs": [
       {
@@ -263,6 +286,261 @@
   },
   {
     "type": "function",
+    "name": "callRegisterOperatorToAVS",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "quorumNumbers",
+        "type": "bytes",
+        "internalType": "bytes"
+      },
+      {
+        "name": "socket",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "params",
+        "type": "tuple",
+        "internalType": "struct IBLSApkRegistry.PubkeyRegistrationParams",
+        "components": [
+          {
+            "name": "pubkeyRegistrationSignature",
+            "type": "tuple",
+            "internalType": "struct BN254.G1Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "Y",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "pubkeyG1",
+            "type": "tuple",
+            "internalType": "struct BN254.G1Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "Y",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "pubkeyG2",
+            "type": "tuple",
+            "internalType": "struct BN254.G2Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256[2]",
+                "internalType": "uint256[2]"
+              },
+              {
+                "name": "Y",
+                "type": "uint256[2]",
+                "internalType": "uint256[2]"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "operatorSignature",
+        "type": "tuple",
+        "internalType": "struct ISignatureUtils.SignatureWithSaltAndExpiry",
+        "components": [
+          {
+            "name": "signature",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "salt",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "expiry",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callRegisterOperatorToAVSWithChurn",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "quorumNumbers",
+        "type": "bytes",
+        "internalType": "bytes"
+      },
+      {
+        "name": "socket",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "params",
+        "type": "tuple",
+        "internalType": "struct IBLSApkRegistry.PubkeyRegistrationParams",
+        "components": [
+          {
+            "name": "pubkeyRegistrationSignature",
+            "type": "tuple",
+            "internalType": "struct BN254.G1Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "Y",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "pubkeyG1",
+            "type": "tuple",
+            "internalType": "struct BN254.G1Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "Y",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "pubkeyG2",
+            "type": "tuple",
+            "internalType": "struct BN254.G2Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256[2]",
+                "internalType": "uint256[2]"
+              },
+              {
+                "name": "Y",
+                "type": "uint256[2]",
+                "internalType": "uint256[2]"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "operatorKickParams",
+        "type": "tuple[]",
+        "internalType": "struct IRegistryCoordinator.OperatorKickParam[]",
+        "components": [
+          {
+            "name": "quorumNumber",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
+            "name": "operator",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "name": "churnApproverSignature",
+        "type": "tuple",
+        "internalType": "struct ISignatureUtils.SignatureWithSaltAndExpiry",
+        "components": [
+          {
+            "name": "signature",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "salt",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "expiry",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "operatorSignature",
+        "type": "tuple",
+        "internalType": "struct ISignatureUtils.SignatureWithSaltAndExpiry",
+        "components": [
+          {
+            "name": "signature",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "salt",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "expiry",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "callUndelegate",
     "inputs": [
       {
@@ -291,6 +569,29 @@
       },
       {
         "name": "metadataURI",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "callUpdateOperatorAVSSocket",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "socket",
         "type": "string",
         "internalType": "string"
       }
@@ -747,6 +1048,31 @@
   },
   {
     "type": "event",
+    "name": "RestakingOperatorAVSSocketUpdated",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "socket",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
     "name": "RestakingOperatorCreated",
     "inputs": [
       {
@@ -777,6 +1103,31 @@
             "internalType": "uint32"
           }
         ]
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RestakingOperatorDeregisteredFromAVS",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "quorumNumbers",
+        "type": "bytes",
+        "indexed": false,
+        "internalType": "bytes"
       }
     ],
     "anonymous": false
@@ -851,6 +1202,86 @@
         "type": "address",
         "indexed": true,
         "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RestakingOperatorRegisteredToAVS",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "quorumNumbers",
+        "type": "bytes",
+        "indexed": false,
+        "internalType": "bytes"
+      },
+      {
+        "name": "socket",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RestakingOperatorRegisteredToAVSWithChurn",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "quorumNumbers",
+        "type": "bytes",
+        "indexed": false,
+        "internalType": "bytes"
+      },
+      {
+        "name": "socket",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "name": "operatorKickParams",
+        "type": "tuple[]",
+        "indexed": false,
+        "internalType": "struct IRegistryCoordinator.OperatorKickParam[]",
+        "components": [
+          {
+            "name": "quorumNumber",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
+            "name": "operator",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
       }
     ],
     "anonymous": false
@@ -1031,6 +1462,11 @@
   {
     "type": "error",
     "name": "FailedInnerCall",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ForbiddenModuleName",
     "inputs": []
   },
   {

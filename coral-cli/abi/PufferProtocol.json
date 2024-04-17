@@ -26,9 +26,27 @@
         "name": "oracle",
         "type": "address",
         "internalType": "contract IPufferOracleV2"
+      },
+      {
+        "name": "beaconDepositContract",
+        "type": "address",
+        "internalType": "address"
       }
     ],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "BEACON_DEPOSIT_CONTRACT",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IBeaconDepositContract"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -310,6 +328,37 @@
         "name": "",
         "type": "address",
         "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getModuleLimitInformation",
+    "inputs": [
+      {
+        "name": "moduleName",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "info",
+        "type": "tuple",
+        "internalType": "struct ModuleLimit",
+        "components": [
+          {
+            "name": "allowedLimit",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "numberOfRegisteredValidators",
+            "type": "uint128",
+            "internalType": "uint128"
+          }
+        ]
       }
     ],
     "stateMutability": "view"
@@ -658,6 +707,11 @@
         "name": "validatorSignature",
         "type": "bytes",
         "internalType": "bytes"
+      },
+      {
+        "name": "depositRootHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
       }
     ],
     "outputs": [],
@@ -999,7 +1053,7 @@
   },
   {
     "type": "event",
-    "name": "NumberOfActiveValidatorsChanged",
+    "name": "NumberOfRegisteredValidatorsChanged",
     "inputs": [
       {
         "name": "moduleName",
@@ -1008,7 +1062,7 @@
         "internalType": "bytes32"
       },
       {
-        "name": "newNumberOfActiveValidators",
+        "name": "newNumberOfRegisteredValidators",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
@@ -1307,7 +1361,17 @@
   },
   {
     "type": "error",
+    "name": "Failed",
+    "inputs": []
+  },
+  {
+    "type": "error",
     "name": "FailedInnerCall",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidAddress",
     "inputs": []
   },
   {
@@ -1323,6 +1387,11 @@
   {
     "type": "error",
     "name": "InvalidBLSPublicKeySet",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidDepositRootHash",
     "inputs": []
   },
   {
