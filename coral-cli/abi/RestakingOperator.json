@@ -74,6 +74,24 @@
   },
   {
     "type": "function",
+    "name": "deregisterOperatorFromAVS",
+    "inputs": [
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "quorumNumbers",
+        "type": "bytes",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "initialize",
     "inputs": [
       {
@@ -194,12 +212,275 @@
   },
   {
     "type": "function",
+    "name": "registerOperatorToAVS",
+    "inputs": [
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "quorumNumbers",
+        "type": "bytes",
+        "internalType": "bytes"
+      },
+      {
+        "name": "socket",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "params",
+        "type": "tuple",
+        "internalType": "struct IBLSApkRegistry.PubkeyRegistrationParams",
+        "components": [
+          {
+            "name": "pubkeyRegistrationSignature",
+            "type": "tuple",
+            "internalType": "struct BN254.G1Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "Y",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "pubkeyG1",
+            "type": "tuple",
+            "internalType": "struct BN254.G1Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "Y",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "pubkeyG2",
+            "type": "tuple",
+            "internalType": "struct BN254.G2Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256[2]",
+                "internalType": "uint256[2]"
+              },
+              {
+                "name": "Y",
+                "type": "uint256[2]",
+                "internalType": "uint256[2]"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "operatorSignature",
+        "type": "tuple",
+        "internalType": "struct ISignatureUtils.SignatureWithSaltAndExpiry",
+        "components": [
+          {
+            "name": "signature",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "salt",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "expiry",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "registerOperatorToAVSWithChurn",
+    "inputs": [
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "quorumNumbers",
+        "type": "bytes",
+        "internalType": "bytes"
+      },
+      {
+        "name": "socket",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "params",
+        "type": "tuple",
+        "internalType": "struct IBLSApkRegistry.PubkeyRegistrationParams",
+        "components": [
+          {
+            "name": "pubkeyRegistrationSignature",
+            "type": "tuple",
+            "internalType": "struct BN254.G1Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "Y",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "pubkeyG1",
+            "type": "tuple",
+            "internalType": "struct BN254.G1Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "Y",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "pubkeyG2",
+            "type": "tuple",
+            "internalType": "struct BN254.G2Point",
+            "components": [
+              {
+                "name": "X",
+                "type": "uint256[2]",
+                "internalType": "uint256[2]"
+              },
+              {
+                "name": "Y",
+                "type": "uint256[2]",
+                "internalType": "uint256[2]"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "operatorKickParams",
+        "type": "tuple[]",
+        "internalType": "struct IRegistryCoordinator.OperatorKickParam[]",
+        "components": [
+          {
+            "name": "quorumNumber",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
+            "name": "operator",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "name": "churnApproverSignature",
+        "type": "tuple",
+        "internalType": "struct ISignatureUtils.SignatureWithSaltAndExpiry",
+        "components": [
+          {
+            "name": "signature",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "salt",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "expiry",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "operatorSignature",
+        "type": "tuple",
+        "internalType": "struct ISignatureUtils.SignatureWithSaltAndExpiry",
+        "components": [
+          {
+            "name": "signature",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "salt",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "expiry",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "setAuthority",
     "inputs": [
       {
         "name": "newAuthority",
         "type": "address",
         "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "updateOperatorAVSSocket",
+    "inputs": [
+      {
+        "name": "avsRegistryCoordinator",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "socket",
+        "type": "string",
+        "internalType": "string"
       }
     ],
     "outputs": [],
