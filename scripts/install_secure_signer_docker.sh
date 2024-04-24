@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LATEST_VALIDATOR_VERSION=1.0.0
+LATEST_VALIDATOR_VERSION=1.1.0
 
 # Source the logging functions
 source ./utilities/logging_functions.sh
