@@ -313,6 +313,11 @@
         "name": "middlewareTimesIndexes",
         "type": "uint256[]",
         "internalType": "uint256[]"
+      },
+      {
+        "name": "receiveAsTokens",
+        "type": "bool[]",
+        "internalType": "bool[]"
       }
     ],
     "outputs": [],
