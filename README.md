@@ -30,7 +30,15 @@ cargo build --release
 cargo run --bin coral-cli
 ```
 
-## Installing
+## Installing coral-cli
+
+### Inside this repository
 ```
 cargo install -f --path=coral-cli
+```
+
+### Remote installation without local repository cloning
+
+```
+cargo install -f --git https://github.com/PufferFinance/coral.git
 ```
