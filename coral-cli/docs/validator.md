@@ -50,7 +50,7 @@ coral-cli validator keygen \
 
 ## `validator sign-voluntary-exit`
 Generate signature needed to broadcast a voluntary exit message.
-(To be used with a beacon client)
+(To be used with a beacon client or on broadcast Beaconcha.in's tool)
 
 ```
 coral-cli validator sign-voluntary-exit \
