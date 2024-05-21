@@ -26,8 +26,8 @@ pub struct ExitResponseOutput {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct VoluntaryExitMessage {
-    epoch: u64,
-    validator_index: u64,
+    epoch: String,
+    validator_index: String,
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -109,8 +109,8 @@ pub async fn sign_voluntary_exit_message(
         })?;
 
     let message = VoluntaryExitMessage {
-        epoch: fork_info.clone().fork.epoch,
-        validator_index: input_data.beacon_index,
+        epoch: fork_info.clone().fork.epoch.to_string(),
+        validator_index: input_data.beacon_index.to_string(),
     };
     let exit_payload = ExitResponseOutput {
         signature: sign_exit_resp.signature,
