@@ -8,14 +8,6 @@ use puffersecuresigner::strip_0x_prefix;
 use serde::{Deserialize, Serialize};
 use std::io::Write;
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct ExitResponseOutput {
-    pub signature: String,
-    pub beacon_index: u64,
-    pub epoch: u64,
-    pub bls_pubkey: String,
-}
-
 #[derive(Clone, Debug)]
 pub struct SignVoluntaryExitMessageInput {
     pub bls_pubkey: String,
@@ -24,6 +16,18 @@ pub struct SignVoluntaryExitMessageInput {
     pub fork: Fork,
     pub genesis_validators_root: [u8; 32],
     pub output_file: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct ExitResponseOutput {
+    pub message: VoluntaryExitMessage,
+    pub signature: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct VoluntaryExitMessage {
+    epoch: String,
+    validator_index: String,
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -104,12 +108,13 @@ pub async fn sign_voluntary_exit_message(
             )
         })?;
 
-    let epoch = fork_info.clone().fork.epoch;
+    let message = VoluntaryExitMessage {
+        epoch: fork_info.clone().fork.epoch.to_string(),
+        validator_index: input_data.beacon_index.to_string(),
+    };
     let exit_payload = ExitResponseOutput {
         signature: sign_exit_resp.signature,
-        beacon_index: input_data.beacon_index,
-        epoch,
-        bls_pubkey: input_data.bls_pubkey,
+        message,
     };
 
     let json_string_pretty = serde_json::to_string_pretty(&exit_payload)?;

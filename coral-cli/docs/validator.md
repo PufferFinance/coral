@@ -50,16 +50,19 @@ coral-cli validator keygen \
 
 ## `validator sign-voluntary-exit`
 Generate signature needed to broadcast a voluntary exit message.
-(To be used with a beacon client)
+
+To be used with a beacon client or with broadcast Beaconcha.in's tool: 
+For holesky: https://holesky.beaconcha.in/tools/broadcast
+For mainnet: https://beaconcha.in/tools/broadcast
 
 ```
 coral-cli validator sign-voluntary-exit \
-  --bls-public-key 0x94505f60bb8e48ddafb8835ec08537c48ed1bb9bc6a95fe941f37869b5eb0950c9023b7a997fe12d8aa79076561e009f \
-  --beacon-index 1605300 \
-  --enclave-url http://localhost:9001 \
-  --fork-previous-version 0x04017000 \
-  --fork-current-version 0x05017000 \
-  --epoch 29696 \
+  --bls-public-key 0x97cbe16970f7045cf4bf4e9bc6d3a2ae8edaba9a44308610ba4289b2da0ddb19cb4e190b455628f7e1ce8729f8d04f30 \
+  --beacon-index 1695171 \
+  --enclave-url http://localhost:9002 \
+  --fork-current-version 0x04017000 \
+  --fork-previous-version 0x03017000 \
+  --epoch 256 \
   --genesis-validators-root 0x9143aa7c615a7f7115e2b6aac319c03529df8242ae705fba9df39b79c59fa8b1 \
   --output-file sign_vem_001.json
 ```
