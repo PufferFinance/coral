@@ -16,9 +16,27 @@
         "name": "pufferProtocol",
         "type": "address",
         "internalType": "address"
+      },
+      {
+        "name": "avsContractsRegistry",
+        "type": "address",
+        "internalType": "contract AVSContractsRegistry"
       }
     ],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "AVS_CONTRACTS_REGISTRY",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract AVSContractsRegistry"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -839,6 +857,29 @@
   },
   {
     "type": "function",
+    "name": "customExternalCall",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "internalType": "contract IRestakingOperator"
+      },
+      {
+        "name": "target",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "customCalldata",
+        "type": "bytes",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "initialize",
     "inputs": [
       {
@@ -983,6 +1024,37 @@
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CustomCallSucceeded",
+    "inputs": [
+      {
+        "name": "restakingOperator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "target",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "customCalldata",
+        "type": "bytes",
+        "indexed": false,
+        "internalType": "bytes"
+      },
+      {
+        "name": "response",
+        "type": "bytes",
+        "indexed": false,
+        "internalType": "bytes"
       }
     ],
     "anonymous": false
