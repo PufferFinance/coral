@@ -9,14 +9,14 @@ path = "src/main.rs"
 
 [dependencies]
 axum = "0.7.5"
-clap = { version = "4.5.4", features = ["derive"] }
-clap_complete = "4.5.1"
+clap = { version = "4.5.11", features = ["derive"] }
+clap_complete = "4.5.11"
 colored = "2.1.0"
-ecies = { version = "0.2.6", default-features = false, features = ["pure"] }
+ecies = { version = "0.2.7", default-features = false, features = ["pure"] }
 hex = "0.4.3"
-serde = { version = "1.0.197", features = ["derive"] }
-serde_json = "1.0.116"
-tokio = { version = "1.37.0" }
+serde = { version = "1.0.204", features = ["derive"] }
+serde_json = "1.0.120"
+tokio = { version = "1.39.1" }
 
 ethers = { version = "2.0.14", optional = true }
 
