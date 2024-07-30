@@ -227,6 +227,15 @@ pub async fn register_validator(input_data: &BlsKeygenInput) -> AppResult<i32> {
                 return Err(err);
             }
             Some(password) => {
+                if password.len() < 8 {
+                    let error_msg = "Password must be at least 8 characters";
+                    let err = ServerErrorResponse::new(
+                        StatusCode::INTERNAL_SERVER_ERROR,
+                        ServerErrorCode::ParseError,
+                        error_msg.to_string(),
+                    );
+                    return Err(err.into());
+                }
                 generate_bls_keystore_handler(enclave_payload, password).map_err(|err| {
                     let error_msg = format!("Failed to attest_fresh_bls_key: {err}");
                     ServerErrorResponse::new(
@@ -260,11 +269,15 @@ pub async fn register_validator(input_data: &BlsKeygenInput) -> AppResult<i32> {
     let json_string_pretty = serde_json::to_string_pretty(&registraton_payload)?;
 
     println!("{}", json_string_pretty);
-
     {
         let mut file = std::fs::File::create(&input_data.output_file)?;
         file.write_all(json_string_pretty.as_bytes())?;
     }
+
+    std::fs::rename(
+        format!("etc/keys/bls_keys/{}", registraton_payload.bls_pub_key),
+        format!("etc/keys/bls_keys/{}.json", registraton_payload.bls_pub_key),
+    )?;
 
     Ok(0)
 }
