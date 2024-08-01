@@ -1,0 +1,32 @@
+{
+    "metadata": {
+        "start_epoch": 61180,
+        "end_epoch": 61190,
+        "total_amount": "10000"
+    },
+    "node_operators": {
+        "0xbdadfc936fa42bcc54f39667b1868035290a0241": {
+            "total": "6000",
+            "validator_amounts": [
+                {
+                    "beacon_index": 1685916,
+                    "earned_amount": "6000"
+                }
+            ]
+        },
+        "0xdddeafb492752fc64220ddb3e7c9f1d5cccdfdf0": {
+            "total": "4000",
+            "validator_amounts": [
+                {
+                    "beacon_index": 1685920,
+                    "earned_amount": "1000"
+                },
+                {
+                    "beacon_index": 1685921,
+                    "earned_amount": "3000"
+                }
+            ]
+        }
+    }, 
+    "merkle_root": "3C1F881026060296A023E985F35DEED57E35EBDEA776DA27BF7651C6996BB9EE"
+}

@@ -51,7 +51,7 @@ coral-cli validator keygen \
 ## `validator sign-voluntary-exit`
 Generate signature needed to broadcast a voluntary exit message.
 
-To be used with a beacon client or with broadcast Beaconcha.in's tool: 
+To be used with a beacon client or with broadcast `beaconcha.in`'s tool: 
 For holesky: https://holesky.beaconcha.in/tools/broadcast
 For mainnet: https://beaconcha.in/tools/broadcast
 
@@ -65,4 +65,11 @@ coral-cli validator sign-voluntary-exit \
   --epoch 256 \
   --genesis-validators-root 0x9143aa7c615a7f7115e2b6aac319c03529df8242ae705fba9df39b79c59fa8b1 \
   --output-file sign_vem_001.json
+```
+
+## `validator verify-merkle-tree-rewards`
+From an input file containing partial withdrawals data between 2 epochs, this command generates the merkle tree root and proofs and compares it from the given merkle root.
+
+```
+coral-cli validator verify-merkle-tree-rewards --rewards-file ./coral-cli/src/tests/rewards-files/rewards-test-1.json
 ```
