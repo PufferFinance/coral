@@ -62,8 +62,8 @@ pub async fn verify_merkle_tree_rewards(rewards_file: String) -> AppResult {
     for (&address, &total_reward) in &noops_list {
         let leaf = generate_merkle_leaf(
             address,
-            rewards.metadata.start_epoch,
-            rewards.metadata.end_epoch,
+            U256::from(rewards.metadata.start_epoch),
+            U256::from(rewards.metadata.end_epoch),
             total_reward,
         );
         leaves.push(leaf);
