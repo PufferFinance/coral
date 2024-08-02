@@ -11,23 +11,27 @@ pub enum AppErrorKind {
     Io(io::ErrorKind),
 
     AppError,
+    ContractCallError,
     DecodeError,
-    ParseError,
 
     EnvVarError,
 
     EnclaveError,
+    EthersWalletError,
 
-    JsonDeError,
-
-    ContractCallError,
+    JsonDecodeError,
 
     HyperError,
+
+    MerkleProofInvalid,
+    MerkleTreeRootInvalid,
+
+    OpenFileError,
+    ParseError,
+    ReadFileError,
     ReqwestError,
     ServerError,
     SqlError,
-
-    EthersWalletError,
 
     UnknownError,
 }
@@ -46,7 +50,7 @@ impl From<io::Error> for AppErrorKind {
 
 impl From<serde_json::Error> for AppErrorKind {
     fn from(_: serde_json::Error) -> Self {
-        Self::JsonDeError
+        Self::JsonDecodeError
     }
 }
 

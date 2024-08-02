@@ -1,4 +1,5 @@
 use axum::http::StatusCode;
+use ethers::types::Address;
 
 use crate::{
     error::{AppServerResult, ServerErrorCode, ServerErrorResponse},
@@ -30,4 +31,16 @@ pub fn parse_module_name(module_name: &str) -> AppServerResult<[u8; 32]> {
         )
     })?;
     Ok(module_name)
+}
+
+pub fn parse_address(address: String) -> AppServerResult<Address> {
+    address.parse().map_err(|_err| {
+        let error_msg = format!("Failed to parse address: '{}'", address);
+        tracing::error!("{}", error_msg);
+        ServerErrorResponse::new(
+            StatusCode::INTERNAL_SERVER_ERROR,
+            ServerErrorCode::ParseError,
+            error_msg,
+        )
+    })
 }

@@ -1,6 +1,7 @@
 pub mod keygen;
 pub mod list_keys;
 pub mod sign_vem;
+pub mod verify_merkle_tree_rewards;
 
 #[cfg(feature = "dev")]
 pub mod register_calldata;
@@ -109,6 +110,10 @@ pub enum ValidatorCommand {
         #[arg(long = "module-address")]
         module_address: String,
     },
+    VerifyMerkleTreeRewards {
+        #[arg(long = "rewards-file")]
+        rewards_file: String,
+    },
 }
 
 impl ValidatorCommand {
@@ -177,6 +182,9 @@ impl ValidatorCommand {
                     output_file,
                 )
                 .await?;
+            }
+            Self::VerifyMerkleTreeRewards { rewards_file } => {
+                verify_merkle_tree_rewards::verify_merkle_tree_rewards(rewards_file).await?;
             }
             #[cfg(feature = "dev")]
             Self::RegisterKey {
