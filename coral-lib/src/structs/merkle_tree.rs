@@ -3,6 +3,7 @@ use ethers::utils::keccak256;
 
 use std::slice::Iter;
 
+/// Merkle tree representing by its different leaves layers
 #[derive(Clone, Debug)]
 pub struct MerkleTree {
     pub layers: Vec<Vec<[u8; 32]>>,
@@ -86,6 +87,7 @@ impl MerkleTree {
     }
 }
 
+/// Verify merkle proof for a given leaf node, with the proofs list, and root
 pub fn verify_merkle_proof(root: [u8; 32], leaf: [u8; 32], proofs: &[[u8; 32]]) -> bool {
     let computed_root = proofs.iter().fold(leaf, |acc, x| {
         if acc < *x {

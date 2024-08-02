@@ -4,6 +4,7 @@ use ethers::types::{Address, U256};
 use ethers::utils::keccak256;
 use serde::{Deserialize, Serialize};
 
+/// Reward data for a single node operator
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct NoOpReward {
     /// Node operator address from which we calculate the total rewards
@@ -12,6 +13,7 @@ pub struct NoOpReward {
     pub total_rewards: U256,
 }
 
+/// Reward merkle tree data with hash, node address and rewards list l
 #[derive(Clone, Debug)]
 pub struct RewardValidatorMerkleData {
     pub hash: [u8; 32],
@@ -19,6 +21,9 @@ pub struct RewardValidatorMerkleData {
     pub reward: NoOpReward,
 }
 
+/// Helper to generate merkle tree leaf
+/// With this leaf model
+/// keccak256(abi.encode(noopAddress, startEpoch, endEpoch, total))
 pub fn generate_merkle_leaf(
     address: Address,
     start_epoch: u64,
