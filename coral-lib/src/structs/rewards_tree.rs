@@ -28,13 +28,13 @@ pub struct RewardValidatorMerkleData {
 /// as explained there https://www.rareskills.io/post/merkle-tree-second-preimage-attack
 /// and to match smart contract function _buildMerkleProof
 pub fn generate_merkle_leaf(address: Address, total: U256, is_l1_contract: bool) -> [u8; 32] {
-	let calldata = abi::encode(&[
-		Token::Address(address),
-		Token::Uint(total),
-		Token::Bool(is_l1_contract),
-	]);
-	let hash = keccak256(calldata);
-	keccak256(hash)
+    let calldata = abi::encode(&[
+        Token::Address(address),
+        Token::Uint(total),
+        Token::Bool(is_l1_contract),
+    ]);
+    let hash = keccak256(calldata);
+    keccak256(hash)
 }
 
 #[cfg(test)]
@@ -60,10 +60,9 @@ mod tests {
             total_rewards: U256::from(15000000),
         };
 
-		// Generate merkle leaves
-		let leaf1 = generate_merkle_leaf(reward1.address, reward1.total_rewards, false);
-		let leaf2 = generate_merkle_leaf(reward2.address, reward1.total_rewards, false);
-
+        // Generate merkle leaves
+        let leaf1 = generate_merkle_leaf(reward1.address, reward1.total_rewards, false);
+        let leaf2 = generate_merkle_leaf(reward2.address, reward1.total_rewards, false);
 
         let leaf_nodes = vec![leaf1, leaf2];
         let merkle_tree = MerkleTree::from_leaf_nodes(leaf_nodes.clone());

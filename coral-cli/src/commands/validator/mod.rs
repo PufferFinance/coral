@@ -185,8 +185,12 @@ impl ValidatorCommand {
                 )
                 .await?;
             }
-            Self::VerifyMerkleTreeRewards { rewards_file, rpc_url } => {
-                verify_merkle_tree_rewards::verify_merkle_tree_rewards(rewards_file, rpc_url).await?;
+            Self::VerifyMerkleTreeRewards {
+                rewards_file,
+                rpc_url,
+            } => {
+                verify_merkle_tree_rewards::verify_merkle_tree_rewards(rewards_file, rpc_url)
+                    .await?;
             }
             #[cfg(feature = "dev")]
             Self::RegisterKey {

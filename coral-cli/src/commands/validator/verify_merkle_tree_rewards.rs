@@ -9,14 +9,13 @@ use coral_lib::error::{AppError, AppErrorKind, AppResult};
 use coral_lib::structs::merkle_tree::{verify_merkle_proof, MerkleTree};
 use coral_lib::structs::rewards_file::RewardsRawFile;
 use coral_lib::structs::rewards_tree::generate_merkle_leaf;
+use coral_lib::utils::ethereum::{get_provider, is_contract_address};
 use coral_lib::utils::parse::parse_address;
-use coral_lib::utils::ethereum::{is_contract_address, get_provider};
 
 /// Verify the merkle tree rewards data from a given rewards file
 pub async fn verify_merkle_tree_rewards(rewards_file: String, rpc_url: String) -> AppResult {
-
     let provider = get_provider(&rpc_url)?;
-    
+
     // open and read rewards file
     let mut file = File::open(&rewards_file).map_err(|err| {
         AppError::new(
@@ -139,8 +138,11 @@ mod tests {
         test_file_path.push("src/tests/rewards-files/rewards-test-1.json");
 
         rt.block_on(async {
-            let result =
-                verify_merkle_tree_rewards(test_file_path.to_string_lossy().to_string(), sepolia_rpc_url.to_string()).await;
+            let result = verify_merkle_tree_rewards(
+                test_file_path.to_string_lossy().to_string(),
+                sepolia_rpc_url.to_string(),
+            )
+            .await;
             println!("verify_merkle_tree_rewards result {:?}", result);
             assert!(result.is_ok(), "The verification should succeed.");
         });
