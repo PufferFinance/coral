@@ -113,6 +113,8 @@ pub enum ValidatorCommand {
     VerifyMerkleTreeRewards {
         #[arg(long = "rewards-file")]
         rewards_file: String,
+        #[arg(long = "rpc-url")]
+        rpc_url: String,
     },
 }
 
@@ -183,8 +185,8 @@ impl ValidatorCommand {
                 )
                 .await?;
             }
-            Self::VerifyMerkleTreeRewards { rewards_file } => {
-                verify_merkle_tree_rewards::verify_merkle_tree_rewards(rewards_file).await?;
+            Self::VerifyMerkleTreeRewards { rewards_file, rpc_url } => {
+                verify_merkle_tree_rewards::verify_merkle_tree_rewards(rewards_file, rpc_url).await?;
             }
             #[cfg(feature = "dev")]
             Self::RegisterKey {

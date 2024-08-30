@@ -10,9 +10,13 @@ use coral_lib::structs::merkle_tree::{verify_merkle_proof, MerkleTree};
 use coral_lib::structs::rewards_file::RewardsRawFile;
 use coral_lib::structs::rewards_tree::generate_merkle_leaf;
 use coral_lib::utils::parse::parse_address;
+use coral_lib::utils::ethereum::{is_contract_address, get_provider};
 
 /// Verify the merkle tree rewards data from a given rewards file
-pub async fn verify_merkle_tree_rewards(rewards_file: String) -> AppResult {
+pub async fn verify_merkle_tree_rewards(rewards_file: String, rpc_url: String) -> AppResult {
+
+    let provider = get_provider(&rpc_url)?;
+    
     // open and read rewards file
     let mut file = File::open(&rewards_file).map_err(|err| {
         AppError::new(
@@ -62,9 +66,8 @@ pub async fn verify_merkle_tree_rewards(rewards_file: String) -> AppResult {
     for (&address, &total_reward) in &noops_list {
         let leaf = generate_merkle_leaf(
             address,
-            U256::from(rewards.metadata.start_epoch),
-            U256::from(rewards.metadata.end_epoch),
             total_reward,
+            is_contract_address(&provider, address).await?,
         );
         leaves.push(leaf);
     }
@@ -130,12 +133,14 @@ mod tests {
     fn test_verify_merkle_tree_rewards() {
         let rt = Runtime::new().unwrap();
 
+        let sepolia_rpc_url = "https://ethereum-sepolia-rpc.publicnode.com";
+
         let mut test_file_path = get_base_path();
         test_file_path.push("src/tests/rewards-files/rewards-test-1.json");
 
         rt.block_on(async {
             let result =
-                verify_merkle_tree_rewards(test_file_path.to_string_lossy().to_string()).await;
+                verify_merkle_tree_rewards(test_file_path.to_string_lossy().to_string(), sepolia_rpc_url.to_string()).await;
             println!("verify_merkle_tree_rewards result {:?}", result);
             assert!(result.is_ok(), "The verification should succeed.");
         });

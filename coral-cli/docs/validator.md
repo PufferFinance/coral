@@ -72,4 +72,5 @@ From an input file containing partial withdrawals data between 2 epochs, this co
 
 ```
 coral-cli validator verify-merkle-tree-rewards --rewards-file ./coral-cli/src/tests/rewards-files/rewards-test-1.json
+--rpc-url https://ethereum-sepolia-rpc.publicnode.com
 ```

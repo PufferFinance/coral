@@ -123,15 +123,13 @@ mod tests {
 
         let leaf1 = generate_merkle_leaf(
             address1,
-            U256::from(61180),
-            U256::from(61190),
             U256::from(6000),
+            false
         );
         let leaf2 = generate_merkle_leaf(
             address2,
-            U256::from(61180),
-            U256::from(61190),
             U256::from(4000),
+            true
         );
 
         let leaf_nodes = vec![leaf1, leaf2];

@@ -131,3 +131,23 @@ pub fn get_transaction_receipt(
         })?;
     Ok(tx)
 }
+
+/// Helper to check if an address is a contract address
+pub async fn is_contract_address<J, E>(
+	provider: &Provider<J>,
+	address: Address,
+) -> AppServerResult<bool>
+where
+	J: JsonRpcClient<Error = E>,
+{
+	let is_contract = provider.get_code(address, None).await.map_err(|err| {
+		let error_msg = "Failed to check if address is a contract address";
+		tracing::error!("{error_msg}: {err}");
+		ServerErrorResponse::new(
+			StatusCode::INTERNAL_SERVER_ERROR,
+			ServerErrorCode::EvmGetCodeError,
+			err.to_string(),
+		)
+	})?;
+	Ok(!is_contract.is_empty())
+}
