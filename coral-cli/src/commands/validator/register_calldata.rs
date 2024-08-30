@@ -4,17 +4,15 @@ use coral_lib::{
     error::{AppError, AppErrorKind, AppResult},
     strip_0x_prefix,
 };
-use ethers::prelude::{types::Bytes, U256};
-use ethers::types::Address;
-use ethers::utils::hex;
 
 use coral_lib::utils;
+use alloy::primitives::{Address, Bytes, U256};
 
 use crate::{
-    commands::validator::keygen::BlsKeygenOutput, Permit, ValidatorKeyData, ValidatorTicket,
+    commands::validator::keygen::BlsKeygenOutput, ValidatorTicket,
 };
+use crate::PufferProtocol::{self, Permit, ValidatorKeyData};
 
-use crate::PufferProtocol;
 
 pub async fn generate_register_calldata(
     rpc_url: &str,
@@ -105,7 +103,7 @@ pub async fn generate_register_calldata(
     };
 
     let _validator_ticket_contract: ValidatorTicket<_> =
-        ValidatorTicket::new(validator_ticket_address_h160, client.clone());
+        ValidatorTicket::deploy(validator_ticket_address_h160, client.clone());
 
     let puf_eth_deposit_permit = Permit {
         deadline: U256::zero(),
@@ -116,8 +114,8 @@ pub async fn generate_register_calldata(
     };
 
     let vt_deposit_permit = Permit {
-        deadline: U256::zero(),
-        amount: U256::zero(),
+        deadline: U256::is_zero(),
+        amount: U256::is_zero(),
         v: 0,
         r: [0; 32],
         s: [0; 32],

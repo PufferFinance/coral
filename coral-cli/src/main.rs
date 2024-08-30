@@ -1,25 +1,27 @@
 mod commands;
 use std::process;
-
+use alloy_sol_macro::sol;
 use clap::Parser;
-
 use colored::Colorize;
-
-#[cfg(feature = "dev")]
-use ethers::contract::abigen;
-
 use coral_lib::error::AppResult;
-
 use crate::commands::CommandArgs;
 
 pub const PROGRAM_NAME: &str = "coral-cli";
 
-#[cfg(feature = "dev")]
-abigen!(PufferOracle, "./abi/PufferOracleV2.json");
-#[cfg(feature = "dev")]
-abigen!(PufferProtocol, "./abi/PufferProtocol.json");
-#[cfg(feature = "dev")]
-abigen!(ValidatorTicket, "./abi/ValidatorTicket.json");
+sol!(
+    #[sol(rpc)] 
+    PufferOracle, 
+    "./abi/PufferOracleV2.json"
+);
+sol!(
+    #[sol(rpc)]
+    PufferProtocol, 
+    "./abi/PufferProtocol.json"
+);
+sol!(#[sol(rpc)] 
+    ValidatorTicket, 
+    "./abi/ValidatorTicket.json"
+);
 
 pub const APP_VERSION: &str = env!("CARGO_PKG_VERSION");
 

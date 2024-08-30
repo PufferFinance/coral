@@ -1,4 +1,4 @@
-use ethers::prelude::{rand, LocalWallet};
+use alloy::prelude::{rand, LocalWallet};
 
 /// Generate a random wallet.
 /// Mostly used for calling view and pure functions

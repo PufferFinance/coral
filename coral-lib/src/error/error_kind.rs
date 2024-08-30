@@ -2,7 +2,7 @@ use std::convert::From;
 use std::io;
 
 #[cfg(feature = "dev")]
-use ethers::signers::WalletError;
+use alloy::signers::WalletError;
 
 use super::ServerErrorResponse;
 

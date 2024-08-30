@@ -4,10 +4,9 @@ use coral_lib::{
     error::{AppError, AppErrorKind, AppResult},
     strip_0x_prefix,
 };
-use ethers::{signers::LocalWallet, types::Address};
+use alloy::signers::LocalWallet;
 
-use ethers::prelude::*;
-use ethers::utils::hex::{self, ToHex};
+use alloy::primitives::{Address, Bytes};
 
 use coral_lib::utils;
 

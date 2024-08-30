@@ -1,4 +1,4 @@
-use ethers::abi;
+use alloy::abi;
 
 use axum::http::StatusCode;
 

@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use axum::http::StatusCode;
-use ethers::prelude::{
+use alloy::prelude::{
     types::{Address, Block, BlockId, BlockNumber, TransactionReceipt, H256, U256},
     Http, JsonRpcClient, LocalWallet, Middleware, Provider, ProviderError, Signer,
     SignerMiddleware,

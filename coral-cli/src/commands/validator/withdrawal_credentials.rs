@@ -1,4 +1,4 @@
-use ethers::prelude::Address;
+use alloy::primitives::Address;
 
 use coral_lib::error::{AppError, AppErrorKind, AppResult};
 use coral_lib::utils;
