@@ -65,8 +65,8 @@ pub async fn verify_merkle_tree_rewards(rewards_file: String, rpc_url: String) -
     for (&address, &total_reward) in &noops_list {
         let leaf = generate_merkle_leaf(
             address,
-            total_reward,
             is_contract_address(&provider, address).await?,
+            total_reward,
         );
         leaves.push(leaf);
     }

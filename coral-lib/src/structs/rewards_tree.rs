@@ -23,15 +23,16 @@ pub struct RewardValidatorMerkleData {
 
 /// Helper to generate merkle tree leaf
 /// With this V3 leaf model
-/// keccak256(abi.encode(noOpAddress, total, isL1Contract))
-/// we double hash to avoid any second preimage attack
+/// The leaf is: keccak256(abi.encode(AliceAddress, isL1Contract, totalETHEarned))
+/// https://github.com/PufferFinance/puffer-contracts/blob/428221065d2405dba94d65ab14f2a7b1ccb054dd/l2-contracts/src/L2RewardManager.sol#L85
+/// Also, we double hash to avoid any second preimage attack
 /// as explained there https://www.rareskills.io/post/merkle-tree-second-preimage-attack
 /// and to match smart contract function _buildMerkleProof
-pub fn generate_merkle_leaf(address: Address, total: U256, is_l1_contract: bool) -> [u8; 32] {
+pub fn generate_merkle_leaf(address: Address, is_l1_contract: bool, total: U256) -> [u8; 32] {
     let calldata = abi::encode(&[
         Token::Address(address),
-        Token::Uint(total),
         Token::Bool(is_l1_contract),
+        Token::Uint(total),
     ]);
     let hash = keccak256(calldata);
     keccak256(hash)
@@ -61,8 +62,8 @@ mod tests {
         };
 
         // Generate merkle leaves
-        let leaf1 = generate_merkle_leaf(reward1.address, reward1.total_rewards, false);
-        let leaf2 = generate_merkle_leaf(reward2.address, reward1.total_rewards, false);
+        let leaf1 = generate_merkle_leaf(reward1.address, false, reward1.total_rewards);
+        let leaf2 = generate_merkle_leaf(reward2.address, false, reward1.total_rewards);
 
         let leaf_nodes = vec![leaf1, leaf2];
         let merkle_tree = MerkleTree::from_leaf_nodes(leaf_nodes.clone());
