@@ -121,8 +121,8 @@ mod tests {
             .parse()
             .unwrap();
 
-        let leaf1 = generate_merkle_leaf(address1,false, U256::from(6000));
-        let leaf2 = generate_merkle_leaf(address2, true,U256::from(4000));
+        let leaf1 = generate_merkle_leaf(address1, false, U256::from(6000));
+        let leaf2 = generate_merkle_leaf(address2, true, U256::from(4000));
 
         let leaf_nodes = vec![leaf1, leaf2];
         let merkle_tree = MerkleTree::from_leaf_nodes(leaf_nodes.clone());
