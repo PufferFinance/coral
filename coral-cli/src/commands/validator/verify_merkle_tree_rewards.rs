@@ -56,8 +56,10 @@ pub async fn verify_merkle_tree_rewards(rewards_file: String, rpc_url: String) -
             )
         })?;
 
+        let total_rewards_gwei = total_rewards_for_operator * U256::exp10(9);
+
         let entry = noops_list.entry(address).or_insert_with(U256::zero);
-        *entry += total_rewards_for_operator;
+        *entry += total_rewards_gwei;
     }
 
     // Generate merkle leaves
@@ -95,6 +97,18 @@ pub async fn verify_merkle_tree_rewards(rewards_file: String, rpc_url: String) -
     // Verify now each leaf against the merkle root using its proof
     for (index, leaf) in leaves.iter().enumerate() {
         let proof = merkle_tree.generate_proof(index);
+        let proof_hex = hex::encode(
+            proof
+                .iter()
+                .flat_map(|x| x.iter())
+                .copied()
+                .collect::<Vec<u8>>(),
+        );
+        println!(
+            "{}",
+            format!("Proof for index {}: {}", index, proof_hex).yellow()
+        );
+
         if !verify_merkle_proof(computed_root_hash, *leaf, &proof) {
             return Err(AppError::new(
                 AppErrorKind::MerkleProofInvalid,
