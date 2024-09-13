@@ -181,4 +181,25 @@ mod tests {
             assert!(result.is_ok(), "The verification should succeed.");
         });
     }
+
+
+    #[test]
+    fn test_verify_merkle_tree_rewards_ok_3() {
+        let rt = Runtime::new().unwrap();
+
+        let sepolia_rpc_url = "https://ethereum-holesky-rpc.publicnode.com";
+
+        let mut test_file_path = get_base_path();
+        test_file_path.push("src/tests/rewards-files/rewards-test-3.json");
+
+        rt.block_on(async {
+            let result = verify_merkle_tree_rewards(
+                test_file_path.to_string_lossy().to_string(),
+                sepolia_rpc_url.to_string(),
+            )
+            .await;
+            println!("verify_merkle_tree_rewards result {:?}", result);
+            assert!(result.is_err(), "The verification should failed, because of the invalid merkle root.");
+        });
+    }
 }
