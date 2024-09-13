@@ -54,6 +54,7 @@ pub enum ServerErrorCode {
     EvmSendTransactionError,
     EvmWaitForTransactionError,
     EvmMissingTransactionReceipt,
+    EvmGetCodeError,
 
     // db error
     LocalDbConnectionError,

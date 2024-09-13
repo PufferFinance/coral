@@ -90,10 +90,10 @@ pub async fn keygen_from_cmd(data: KeygenCmdInput) -> AppResult<i32> {
     let password = match password_file {
         None => None,
         Some(path) => {
-            let password = std::fs::read_to_string(path).map_err(|err| {
+            let password = std::fs::read_to_string(path).inspect_err(|err| {
                 let error_msg = "Failed to read password file";
                 eprintln!("{}", error_msg.red());
-                err
+                eprintln!("Error details: {}", err);
             })?;
             Some(password.trim().to_string())
         }

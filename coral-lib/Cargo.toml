@@ -10,6 +10,7 @@ path = "src/lib.rs"
 [dependencies]
 axum = "0.7.5"
 hex = "0.4.3"
+ethers = "2.0.14"
 reqwest = { version = "0.12.5", default-features = false, features = ["json", "rustls-tls"] }
 serde = { version = "1.0.204", features = ["derive"] }
 serde_json = "1.0.120"
@@ -20,8 +21,6 @@ url = "2.5.2"
 # Puffer dependencies
 puffersecuresigner = { git = "https://github.com/PufferFinance/secure-signer.git" }
 
-ethers = { version = "2.0.14", optional = true }
-
 [features]
 default = []
-dev = [ "ethers" ]
+dev = []
