@@ -182,7 +182,6 @@ mod tests {
         });
     }
 
-
     #[test]
     fn test_verify_merkle_tree_rewards_ko() {
         let rt = Runtime::new().unwrap();
@@ -199,7 +198,10 @@ mod tests {
             )
             .await;
             println!("verify_merkle_tree_rewards result {:?}", result);
-            assert!(result.is_err(), "The verification should failed, because of the invalid merkle root.");
+            assert!(
+                result.is_err(),
+                "The verification should failed, because of the invalid merkle root."
+            );
         });
     }
 }
