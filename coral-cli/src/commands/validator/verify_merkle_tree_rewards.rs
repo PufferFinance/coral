@@ -56,10 +56,10 @@ pub async fn verify_merkle_tree_rewards(rewards_file: String, rpc_url: String) -
             )
         })?;
 
-        let total_rewards_gwei = total_rewards_for_operator * U256::exp10(9);
+        let total_rewards_wei = total_rewards_for_operator * U256::exp10(9);
 
         let entry = noops_list.entry(address).or_insert_with(U256::zero);
-        *entry += total_rewards_gwei;
+        *entry += total_rewards_wei;
     }
 
     // Generate merkle leaves
@@ -143,13 +143,33 @@ mod tests {
     }
 
     #[test]
-    fn test_verify_merkle_tree_rewards() {
+    fn test_verify_merkle_tree_rewards_ok_1() {
         let rt = Runtime::new().unwrap();
 
-        let sepolia_rpc_url = "https://ethereum-sepolia-rpc.publicnode.com";
+        let sepolia_rpc_url = "https://ethereum-holesky-rpc.publicnode.com";
 
         let mut test_file_path = get_base_path();
         test_file_path.push("src/tests/rewards-files/rewards-test-1.json");
+
+        rt.block_on(async {
+            let result = verify_merkle_tree_rewards(
+                test_file_path.to_string_lossy().to_string(),
+                sepolia_rpc_url.to_string(),
+            )
+            .await;
+            println!("verify_merkle_tree_rewards result {:?}", result);
+            assert!(result.is_ok(), "The verification should succeed.");
+        });
+    }
+
+    #[test]
+    fn test_verify_merkle_tree_rewards_ok_2() {
+        let rt = Runtime::new().unwrap();
+
+        let sepolia_rpc_url = "https://ethereum-holesky-rpc.publicnode.com";
+
+        let mut test_file_path = get_base_path();
+        test_file_path.push("src/tests/rewards-files/rewards-test-2.json");
 
         rt.block_on(async {
             let result = verify_merkle_tree_rewards(
