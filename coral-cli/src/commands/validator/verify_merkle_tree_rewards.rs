@@ -184,7 +184,7 @@ mod tests {
 
 
     #[test]
-    fn test_verify_merkle_tree_rewards_ok_3() {
+    fn test_verify_merkle_tree_rewards_ko() {
         let rt = Runtime::new().unwrap();
 
         let sepolia_rpc_url = "https://ethereum-holesky-rpc.publicnode.com";
