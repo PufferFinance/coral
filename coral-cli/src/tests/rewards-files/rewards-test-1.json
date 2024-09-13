@@ -1,32 +1,40 @@
 {
     "metadata": {
-        "start_epoch": 61180,
-        "end_epoch": 61190,
-        "total_amount": "10000"
+        "start_epoch": 76000,
+        "end_epoch": 76225,
+        "total_amount": "38206990"
     },
     "node_operators": {
-        "0xbdadfc936fa42bcc54f39667b1868035290a0241": {
-            "total": "6000",
+        "0x491c56d53b44349937bae9f48716ca6f200b1e6f": {
+            "total": "22927947",
             "validator_amounts": [
                 {
-                    "beacon_index": 1685916,
-                    "earned_amount": "6000"
+                    "beacon_index": 1801279,
+                    "earned_amount": "7641723"
+                },
+                {
+                    "beacon_index": 1801278,
+                    "earned_amount": "7669990"
+                },
+                {
+                    "beacon_index": 1801277,
+                    "earned_amount": "7616234"
                 }
             ]
         },
-        "0xdddeafb492752fc64220ddb3e7c9f1d5cccdfdf0": {
-            "total": "4000",
+        "0x5238edb0e7ec5429b47df68b4deb31b9d85c5229": {
+            "total": "15279043",
             "validator_amounts": [
                 {
-                    "beacon_index": 1685920,
-                    "earned_amount": "1000"
+                    "beacon_index": 1801159,
+                    "earned_amount": "7613536"
                 },
                 {
-                    "beacon_index": 1685921,
-                    "earned_amount": "3000"
+                    "beacon_index": 1801143,
+                    "earned_amount": "7665507"
                 }
             ]
         }
     }, 
-    "merkle_root": "d084a504e90e7784c62925f1bad75bf96caf2c75d6ed28ec0bd5bc4d1b665652"
+    "merkle_root": "91a6110cc06cc538fb97468fbfb9a8a6e2e5b0b874f3a029318496ae53c0f2ae"
 }
