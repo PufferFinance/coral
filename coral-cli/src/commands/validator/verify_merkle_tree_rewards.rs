@@ -149,7 +149,7 @@ mod tests {
     fn test_verify_merkle_tree_rewards_ok() {
         let rt = Runtime::new().unwrap();
 
-        let sepolia_rpc_url = "https://ethereum-holesky-rpc.publicnode.com";
+        let holesky_rpc_url = "https://ethereum-holesky-rpc.publicnode.com";
 
         let mut test_file_path = get_base_path();
         test_file_path.push("src/tests/rewards-files/withdrawal_reward_52235.json");
@@ -157,7 +157,31 @@ mod tests {
         rt.block_on(async {
             let result = verify_merkle_tree_rewards(
                 test_file_path.to_string_lossy().to_string(),
-                sepolia_rpc_url.to_string(),
+                holesky_rpc_url.to_string(),
+            )
+            .await;
+            println!("verify_merkle_tree_rewards result {:?}", result);
+            assert!(result.is_ok(), "The verification should succeed.");
+        });
+    }
+
+    // Second test case for verifying the merkle tree rewards data
+    // from a given rewards file
+    // Data can be found in the calldata of
+    // https://holesky.etherscan.io/tx/0x3b002866c89e57c21935d0b6192ad423581ddfb63c8fb709dfc3b6d1a43957b4
+    #[test]
+    fn test_verify_merkle_tree_rewards_ok_2() {
+        let rt = Runtime::new().unwrap();
+
+        let holesky_rpc_url = "https://ethereum-holesky-rpc.publicnode.com";
+
+        let mut test_file_path = get_base_path();
+        test_file_path.push("src/tests/rewards-files/withdrawal_reward_65286.json");
+
+        rt.block_on(async {
+            let result = verify_merkle_tree_rewards(
+                test_file_path.to_string_lossy().to_string(),
+                holesky_rpc_url.to_string(),
             )
             .await;
             println!("verify_merkle_tree_rewards result {:?}", result);

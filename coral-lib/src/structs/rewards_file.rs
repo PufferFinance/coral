@@ -33,7 +33,8 @@ pub struct NodeOperator {
     /// Total amount of rewards earned by this node operator.
     #[serde(deserialize_with = "deserialize_u256_from_number")]
     pub total: U256,
-    /// A list of individual validator rewards, each associated with a beacon index and earned amount.
+    /// A list of individual validator rewards, each associated with a beacon index and earned
+    /// amount.
     pub validator_amounts: Vec<ValidatorAmount>,
 }
 
