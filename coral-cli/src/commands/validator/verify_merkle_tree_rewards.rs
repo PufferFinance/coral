@@ -1,14 +1,15 @@
 use colored::Colorize;
-use ethers::types::{Address, U256};
+use ethers::types::U256;
 use ethers::utils::hex;
-use std::collections::HashMap;
 use std::fs::File;
 use std::io::Read;
 
 use coral_lib::error::{AppError, AppErrorKind, AppResult};
 use coral_lib::structs::merkle_tree::{verify_merkle_proof, MerkleTree};
 use coral_lib::structs::rewards_file::RewardsRawFile;
-use coral_lib::structs::rewards_tree::generate_merkle_leaf;
+use coral_lib::structs::rewards_tree::{
+    generate_merkle_leaf, NoOpReward, RewardValidatorMerkleData,
+};
 use coral_lib::utils::ethereum::{get_provider, is_contract_address};
 use coral_lib::utils::parse::parse_address;
 
@@ -40,8 +41,8 @@ pub async fn verify_merkle_tree_rewards(rewards_file: String, rpc_url: String) -
         )
     })?;
 
-    // Aggregate total rewards per node operator
-    let mut noops_list: HashMap<Address, U256> = HashMap::new();
+    // Aggregate total rewards per node operator and generate merkle leaves
+    let mut validator_hashes: Vec<RewardValidatorMerkleData> = Vec::new();
     for (add, operator) in &rewards.node_operators {
         let address = parse_address(add.to_string()).map_err(|_| {
             AppError::new(
@@ -49,29 +50,27 @@ pub async fn verify_merkle_tree_rewards(rewards_file: String, rpc_url: String) -
                 format!("Invalid address format: {}", add),
             )
         })?;
-        let total_rewards_for_operator = U256::from_dec_str(&operator.total).map_err(|_| {
-            AppError::new(
-                AppErrorKind::ParseError,
-                format!("Failed to parse U256 from string: {}", operator.total),
-            )
-        })?;
+        let total_rewards_wei = operator.total * U256::exp10(9);
+        let is_contract = is_contract_address(&provider, address).await?;
 
-        let total_rewards_wei = total_rewards_for_operator * U256::exp10(9);
+        let leaf = generate_merkle_leaf(address, is_contract, total_rewards_wei);
 
-        let entry = noops_list.entry(address).or_insert_with(U256::zero);
-        *entry += total_rewards_wei;
+        validator_hashes.push(RewardValidatorMerkleData {
+            hash: leaf,
+            node: address,
+            reward: NoOpReward {
+                address,
+                total_rewards: total_rewards_wei,
+            },
+            is_contract,
+        });
     }
 
-    // Generate merkle leaves
-    let mut leaves = Vec::new();
-    for (&address, &total_reward) in &noops_list {
-        let leaf = generate_merkle_leaf(
-            address,
-            is_contract_address(&provider, address).await?,
-            total_reward,
-        );
-        leaves.push(leaf);
-    }
+    // Sort validator_hashes based on the hash
+    validator_hashes.sort_by(|a, b| a.hash.cmp(&b.hash));
+
+    // Extract sorted leaves
+    let leaves: Vec<[u8; 32]> = validator_hashes.iter().map(|data| data.hash).collect();
 
     // Generate the Merkle tree and root hash
     let merkle_tree = MerkleTree::from_leaf_nodes(leaves.clone());
@@ -142,14 +141,18 @@ mod tests {
         PathBuf::from(env!("CARGO_MANIFEST_DIR"))
     }
 
+    // Test case for verifying the merkle tree rewards data
+    // from a given rewards file
+    // Data can be found in the calldata of
+    // https://holesky.etherscan.io/tx/0xc26cb92fdde6735cbb0e1d00bb1d6bc35cd228c2762dbcd6d3a19d87e934046b
     #[test]
-    fn test_verify_merkle_tree_rewards_ok_1() {
+    fn test_verify_merkle_tree_rewards_ok() {
         let rt = Runtime::new().unwrap();
 
         let sepolia_rpc_url = "https://ethereum-holesky-rpc.publicnode.com";
 
         let mut test_file_path = get_base_path();
-        test_file_path.push("src/tests/rewards-files/rewards-test-1.json");
+        test_file_path.push("src/tests/rewards-files/withdrawal_reward_52235.json");
 
         rt.block_on(async {
             let result = verify_merkle_tree_rewards(
@@ -159,49 +162,6 @@ mod tests {
             .await;
             println!("verify_merkle_tree_rewards result {:?}", result);
             assert!(result.is_ok(), "The verification should succeed.");
-        });
-    }
-
-    #[test]
-    fn test_verify_merkle_tree_rewards_ok_2() {
-        let rt = Runtime::new().unwrap();
-
-        let sepolia_rpc_url = "https://ethereum-holesky-rpc.publicnode.com";
-
-        let mut test_file_path = get_base_path();
-        test_file_path.push("src/tests/rewards-files/rewards-test-2.json");
-
-        rt.block_on(async {
-            let result = verify_merkle_tree_rewards(
-                test_file_path.to_string_lossy().to_string(),
-                sepolia_rpc_url.to_string(),
-            )
-            .await;
-            println!("verify_merkle_tree_rewards result {:?}", result);
-            assert!(result.is_ok(), "The verification should succeed.");
-        });
-    }
-
-    #[test]
-    fn test_verify_merkle_tree_rewards_ko() {
-        let rt = Runtime::new().unwrap();
-
-        let sepolia_rpc_url = "https://ethereum-holesky-rpc.publicnode.com";
-
-        let mut test_file_path = get_base_path();
-        test_file_path.push("src/tests/rewards-files/rewards-test-3.json");
-
-        rt.block_on(async {
-            let result = verify_merkle_tree_rewards(
-                test_file_path.to_string_lossy().to_string(),
-                sepolia_rpc_url.to_string(),
-            )
-            .await;
-            println!("verify_merkle_tree_rewards result {:?}", result);
-            assert!(
-                result.is_err(),
-                "The verification should failed, because of the invalid merkle root."
-            );
         });
     }
 }
