@@ -71,7 +71,9 @@ coral-cli validator sign-voluntary-exit \
 From an input file containing rewards data between 2 epochs, this command generates the merkle tree root and proofs and compares it from the given merkle root.
 
 ```
-coral-cli validator verify-merkle-tree-rewards --rewards-file-path ./coral-cli/src/tests/rewards-files/rewards-test-1.json --rpc-url https://ethereum-holesky-rpc.publicnode.com
+coral-cli validator verify-merkle-tree-rewards \
+--rewards-file-path ./coral-cli/src/tests/rewards-files/withdrawal_reward_65286.json \
+--rpc-url https://ethereum-holesky-rpc.publicnode.com
 ```
 
 
