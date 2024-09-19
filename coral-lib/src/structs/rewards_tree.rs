@@ -13,14 +13,14 @@ pub struct NoOpReward {
     pub total_rewards: U256,
 }
 
-/// Reward merkle tree data with hash, node address and rewards list 
+/// Reward merkle tree data with hash, node address and rewards list
 /// for a node operator
 #[derive(Clone, Debug)]
 pub struct RewardValidatorMerkleData {
-	pub hash: [u8; 32],
-	pub node: Address,
-	pub reward: NoOpReward,
-	pub is_contract: bool,
+    pub hash: [u8; 32],
+    pub node: Address,
+    pub reward: NoOpReward,
+    pub is_contract: bool,
 }
 
 /// Helper to generate merkle tree leaf

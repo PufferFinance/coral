@@ -1,6 +1,6 @@
+use ethers::types::U256;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use ethers::types::U256;
 
 /// Rewards data from json file
 #[derive(Serialize, Deserialize, Debug)]
