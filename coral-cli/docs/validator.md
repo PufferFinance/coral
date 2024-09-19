@@ -68,8 +68,23 @@ coral-cli validator sign-voluntary-exit \
 ```
 
 ## `validator verify-merkle-tree-rewards`
-From an input file containing partial withdrawals data between 2 epochs, this command generates the merkle tree root and proofs and compares it from the given merkle root.
+From an input file containing rewards data between 2 epochs, this command generates the merkle tree root and proofs and compares it from the given merkle root.
 
 ```
-coral-cli validator verify-merkle-tree-rewards --rewards-file ./coral-cli/src/tests/rewards-files/rewards-test-1.json --rpc-url https://ethereum-sepolia-rpc.publicnode.com
+coral-cli validator verify-merkle-tree-rewards --rewards-file-path ./coral-cli/src/tests/rewards-files/rewards-test-1.json --rpc-url https://ethereum-holesky-rpc.publicnode.com
 ```
+
+
+- `--rewards-file-path` [file-path]
+
+Path of the rewards file
+You can find this link in  `mint_and_bridge_rewards` transactions calldata.
+
+- `--rpc-url`  [rpc-url]
+
+RPC url for which our smart contract function mint and bridge rewards has been deployed.
+It would been holesky's rpc url or mainnet rpc url. 
+
+You can use for example the public ones : 
+- [holesky](https://ethereum-holesky-rpc.publicnode.com)
+- [mainnet](https://ethereum-rpc.publicnode.com)
