@@ -1,0 +1,495 @@
+{
+    "metadata": {
+        "start_epoch": 65286,
+        "end_epoch": 80300,
+        "total_amount": 843060692,
+        "eigenpod_addresses": [
+            "0x00e9aD877ECF90B25826fdE33ae0283B80dbE079",
+            "0x3BC485C671B2ceb000F3FbBb4d265087C9019a91",
+            "0x4546D2b43cFf3fA79A0305744F00D2fb4b3F0A2c",
+            "0x61b8797A03f3fF835aA4Ed8d7b6539255A867320",
+            "0xA37fF697eD5940C06789a3E8399a737FdD3E79CC",
+            "0xb4E7f9e37E7F393A61A696c8536B8BD5f12835DE",
+            "0xb78646781adb75C1053aF2acf1DE18d61c019906",
+            "0xeD9B08B8958B89E7A9008CAc0937E46F73Bf8f52"
+        ]
+    },
+    "node_operators": {
+        "0x19dbf7b58674594b7a0043bbdced6e7c4fc59818": {
+            "total": 7738825,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801206,
+                    "earned_amount": 7738825
+                }
+            ]
+        },
+        "0x2bf8ca5498e0f83034208218218d63f1fb42cb34": {
+            "total": 23290705,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801288,
+                    "earned_amount": 7752587
+                },
+                {
+                    "beacon_index": 1801281,
+                    "earned_amount": 7746112
+                },
+                {
+                    "beacon_index": 1801280,
+                    "earned_amount": 7792006
+                }
+            ]
+        },
+        "0x303bcbf457fdbcb5c118a023fadea580333f0d7e": {
+            "total": 15436834,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801212,
+                    "earned_amount": 7690568
+                },
+                {
+                    "beacon_index": 1802820,
+                    "earned_amount": 7746266
+                }
+            ]
+        },
+        "0x3e8113a94c77b789625ac2c028ececbe16e0268d": {
+            "total": 7724976,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1802823,
+                    "earned_amount": 7724976
+                }
+            ]
+        },
+        "0x41ebde96ca80b01496dbe005553ebc894b238cfe": {
+            "total": 7768144,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1802821,
+                    "earned_amount": 7768144
+                }
+            ]
+        },
+        "0x491c56d53b44349937bae9f48716ca6f200b1e6f": {
+            "total": 23314094,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801279,
+                    "earned_amount": 7787780
+                },
+                {
+                    "beacon_index": 1801278,
+                    "earned_amount": 7788828
+                },
+                {
+                    "beacon_index": 1801277,
+                    "earned_amount": 7737486
+                }
+            ]
+        },
+        "0x5238edb0e7ec5429b47df68b4deb31b9d85c5229": {
+            "total": 70680812,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801159,
+                    "earned_amount": 7736318
+                },
+                {
+                    "beacon_index": 1801143,
+                    "earned_amount": 62944494
+                }
+            ]
+        },
+        "0x54539a7039c10a54f9490dd6e013f4af1c0c1111": {
+            "total": 61386793,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1802076,
+                    "earned_amount": 61386793
+                }
+            ]
+        },
+        "0x5d4c3115e5498da25979d90f67986e0a3dc2da49": {
+            "total": 78116473,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801170,
+                    "earned_amount": 7793796
+                },
+                {
+                    "beacon_index": 1801276,
+                    "earned_amount": 62581346
+                },
+                {
+                    "beacon_index": 1801211,
+                    "earned_amount": 7741331
+                }
+            ]
+        },
+        "0x63e62369003abff47fe57e9729d4f22c992329f6": {
+            "total": 7792300,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1802819,
+                    "earned_amount": 7792300
+                }
+            ]
+        },
+        "0x64d5a5bb5fe60a889e882ba77bb1c5926ff6570b": {
+            "total": 7775418,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1802822,
+                    "earned_amount": 7775418
+                }
+            ]
+        },
+        "0x7428eab5df84c0e4b961a2a3de38a4c6f740eefb": {
+            "total": 31148985,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801073,
+                    "earned_amount": 7787511
+                },
+                {
+                    "beacon_index": 1801061,
+                    "earned_amount": 7807110
+                },
+                {
+                    "beacon_index": 1801053,
+                    "earned_amount": 7810101
+                },
+                {
+                    "beacon_index": 1801044,
+                    "earned_amount": 7744263
+                }
+            ]
+        },
+        "0x846d8ce511cf1bf468b02900a2e40d6e81f170ef": {
+            "total": 23318272,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801204,
+                    "earned_amount": 7763510
+                },
+                {
+                    "beacon_index": 1801195,
+                    "earned_amount": 7759654
+                },
+                {
+                    "beacon_index": 1801194,
+                    "earned_amount": 7795108
+                }
+            ]
+        },
+        "0x8da3b18c938ea7a0858f8004a4c25aaba5e63e09": {
+            "total": 23299624,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801310,
+                    "earned_amount": 7762731
+                },
+                {
+                    "beacon_index": 1801309,
+                    "earned_amount": 7760930
+                },
+                {
+                    "beacon_index": 1801308,
+                    "earned_amount": 7775963
+                }
+            ]
+        },
+        "0xa8e1d40b67abb91f29479d077fe7d657453e94da": {
+            "total": 23285685,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801203,
+                    "earned_amount": 7775112
+                },
+                {
+                    "beacon_index": 1801193,
+                    "earned_amount": 7787509
+                },
+                {
+                    "beacon_index": 1801185,
+                    "earned_amount": 7723064
+                }
+            ]
+        },
+        "0xb1960e5c079f75a57d8bc95620e1aa4c5931691a": {
+            "total": 69936516,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801149,
+                    "earned_amount": 7748337
+                },
+                {
+                    "beacon_index": 1801138,
+                    "earned_amount": 7800070
+                },
+                {
+                    "beacon_index": 1801128,
+                    "earned_amount": 7779616
+                },
+                {
+                    "beacon_index": 1801307,
+                    "earned_amount": 7765750
+                },
+                {
+                    "beacon_index": 1801306,
+                    "earned_amount": 7777695
+                },
+                {
+                    "beacon_index": 1801303,
+                    "earned_amount": 7731126
+                },
+                {
+                    "beacon_index": 1801299,
+                    "earned_amount": 7731190
+                },
+                {
+                    "beacon_index": 1801292,
+                    "earned_amount": 7793625
+                },
+                {
+                    "beacon_index": 1801284,
+                    "earned_amount": 7809107
+                }
+            ]
+        },
+        "0xb251337496b70ceeb8403774056a8c1059e58d12": {
+            "total": 23306342,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801098,
+                    "earned_amount": 7770144
+                },
+                {
+                    "beacon_index": 1801082,
+                    "earned_amount": 7836271
+                },
+                {
+                    "beacon_index": 1801169,
+                    "earned_amount": 7699927
+                }
+            ]
+        },
+        "0xb6d0b0fc08feec5ef06d05f5cbf60cc5430dba29": {
+            "total": 7730275,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1802824,
+                    "earned_amount": 7730275
+                }
+            ]
+        },
+        "0xbc78e317df8361115118dff589a3913e37612040": {
+            "total": 23362921,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801152,
+                    "earned_amount": 7773380
+                },
+                {
+                    "beacon_index": 1801141,
+                    "earned_amount": 7797950
+                },
+                {
+                    "beacon_index": 1801131,
+                    "earned_amount": 7791591
+                }
+            ]
+        },
+        "0xbf1b1f76a3f2c596e29eb54fafb7e3f36374eb47": {
+            "total": 23283069,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801205,
+                    "earned_amount": 7748219
+                },
+                {
+                    "beacon_index": 1801240,
+                    "earned_amount": 7790990
+                },
+                {
+                    "beacon_index": 1801214,
+                    "earned_amount": 7743860
+                }
+            ]
+        },
+        "0xc0ceefd8649befcd44630de1dd9df7096de5e819": {
+            "total": 23320081,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801151,
+                    "earned_amount": 7819840
+                },
+                {
+                    "beacon_index": 1801140,
+                    "earned_amount": 7709328
+                },
+                {
+                    "beacon_index": 1801130,
+                    "earned_amount": 7790913
+                }
+            ]
+        },
+        "0xcafdb2bb29a2f847128e3bf27f470955610e3200": {
+            "total": 15556692,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801079,
+                    "earned_amount": 7731266
+                },
+                {
+                    "beacon_index": 1801070,
+                    "earned_amount": 7825426
+                }
+            ]
+        },
+        "0xd9ec86bd02f88f7888c70a0bbfd8fc47c7e7332f": {
+            "total": 7749776,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801313,
+                    "earned_amount": 7749776
+                }
+            ]
+        },
+        "0xdeb533c618e4dc8a16dafea5258668a9caf563e8": {
+            "total": 46689611,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801253,
+                    "earned_amount": 7779028
+                },
+                {
+                    "beacon_index": 1801208,
+                    "earned_amount": 7839815
+                },
+                {
+                    "beacon_index": 1801199,
+                    "earned_amount": 7778771
+                },
+                {
+                    "beacon_index": 1801190,
+                    "earned_amount": 7776966
+                },
+                {
+                    "beacon_index": 1801179,
+                    "earned_amount": 7760684
+                },
+                {
+                    "beacon_index": 1801095,
+                    "earned_amount": 7754347
+                }
+            ]
+        },
+        "0xdf8febec85593120cfdab2a0132e26b86b6da1c4": {
+            "total": 15518791,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801187,
+                    "earned_amount": 7760582
+                },
+                {
+                    "beacon_index": 1801186,
+                    "earned_amount": 7758209
+                }
+            ]
+        },
+        "0xe429b9bff9934c6b89b29afc7066973c1d4f1105": {
+            "total": 7722620,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801213,
+                    "earned_amount": 7722620
+                }
+            ]
+        },
+        "0xe81d9d8611119bf4c5fddbf7909782a830a8d0d0": {
+            "total": 7736923,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801097,
+                    "earned_amount": 7736923
+                }
+            ]
+        },
+        "0xea85c16dc75af3c9310232c8b9ac71bce35b320c": {
+            "total": 7756794,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801312,
+                    "earned_amount": 7756794
+                }
+            ]
+        },
+        "0xec58dd179df54dd15d021c9918bcf5fec00e41d7": {
+            "total": 23328546,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801196,
+                    "earned_amount": 7759689
+                },
+                {
+                    "beacon_index": 1801188,
+                    "earned_amount": 7749619
+                },
+                {
+                    "beacon_index": 1801175,
+                    "earned_amount": 7819238
+                }
+            ]
+        },
+        "0xfc8b9d88c3f21d49165231b52416264ad2a0c989": {
+            "total": 96930600,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801207,
+                    "earned_amount": 7798666
+                },
+                {
+                    "beacon_index": 1801198,
+                    "earned_amount": 7790146
+                },
+                {
+                    "beacon_index": 1801189,
+                    "earned_amount": 65775329
+                },
+                {
+                    "beacon_index": 1801178,
+                    "earned_amount": 7784176
+                },
+                {
+                    "beacon_index": 1801160,
+                    "earned_amount": 7782283
+                }
+            ]
+        },
+        "0xffd32a03d28262bec74e5510af71139e2d2a9faf": {
+            "total": 31053195,
+            "validator_amounts": [
+                {
+                    "beacon_index": 1801200,
+                    "earned_amount": 7765029
+                },
+                {
+                    "beacon_index": 1801191,
+                    "earned_amount": 7744983
+                },
+                {
+                    "beacon_index": 1801181,
+                    "earned_amount": 7783639
+                },
+                {
+                    "beacon_index": 1801162,
+                    "earned_amount": 7759544
+                }
+            ]
+        }
+    },
+    "merkle_root": "c956fc07807f317d7df99cfaa6fe252034286621b65379156e549edc4b771b3e"
+}

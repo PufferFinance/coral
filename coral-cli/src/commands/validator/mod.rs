@@ -110,8 +110,11 @@ pub enum ValidatorCommand {
         #[arg(long = "module-address")]
         module_address: String,
     },
+    #[command(
+        about = "Compute merkle tree rewards from a given rewards file to verify the merkle root posted on chained and the merkle proofs"
+    )]
     VerifyMerkleTreeRewards {
-        #[arg(long = "rewards-file")]
+        #[arg(long = "rewards-file-path")]
         rewards_file: String,
         #[arg(long = "rpc-url")]
         rpc_url: String,
