@@ -28,7 +28,7 @@ jobs:
           command: test
           args: --all
       - name: Upload target directory
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: coral-cli-binary
           path: target/release/coral-cli
