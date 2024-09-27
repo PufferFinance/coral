@@ -43,7 +43,7 @@ jobs:
           toolchain: stable
           override: true
       - name: Download coral-cli binary
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: coral-cli-binary
           path: target/release/
@@ -52,7 +52,7 @@ jobs:
           mkdir -p release_artifacts  && \
           tar -czvf release_artifacts/coral-cli_${{ github.event.inputs.version }}.tar.gz -C target/release coral-cli
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: release_artifacts
           path: release_artifacts/
