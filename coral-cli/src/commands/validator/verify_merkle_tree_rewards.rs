@@ -191,7 +191,7 @@ mod tests {
 
     // Test case for verifying the merkle tree rewards data
     // from the rewards file posted on chain
-    // The file link can be found in the calldata of 
+    // The file link can be found in the calldata of
     // this transaction https://etherscan.io/tx/0x65f13788cfbbe495f8a0a8ab1e7aa48a126bb178fff316d1d74c55c4e1297ac2#eventlog
     #[test]
     fn test_verify_merkle_tree_rewards_ok_big_interval_mainnet() {
