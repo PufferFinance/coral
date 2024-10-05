@@ -192,7 +192,8 @@ mod tests {
     // Test case for verifying the merkle tree rewards data
     // from the rewards file posted on chain
     // The file link can be found in the calldata of
-    // this transaction https://etherscan.io/tx/0x65f13788cfbbe495f8a0a8ab1e7aa48a126bb178fff316d1d74c55c4e1297ac2#eventlog
+    // this transaction https://etherscan.io/tx/0x8ee9f4ad6944b45758523fe59b79352fd3f497aee5089ad16bb4355f49a002d5
+    // or in the MintedAndBridgedRewards event data https://etherscan.io/tx/0x8ee9f4ad6944b45758523fe59b79352fd3f497aee5089ad16bb4355f49a002d5#eventlog
     #[test]
     fn test_verify_merkle_tree_rewards_ok_big_interval_mainnet() {
         let rt = Runtime::new().unwrap();
@@ -200,7 +201,7 @@ mod tests {
         let mainnet_rpc_url = "https://ethereum-rpc.publicnode.com";
 
         let mut test_file_path = get_base_path();
-        test_file_path.push("src/tests/rewards-files/rewards_280402_314800.json");
+        test_file_path.push("src/tests/rewards-files/rewards_280402_315550.json");
 
         rt.block_on(async {
             let result = verify_merkle_tree_rewards(
