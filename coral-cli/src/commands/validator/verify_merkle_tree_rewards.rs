@@ -188,4 +188,29 @@ mod tests {
             assert!(result.is_ok(), "The verification should succeed.");
         });
     }
+
+    // Test case for verifying the merkle tree rewards data
+    // from the rewards file posted on chain
+    // The file link can be found in the calldata of
+    // this transaction https://etherscan.io/tx/0x8ee9f4ad6944b45758523fe59b79352fd3f497aee5089ad16bb4355f49a002d5
+    // or in the MintedAndBridgedRewards event data https://etherscan.io/tx/0x8ee9f4ad6944b45758523fe59b79352fd3f497aee5089ad16bb4355f49a002d5#eventlog
+    #[test]
+    fn test_verify_merkle_tree_rewards_ok_big_interval_mainnet() {
+        let rt = Runtime::new().unwrap();
+
+        let mainnet_rpc_url = "https://ethereum-rpc.publicnode.com";
+
+        let mut test_file_path = get_base_path();
+        test_file_path.push("src/tests/rewards-files/rewards_280402_315550.json");
+
+        rt.block_on(async {
+            let result = verify_merkle_tree_rewards(
+                test_file_path.to_string_lossy().to_string(),
+                mainnet_rpc_url.to_string(),
+            )
+            .await;
+            println!("verify_merkle_tree_rewards result {:?}", result);
+            assert!(result.is_ok(), "The verification should succeed.");
+        });
+    }
 }

@@ -72,8 +72,8 @@ From an input file containing rewards data between 2 epochs, this command genera
 
 ```
 coral-cli validator verify-merkle-tree-rewards \
---rewards-file-path ./coral-cli/src/tests/rewards-files/withdrawal_reward_65286.json \
---rpc-url https://ethereum-holesky-rpc.publicnode.com
+--rewards-file-path ./coral-cli/src/tests/rewards-files/rewards_280402_315550.json \
+--rpc-url https://ethereum-rpc.publicnode.com
 ```
 
 
