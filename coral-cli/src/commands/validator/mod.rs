@@ -41,10 +41,8 @@ pub enum ValidatorCommand {
         withdrawal_credentials: String,
         #[arg(long = "fork-version")]
         fork_version: String,
-        #[arg(long = "enclave-url")]
-        enclave_url: Option<String>,
         #[arg(long = "password-file")]
-        password_file: Option<String>,
+        password_file: String,
         #[arg(long = "output-file")]
         output_file: String,
     },
@@ -137,7 +135,6 @@ impl ValidatorCommand {
                 module_name,
                 withdrawal_credentials,
                 fork_version,
-                enclave_url,
                 password_file,
                 output_file,
             } => {
@@ -147,7 +144,6 @@ impl ValidatorCommand {
                     module_name,
                     withdrawal_credentials,
                     fork_version,
-                    enclave_url,
                     password_file,
                     output_file,
                 };

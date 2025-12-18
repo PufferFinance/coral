@@ -4,31 +4,19 @@ use axum::http::StatusCode;
 
 use colored::Colorize;
 
+use coral_lib::keygen::{generate_bls_keystore_handler, AttestFreshBlsKeyPayload};
 use coral_lib::utils::parse::parse_module_name;
 use ecies::PublicKey as EthPublicKey;
 
 use hex::ToHex;
 use serde::{Deserialize, Serialize};
 
-use puffersecuresigner::client::traits::ValidatorClientTrait;
-use puffersecuresigner::client::{generate_bls_keystore_handler, ClientBuilder};
-use puffersecuresigner::enclave::types::AttestFreshBlsKeyPayload;
-
-use coral_lib::error::{AppError, AppErrorKind, AppResult};
+use coral_lib::error::AppResult;
 use coral_lib::error::{ServerErrorCode, ServerErrorResponse};
 use coral_lib::strip_0x_prefix;
 use coral_lib::structs::eth_types::WithdrawalCredentials;
 
 use crate::APP_VERSION;
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct ForkVersionInfo {
-    pub current_version: String,
-    pub previous_version: String,
-    pub genesis_version: String,
-    pub genesis_validators_root: String,
-    pub epoch: u64,
-}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct BlsKeygenInput {
@@ -38,8 +26,7 @@ pub struct BlsKeygenInput {
     pub withdrawal_credentials: String,
     pub fork_version: String,
     pub output_file: String,
-    pub enclave_url: Option<String>,
-    pub password: Option<String>,
+    pub password: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -67,8 +54,7 @@ pub struct KeygenCmdInput {
     pub module_name: String,
     pub withdrawal_credentials: String,
     pub fork_version: String,
-    pub enclave_url: Option<String>,
-    pub password_file: Option<String>,
+    pub password_file: String,
     pub output_file: String,
 }
 
@@ -79,7 +65,6 @@ pub async fn keygen_from_cmd(data: KeygenCmdInput) -> AppResult<i32> {
         module_name,
         withdrawal_credentials,
         fork_version,
-        enclave_url,
         password_file,
         output_file,
     } = data;
@@ -87,17 +72,12 @@ pub async fn keygen_from_cmd(data: KeygenCmdInput) -> AppResult<i32> {
     let guardian_pubkeys: Vec<String> =
         guardian_pubkeys.split(',').map(|s| s.to_string()).collect();
 
-    let password = match password_file {
-        None => None,
-        Some(path) => {
-            let password = std::fs::read_to_string(path).inspect_err(|err| {
-                let error_msg = "Failed to read password file";
-                eprintln!("{}", error_msg.red());
-                eprintln!("Error details: {}", err);
-            })?;
-            Some(password.trim().to_string())
-        }
-    };
+    let password = std::fs::read_to_string(&password_file).inspect_err(|err| {
+        let error_msg = "Failed to read password file";
+        eprintln!("{}", error_msg.red());
+        eprintln!("Error details: {}", err);
+    })?;
+    let password = password.trim().to_string();
 
     let input_data = BlsKeygenInput {
         guardian_pubkeys,
@@ -105,7 +85,6 @@ pub async fn keygen_from_cmd(data: KeygenCmdInput) -> AppResult<i32> {
         module_name,
         withdrawal_credentials,
         fork_version,
-        enclave_url,
         password,
         output_file,
     };
@@ -179,76 +158,36 @@ pub async fn register_validator(input_data: &BlsKeygenInput) -> AppResult<i32> {
             )
         })?;
 
-    let enclave_enabled = input_data.enclave_url.is_some();
 
-    let enclave_payload = AttestFreshBlsKeyPayload {
+    if input_data.password.len() < 8 {
+        let error_msg = "Password must be at least 8 characters";
+        let err = ServerErrorResponse::new(
+            StatusCode::INTERNAL_SERVER_ERROR,
+            ServerErrorCode::ParseError,
+            error_msg.to_string(),
+        );
+        return Err(err.into());
+    }
+
+    let keygen_payload = AttestFreshBlsKeyPayload {
         guardian_pubkeys,
         withdrawal_credentials,
         threshold: input_data.guardian_threshold as usize,
         fork_version: genesis_fork_version,
-        do_remote_attestation: enclave_enabled,
+        do_remote_attestation: false, // remove remote attestation support
     };
 
-    let bls_keygen_payload = if enclave_enabled {
-        let enclave_url = input_data.enclave_url.as_ref().unwrap();
-        let enclave_client = ClientBuilder::new()
-            .validator_url(enclave_url.to_string())
-            .build();
+    let bls_keygen_payload =
+        generate_bls_keystore_handler(keygen_payload, &input_data.password).map_err(|err| {
+            let error_msg = format!("Failed to generate BLS keystore: {err}");
+            ServerErrorResponse::new(
+                StatusCode::INTERNAL_SERVER_ERROR,
+                ServerErrorCode::ParseError,
+                error_msg,
+            )
+        })?;
 
-        let validator_enclave_client = enclave_client.validator;
-
-        let health_status = validator_enclave_client.health().await;
-        if !health_status {
-            let err = AppError::new(
-                AppErrorKind::EnclaveError,
-                "Enclave health check failed".to_string(),
-            );
-            return Err(err);
-        }
-
-        // enclave
-        validator_enclave_client
-            .attest_fresh_bls_key(&enclave_payload)
-            .await
-            .map_err(|err| {
-                let error_msg = format!("Failed to attest_fresh_bls_key: {err}");
-                ServerErrorResponse::new(
-                    StatusCode::INTERNAL_SERVER_ERROR,
-                    ServerErrorCode::ParseError,
-                    error_msg,
-                )
-            })?
-    } else {
-        // no enclave
-        match input_data.password.as_ref() {
-            None => {
-                let err =
-                    AppError::new(AppErrorKind::ParseError, "No password provided".to_string());
-                return Err(err);
-            }
-            Some(password) => {
-                if password.len() < 8 {
-                    let error_msg = "Password must be at least 8 characters";
-                    let err = ServerErrorResponse::new(
-                        StatusCode::INTERNAL_SERVER_ERROR,
-                        ServerErrorCode::ParseError,
-                        error_msg.to_string(),
-                    );
-                    return Err(err.into());
-                }
-                generate_bls_keystore_handler(enclave_payload, password).map_err(|err| {
-                    let error_msg = format!("Failed to attest_fresh_bls_key: {err}");
-                    ServerErrorResponse::new(
-                        StatusCode::INTERNAL_SERVER_ERROR,
-                        ServerErrorCode::ParseError,
-                        error_msg,
-                    )
-                })?
-            }
-        }
-    };
-
-    let registraton_payload = BlsKeygenOutput {
+    let registration_payload = BlsKeygenOutput {
         version: APP_VERSION.to_string(),
         guardian_threshold: input_data.guardian_threshold,
         guardian_pubkeys: bls_keygen_payload.guardian_eth_pub_keys,
@@ -261,12 +200,13 @@ pub async fn register_validator(input_data: &BlsKeygenInput) -> AppResult<i32> {
         bls_pub_key_set: bls_keygen_payload.bls_pub_key_set,
         bls_pub_key: bls_keygen_payload.bls_pub_key,
         bls_enc_priv_key_shares: bls_keygen_payload.bls_enc_priv_key_shares,
+        // These will be always empty 
         intel_sig: bls_keygen_payload.intel_sig,
         intel_report: bls_keygen_payload.intel_report,
         intel_x509: bls_keygen_payload.intel_x509,
     };
 
-    let json_string_pretty = serde_json::to_string_pretty(&registraton_payload)?;
+    let json_string_pretty = serde_json::to_string_pretty(&registration_payload)?;
 
     println!("{}", json_string_pretty);
     {
@@ -275,8 +215,8 @@ pub async fn register_validator(input_data: &BlsKeygenInput) -> AppResult<i32> {
     }
 
     std::fs::rename(
-        format!("etc/keys/bls_keys/{}", registraton_payload.bls_pub_key),
-        format!("etc/keys/bls_keys/{}.json", registraton_payload.bls_pub_key),
+        format!("etc/keys/bls_keys/{}", registration_payload.bls_pub_key),
+        format!("etc/keys/bls_keys/{}.json", registration_payload.bls_pub_key),
     )?;
 
     Ok(0)

@@ -26,6 +26,7 @@ pub enum AppErrorKind {
     MerkleProofInvalid,
     MerkleTreeRootInvalid,
 
+    NotSupportedError,
     OpenFileError,
     ParseError,
     ReadFileError,
