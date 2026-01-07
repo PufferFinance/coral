@@ -37,12 +37,8 @@ pub enum ValidatorCommand {
         #[arg(long = "enclave-url")]
         enclave_url: Option<String>,
     },
-    #[command(about = "Generates BLS keyshares to be used for registering a new validator")]
+    #[command(about = "Generates BLS key to be used for registering a new validator")]
     Keygen {
-        #[arg(long = "guardian-pubkeys")]
-        guardian_pubkeys: String,
-        #[arg(long = "guardian-threshold")]
-        guardian_threshold: u64,
         #[arg(long = "module-name")]
         module_name: String,
         #[arg(long = "withdrawal-credentials")]
@@ -144,8 +140,6 @@ impl ValidatorCommand {
                 list_keys::list_keys(disable_enclave, keystore_path, enclave_url).await?;
             }
             Self::Keygen {
-                guardian_pubkeys,
-                guardian_threshold,
                 module_name,
                 withdrawal_credentials,
                 fork_version,
@@ -153,8 +147,6 @@ impl ValidatorCommand {
                 output_file,
             } => {
                 let data = keygen::KeygenCmdInput {
-                    guardian_pubkeys,
-                    guardian_threshold,
                     module_name,
                     withdrawal_credentials,
                     fork_version,

@@ -1,5 +1,5 @@
 use anyhow::Result;
-use blsttc::SecretKeySet;
+use blsttc::SecretKey;
 use ssz::Encode;
 use tree_hash::TreeHash;
 
@@ -46,19 +46,20 @@ pub fn compute_domain(
 
 /// Sign a full deposit message and return the signature and deposit data root
 pub fn sign_full_deposit(
-    sk_set: &SecretKeySet,
+    sk: &SecretKey,
     withdrawal_credentials: [u8; 32],
     fork_version: Version,
 ) -> Result<(BLSSignature, Root)> {
+    let pk = sk.public_key();
     let deposit_message = DepositMessage {
-        pubkey: sk_set.public_keys().public_key().to_bytes().to_vec().into(),
+        pubkey: pk.to_bytes().to_vec().into(),
         withdrawal_credentials,
         amount: FULL_DEPOSIT_AMOUNT,
     };
 
     let domain = compute_domain(DOMAIN_DEPOSIT, Some(fork_version), None);
     let root: Root = compute_signing_root(deposit_message.clone(), domain);
-    let sig: BLSSignature = BLSSignature::from(sk_set.secret_key().sign(&root).to_bytes().to_vec());
+    let sig: BLSSignature = BLSSignature::from(sk.sign(&root).to_bytes().to_vec());
 
     let dd = DepositData {
         pubkey: deposit_message.pubkey.clone(),
@@ -71,4 +72,3 @@ pub fn sign_full_deposit(
 
     Ok((sig, dd_root))
 }
-

@@ -26,12 +26,13 @@ pub fn write_bls_keystore_to_dir(
     fs::create_dir_all(output_dir)
         .with_context(|| format!("Failed to create output directory: {:?}", output_dir))?;
 
-    // Create encrypted keystore with pubkey as filename
+    // Create encrypted keystore with pubkey.json as filename
+    let filename = format!("{}.json", pk_hex);
     let mut rng = rand::thread_rng();
-    let _uuid = eth_keystore::encrypt_key(output_dir, &mut rng, &sk.to_bytes(), password, Some(pk_hex))
+    let _uuid = eth_keystore::encrypt_key(output_dir, &mut rng, &sk.to_bytes(), password, Some(&filename))
         .with_context(|| "Failed to encrypt and save keystore")?;
 
-    let keystore_path = output_dir.join(pk_hex);
+    let keystore_path = output_dir.join(&filename);
     Ok(keystore_path.to_string_lossy().to_string())
 }
 
