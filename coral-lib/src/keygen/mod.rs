@@ -4,6 +4,7 @@ pub mod crypto;
 pub mod eth2_signing;
 pub mod eth2_types;
 pub mod key_management;
+pub mod simple_bls_keygen;
 pub mod types;
 
 pub use types::{AttestFreshBlsKeyPayload, BlsKeygenPayload};

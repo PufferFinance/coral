@@ -1,3 +1,4 @@
+pub mod generate_bls_key;
 pub mod keygen;
 pub mod list_keys;
 pub mod sign_vem;
@@ -20,6 +21,13 @@ use coral_lib::error::AppResult;
 
 #[derive(Clone, Debug, Subcommand)]
 pub enum ValidatorCommand {
+    #[command(about = "Generate a new BLS key pair and save keystore in a pubkey-named directory")]
+    GenerateBlsKey {
+        #[arg(long = "password-file")]
+        password_file: String,
+        #[arg(long = "output-dir")]
+        output_dir: Option<String>,
+    },
     #[command(about = "List BLS keys")]
     ListKeys {
         #[arg(long = "disable-enclave")]
@@ -122,6 +130,12 @@ pub enum ValidatorCommand {
 impl ValidatorCommand {
     pub async fn execute(self) -> AppResult<i32> {
         match self {
+            Self::GenerateBlsKey {
+                password_file,
+                output_dir,
+            } => {
+                generate_bls_key::generate_bls_key(password_file, output_dir).await?;
+            }
             Self::ListKeys {
                 disable_enclave,
                 keystore_path,
