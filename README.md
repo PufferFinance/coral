@@ -1,10 +1,9 @@
 # Coral
 
-Middleware used to talk between Enclave and Puffer smart contracts.
+Middleware used to interface with Puffer smart contracts and manage validator keys.
 
 ## Dependencies
  - [Rust](https://www.rust-lang.org/)
- - [Secure Signer](https://github.com/PufferFinance/secure-signer)
 
 ## Building
 

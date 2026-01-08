@@ -9,12 +9,7 @@ pub struct Keystore {
 /// Default keystore path for BLS keys
 const DEFAULT_KEYSTORE_PATH: &str = "./etc/keys/bls_keys";
 
-pub async fn list_keys(
-    _disable_enclave: bool,
-    keystore_path: Option<String>,
-    _enclave_url: Option<String>,
-) -> AppResult<i32> {
-    // Always use local keystore mode (no enclave support)
+pub async fn list_keys(keystore_path: Option<String>) -> AppResult<i32> {
     let keystore_path = keystore_path.unwrap_or_else(|| DEFAULT_KEYSTORE_PATH.to_string());
 
     if !std::path::Path::new(&keystore_path).exists() {

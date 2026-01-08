@@ -30,12 +30,8 @@ pub enum ValidatorCommand {
     },
     #[command(about = "List BLS keys")]
     ListKeys {
-        #[arg(long = "disable-enclave")]
-        disable_enclave: bool,
         #[arg(long = "keystore-path")]
         keystore_path: Option<String>,
-        #[arg(long = "enclave-url")]
-        enclave_url: Option<String>,
     },
     #[command(about = "Generates BLS key to be used for registering a new validator")]
     Keygen {
@@ -132,12 +128,8 @@ impl ValidatorCommand {
             } => {
                 generate_bls_key::generate_bls_key(password_file, output_dir).await?;
             }
-            Self::ListKeys {
-                disable_enclave,
-                keystore_path,
-                enclave_url,
-            } => {
-                list_keys::list_keys(disable_enclave, keystore_path, enclave_url).await?;
+            Self::ListKeys { keystore_path } => {
+                list_keys::list_keys(keystore_path).await?;
             }
             Self::Keygen {
                 module_name,

@@ -1,6 +1,6 @@
 # coral-cli
 
-`coral-cli` is a command-line tool for interfacing with Secure-Signer enclaves
+`coral-cli` is a command-line tool for managing validator keys and interfacing with Puffer smart contracts
 
 ## Subcommands
 
