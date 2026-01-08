@@ -52,7 +52,7 @@ impl MerkleTree {
         Self { layers }
     }
 
-    pub fn leaf_nodes(&self) -> Iter<[u8; 32]> {
+    pub fn leaf_nodes(&self) -> Iter<'_, [u8; 32]> {
         self.layers[0].iter()
     }
 
