@@ -1,71 +1,103 @@
 # Validator commands
 
- - [list-keys](#validator-list-keys)
+ - [generate-bls-key](#validator-generate-bls-key)
  - [keygen](#validator-keygen)
+ - [list-keys](#validator-list-keys)
  - [sign-voluntary-exit](#validator-sign-voluntary-exit)
 
-## `validator list-keys`
-List keys associated with this node
+## `validator generate-bls-key`
+Generate a new BLS key pair and save the keystore to a file.
 
-For validators running the secure-signer enclave:
+This is a standalone command for generating BLS keys without creating deposit data.
+
 ```
-coral-cli validator list-keys \
-  --enclave-url http://localhost:9001
+coral-cli validator generate-bls-key \
+  --password-file passwd.txt \
+  --output-dir ./my-keys
 ```
 
-For validators not running the secure-signer enclave:
-```
-coral-cli validator list-keys \
-  --disable-enclave \
-  --keystore_path ~/.puffer/coral/keystore
-```
+### Arguments
+
+- `--password-file` [file-path] (required)
+
+  Path to a file containing the password for encrypting the keystore. Password must be at least 8 characters.
+
+- `--output-dir` [directory-path] (optional)
+
+  Directory where the keystore file will be saved. Defaults to `./etc/keys/bls_keys`.
+
+### Output
+
+The command outputs:
+- The generated BLS public key (hex encoded)
+- The path to the encrypted keystore file (named `<pubkey>.json`)
 
 ## `validator keygen`
-Generates BLS keyshares to be used for registering a new validator
+Generates a BLS key and deposit data for registering a new validator.
 
-### with enclave
+This command generates a BLS key pair, creates the deposit signature for 32 ETH, and outputs all data needed for validator registration.
+
 ```
 coral-cli validator keygen \
-  --guardian-threshold 1 \
-  --fork-version 0x01017000 \
   --module-name 0x4e4f5f52455354414b494e470000000000000000000000000000000000000000 \
   --withdrawal-credentials 0x01000000000000000000000049ce199bba75926ab5c6fc16fedd11d418cb2edf \
-  --guardian-pubkeys 0x040783e639f5675cd12c86bab61678a2c4be44846b36df9a9648970ea803e92fd8dd25c51660b64f61d20fc04c77c34145410496fd923309a5c143b9c5eadd19e7 \
-  --output-file registration_001.json \
-  --enclave-url http://localhost:9001
-```
-
-
-### without enclave
-```
-coral-cli validator keygen \
-  --guardian-threshold 1 \
   --fork-version 0x01017000 \
-  --module-name 0x4e4f5f52455354414b494e470000000000000000000000000000000000000000 \
-  --withdrawal-credentials 0x01000000000000000000000049ce199bba75926ab5c6fc16fedd11d418cb2edf \
-  --guardian-pubkeys 0x040783e639f5675cd12c86bab61678a2c4be44846b36df9a9648970ea803e92fd8dd25c51660b64f61d20fc04c77c34145410496fd923309a5c143b9c5eadd19e7 \
-  --output-file registration_001.json \
-  --password-file passwd.txt
+  --password-file passwd.txt \
+  --output-file registration_001.json
 ```
+
+### Arguments
+
+- `--module-name` [hex-string] (required)
+
+  The module name as a 32-byte hex string.
+
+- `--withdrawal-credentials` [hex-string] (required)
+
+  The withdrawal credentials as a 32-byte hex string. Typically starts with `0x01` for ETH1 withdrawal addresses.
+
+- `--fork-version` [hex-string] (required)
+
+  The genesis fork version as a 4-byte hex string (e.g., `0x01017000` for Holesky).
+
+- `--password-file` [file-path] (required)
+
+  Path to a file containing the password for encrypting the keystore. Password must be at least 8 characters.
+
+- `--output-file` [file-path] (required)
+
+  Path where the registration JSON output will be saved.
+
+### Output
+
+The command outputs a JSON file containing:
+- `version`: The coral-cli version
+- `module_name`: The module name (hex encoded)
+- `withdrawal_credentials`: The withdrawal credentials (hex encoded)
+- `fork_version`: The fork version used for signing
+- `bls_pub_key`: The generated BLS public key (hex encoded)
+- `signature`: The deposit signature (hex encoded)
+- `deposit_data_root`: The deposit data root hash (hex encoded)
+
+The BLS keystore is saved to `etc/keys/bls_keys/<pubkey>.json`.
+
+## `validator list-keys`
+List BLS keys from the local keystore.
+
+```
+coral-cli validator list-keys \
+  --keystore-path ./etc/keys/bls_keys
+```
+
+### Arguments
+
+- `--keystore-path` [directory-path] (optional)
+
+  Path to the directory containing keystore files. Defaults to `./etc/keys/bls_keys`.
 
 ## `validator sign-voluntary-exit`
-Generate signature needed to broadcast a voluntary exit message.
 
-To be used with a beacon client or with broadcast `beaconcha.in`'s tool: 
-For holesky: https://holesky.beaconcha.in/tools/broadcast
-For mainnet: https://beaconcha.in/tools/broadcast
-
-```
-coral-cli validator sign-voluntary-exit \
-  --bls-public-key 0x97cbe16970f7045cf4bf4e9bc6d3a2ae8edaba9a44308610ba4289b2da0ddb19cb4e190b455628f7e1ce8729f8d04f30 \
-  --beacon-index 1695171 \
-  --enclave-url http://localhost:9002 \
-  --fork-current-version 0x04017000 \
-  --fork-previous-version 0x03017000 \
-  --epoch 256 \
-  --genesis-validators-root 0x9143aa7c615a7f7115e2b6aac319c03529df8242ae705fba9df39b79c59fa8b1 \
-  --output-file sign_vem_001.json
-```
+**Note:** This command is currently not supported. Validator exits will be supported on-chain using [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002).
 
 ## `validator verify-merkle-tree-rewards`
 From an input file containing rewards data between 2 epochs, this command generates the merkle tree root and proofs and compares it from the given merkle root.

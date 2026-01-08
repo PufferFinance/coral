@@ -18,8 +18,23 @@ tokio = { version = "1.39.1" }
 tracing = "0.1.40"
 url = "2.5.2"
 
-# Puffer dependencies
-puffersecuresigner = { git = "https://github.com/PufferFinance/secure-signer.git" }
+# Crypto dependencies for keygen
+anyhow = "1.0"
+blsttc = { version = "8.0.2", git = "https://github.com/PufferFinance/blsttc" }
+ecies = { version = "0.2.7", default-features = false, features = ["pure"] }
+rand = "0.8"
+eth-keystore = { git = "https://github.com/PufferFinance/eth-keystore-rs" }
+
+# ETH2 SSZ and tree hash for signing
+eth2_ssz = "0.4.0"
+eth2_ssz_derive = "0.3.0"
+eth2_ssz_types = { git = "https://github.com/PufferFinance/ssz_types" }
+tree_hash = { git = "https://github.com/PufferFinance/tree_hash" }
+tree_hash_derive = { git = "https://github.com/PufferFinance/tree_hash" }
+
+[dev-dependencies]
+tempfile = "3.10"
+serial_test = "3.1"
 
 [features]
 default = []

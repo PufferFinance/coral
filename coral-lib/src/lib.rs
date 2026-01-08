@@ -1,4 +1,5 @@
 pub mod error;
+pub mod keygen;
 pub mod structs;
 pub mod utils;
 
