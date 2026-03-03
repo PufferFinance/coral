@@ -73,14 +73,14 @@ pub async fn register_validator_key(
 
     println!("Generating calldata...");
 
-    let enclave_enabled = !keygen_data.intel_report.is_empty();
+    let enclave_enabled = !keygen_data.session_id.is_empty();
 
-    let intel_report = keygen_data.intel_report.as_bytes();
-    let intel_sig = keygen_data.intel_sig.as_bytes();
-    let intel_x509 = keygen_data.intel_x509.as_bytes();
+    let session_id = keygen_data.session_id.as_bytes();
+    let attestation_signature = keygen_data.attestation_signature.as_bytes();
+    let session_public_key = keygen_data.session_public_key.as_bytes();
 
     let rave_evidence =
-        utils::abi::rave_evidence::to_calldata(intel_sig, intel_report, intel_x509)?;
+        utils::abi::rave_evidence::to_calldata(session_id, attestation_signature, session_public_key)?;
 
     let bls_pub_key_set =
         hex::decode(strip_0x_prefix(&keygen_data.bls_pub_key_set)).map_err(|err| {

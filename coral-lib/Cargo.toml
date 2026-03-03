@@ -19,7 +19,7 @@ tracing = "0.1.40"
 url = "2.5.2"
 
 # Puffer dependencies
-puffersecuresigner = { git = "https://github.com/PufferFinance/secure-signer.git" }
+puffersecuresigner = { path = "../../validator-gaurdian" }
 
 [features]
 default = []

@@ -5,26 +5,26 @@ use axum::http::StatusCode;
 use crate::error::{AppServerResult, ServerErrorCode, ServerErrorResponse};
 
 #[derive(Clone, Debug)]
-pub struct AbiDecodedRaveData {
-    pub enclave_report: Vec<u8>,
-    pub enclave_sig: Vec<u8>,
-    pub enclave_x509: Vec<u8>,
+pub struct AbiDecodedSessionEvidence {
+    pub session_id: Vec<u8>,
+    pub attestation_signature: Vec<u8>,
+    pub session_public_key: Vec<u8>,
 }
 
 pub fn to_calldata(
-    enclave_sig: &[u8],
-    enclave_report: &[u8],
-    enclave_x509: &[u8],
+    session_id: &[u8],
+    attestation_signature: &[u8],
+    session_public_key: &[u8],
 ) -> AppServerResult<abi::Bytes> {
-    let rave_evidence = abi::encode(&[
-        abi::Token::Bytes(enclave_sig.into()),
-        abi::Token::Bytes(enclave_report.into()),
-        abi::Token::Bytes(enclave_x509.to_vec()),
+    let evidence = abi::encode(&[
+        abi::Token::Bytes(session_id.into()),
+        abi::Token::Bytes(attestation_signature.into()),
+        abi::Token::Bytes(session_public_key.to_vec()),
     ]);
-    Ok(rave_evidence)
+    Ok(evidence)
 }
 
-pub fn from_calldata(data: &[u8]) -> AppServerResult<AbiDecodedRaveData> {
+pub fn from_calldata(data: &[u8]) -> AppServerResult<AbiDecodedSessionEvidence> {
     let calldata_tokens = abi::decode(
         &[
             abi::ParamType::Bytes,
@@ -34,7 +34,7 @@ pub fn from_calldata(data: &[u8]) -> AppServerResult<AbiDecodedRaveData> {
         data,
     )
     .map_err(|err| {
-        let error_msg = "Failed to parse RAVE calldata";
+        let error_msg = "Failed to parse session evidence calldata";
         tracing::error!("{error_msg}: {err}");
         ServerErrorResponse::new(
             StatusCode::INTERNAL_SERVER_ERROR,
@@ -43,16 +43,16 @@ pub fn from_calldata(data: &[u8]) -> AppServerResult<AbiDecodedRaveData> {
         )
     })?;
 
-    let rave_data = match calldata_tokens.as_slice() {
-        [abi::Token::Bytes(enclave_sig), abi::Token::Bytes(enclave_report), abi::Token::Bytes(enclave_x509), ..] => {
-            AbiDecodedRaveData {
-                enclave_sig: enclave_sig.clone(),
-                enclave_report: enclave_report.clone(),
-                enclave_x509: enclave_x509.clone(),
+    let evidence = match calldata_tokens.as_slice() {
+        [abi::Token::Bytes(session_id), abi::Token::Bytes(attestation_signature), abi::Token::Bytes(session_public_key), ..] => {
+            AbiDecodedSessionEvidence {
+                session_id: session_id.clone(),
+                attestation_signature: attestation_signature.clone(),
+                session_public_key: session_public_key.clone(),
             }
         }
         _ => {
-            let error_msg = "Invalid RAVE calldata";
+            let error_msg = "Invalid session evidence calldata";
             tracing::error!("{error_msg}");
             let err = ServerErrorResponse::new(
                 StatusCode::INTERNAL_SERVER_ERROR,
@@ -62,5 +62,5 @@ pub fn from_calldata(data: &[u8]) -> AppServerResult<AbiDecodedRaveData> {
             return Err(err);
         }
     };
-    Ok(rave_data)
+    Ok(evidence)
 }
