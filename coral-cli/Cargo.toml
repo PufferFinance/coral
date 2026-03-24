@@ -23,7 +23,7 @@ tokio = { version = "1.39.1" }
 # Puffer dependencies
 
 coral-lib = { path = "../coral-lib" }
-puffersecuresigner = { git ="https://github.com/PufferFinance/secure-signer.git" }
+puffersecuresigner = { path = "../../validator-gaurdian" }
 
 [features]
 default = []

@@ -55,9 +55,9 @@ pub struct BlsKeygenOutput {
     pub bls_pub_key_set: String,
     pub bls_pub_key: String,
     pub bls_enc_priv_key_shares: Vec<String>,
-    pub intel_sig: String,
-    pub intel_report: String,
-    pub intel_x509: String,
+    pub session_id: String,
+    pub attestation_signature: String,
+    pub session_public_key: String,
 }
 
 #[derive(Clone, Debug)]
@@ -261,9 +261,9 @@ pub async fn register_validator(input_data: &BlsKeygenInput) -> AppResult<i32> {
         bls_pub_key_set: bls_keygen_payload.bls_pub_key_set,
         bls_pub_key: bls_keygen_payload.bls_pub_key,
         bls_enc_priv_key_shares: bls_keygen_payload.bls_enc_priv_key_shares,
-        intel_sig: bls_keygen_payload.intel_sig,
-        intel_report: bls_keygen_payload.intel_report,
-        intel_x509: bls_keygen_payload.intel_x509,
+        session_id: bls_keygen_payload.session_id,
+        attestation_signature: bls_keygen_payload.attestation_signature,
+        session_public_key: bls_keygen_payload.session_public_key,
     };
 
     let json_string_pretty = serde_json::to_string_pretty(&registraton_payload)?;
@@ -275,8 +275,8 @@ pub async fn register_validator(input_data: &BlsKeygenInput) -> AppResult<i32> {
     }
 
     std::fs::rename(
-        format!("etc/keys/bls_keys/{}", registraton_payload.bls_pub_key),
-        format!("etc/keys/bls_keys/{}.json", registraton_payload.bls_pub_key),
+        format!("data/keys/bls_keys/{}", registraton_payload.bls_pub_key),
+        format!("data/keys/bls_keys/{}.json", registraton_payload.bls_pub_key),
     )?;
 
     Ok(0)
